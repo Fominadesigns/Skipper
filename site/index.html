@@ -273,8 +273,8 @@
 <!-- ── як це працює ──────────────────────────────────────────────────── -->
 <section id="how" class="statement">
   <div class="wrap">
-    <p class="big rise fit-block"><span class="ln">Приїхали.</span><span class="ln">Подивились.</span><span class="ln">Залишили&nbsp;човен.</span></p>
-    <p class="big-note rise d1">Решту беремо на&nbsp;себе: допоможемо завести човен
+    <p class="big rise">Приїхали й&nbsp;подивились.<br>Залишили човен.</p>
+    <p class="big-note rise d1">Решту беремо на&nbsp;себе: допоможемо завести човен<br>
       і&nbsp;надійно його закріпити.</p>
   </div>
 </section>
@@ -729,23 +729,7 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
       ln.style.fontSize = size.toFixed(2) + 'px';
     });
   }
-  /* Великий текст: найдовший рядок — рівно на всю ширину вмісту. */
-  function fitBlocks() {
-    document.querySelectorAll('.fit-block').forEach(function (el) {
-      var w = el.clientWidth, size = 100;
-      for (var i = 0; i < 2; i++) {
-        el.style.fontSize = size + 'px';
-        var widest = 0;
-        el.querySelectorAll('.ln').forEach(function (ln) {
-          widest = Math.max(widest, ln.getBoundingClientRect().width);
-        });
-        if (!widest) return;
-        size = size * w / widest;
-      }
-      el.style.fontSize = size.toFixed(2) + 'px';
-    });
-  }
-  function all() { fit(); fitBlocks(); }
+  function all() { fit(); }
   all();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
   window.addEventListener('resize', all);
