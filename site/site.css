@@ -844,15 +844,19 @@ footer{background:var(--deep)}
   display:flex;align-items:center;justify-content:center;gap:0;text-decoration:none;
   background:linear-gradient(145deg,#ffd84d 0%,#f5c21b 100%);color:#141d42;
   box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.5);
-  transition:transform .25s var(--ease), opacity .25s, box-shadow .25s, padding .35s var(--ease), gap .35s var(--ease);
+  /* Плавне висування: одна довга мʼяка крива для всього, що рухається. */
+  --fab-ease:cubic-bezier(.33,1,.68,1);
+  transition:transform .3s var(--fab-ease), opacity .3s, box-shadow .4s,
+             padding .55s var(--fab-ease), gap .55s var(--fab-ease);
 }
 .fab .icon{width:26px;height:26px;stroke:#141d42;stroke-width:1.8}
-.fab-l{font-weight:700;font-size:15px;white-space:nowrap;max-width:0;overflow:hidden;
-       transition:max-width .35s var(--ease)}
+.fab-l{font-weight:700;font-size:15px;white-space:nowrap;max-width:0;overflow:hidden;opacity:0;
+       transition:max-width .55s var(--fab-ease), opacity .3s ease}
 @media (hover:hover){
-  .fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+  .fab:hover{box-shadow:0 14px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5)}
   .fab:hover{padding:0 22px 0 19px;gap:10px}   /* відступи — лише коли висувається напис */
-  .fab:hover .fab-l{max-width:200px}
+  /* 150 px — під сам напис (143 px): з більшим запасом рух закінчувався б раніше, ніж видно. */
+  .fab:hover .fab-l{max-width:150px;opacity:1;transition:max-width .55s var(--fab-ease), opacity .35s ease .12s}
 }
 .fab:active{transform:scale(.96)}
 .fab.away{opacity:0;transform:translateY(20px) scale(.9);pointer-events:none}
