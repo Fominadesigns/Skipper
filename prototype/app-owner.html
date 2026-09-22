@@ -181,6 +181,37 @@ body{padding:30px 16px 64px}
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
+/* ── каса ────────────────────────────────────────────────────────────── */
+.kbtns{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.kbtns .btn{padding:13px 8px;font-size:13.5px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chips button{
+  flex:1;border:0;cursor:pointer;border-radius:var(--r-sm);padding:10px 6px;
+  font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);
+  background:var(--card);box-shadow:var(--out-sm);
+}
+.chips button.on{background:var(--grad);color:#fff;box-shadow:var(--cast-sm);
+                 text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.row-card .v.in{color:var(--ok)}
+.row-card .v.out{color:var(--warn)}
+.ichip{
+  width:36px;height:36px;border-radius:10px;flex:none;display:flex;
+  align-items:center;justify-content:center;font-size:17px;font-weight:800;
+  background:var(--sunk);box-shadow:var(--in);
+}
+.ichip.in{color:var(--ok)} .ichip.out{color:var(--warn)}
+.pick{outline:2px solid var(--blue-hi);outline-offset:1px}
+
+.chat{background:var(--sunk);box-shadow:var(--in);border-radius:var(--r-lg);
+      padding:12px;display:flex;flex-direction:column;gap:8px;min-height:250px}
+.msg{max-width:84%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.45}
+.msg.me{align-self:flex-end;background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--card);color:var(--ink);
+         box-shadow:var(--out-sm);border-bottom-left-radius:4px}
+.chat-in{display:flex;gap:8px;margin-top:10px}
+.chat-in .field{flex:1;min-width:0}
+.chat-in .btn{width:auto;padding:0 16px}
+
 .toast{
   position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
   background:#0f1c33;color:#fff;
@@ -237,6 +268,7 @@ body{padding:30px 16px 64px}
       <div class="view" id="view"></div>
       <div class="tabs">
         <div class="tab on" data-tab="cal">Бронювання</div>
+        <div class="tab" data-tab="kassa">Каса</div>
         <div class="tab" data-tab="dash">Дашборд</div>
       </div>
     </div>
@@ -250,6 +282,9 @@ body{padding:30px 16px 64px}
       <li>В&nbsp;брони «Карточка клиента» — данные владельца лодки</li>
       <li>«Оплатил наличными» или «Оплатил переводом» — внести оплату руками</li>
       <li>«Выставить счёт» — счёт уходит клиенту в&nbsp;Telegram</li>
+      <li>Внизу «Каса» — все оплаты, наличные и&nbsp;переводы, и&nbsp;расходы</li>
+      <li>В&nbsp;кассе «+&nbsp;Приход» — найти клиента по&nbsp;имени или телефону и&nbsp;внести оплату, не&nbsp;открывая бронь</li>
+      <li>«Бот для расходов» — расход одной строкой в&nbsp;Telegram: «450 топливо»</li>
       <li>Внизу «Дашборд» — долги и&nbsp;поступления</li>
     </ol>
     <p>
@@ -300,6 +335,22 @@ const BOOKINGS = [
   { id:8, slot:'C-02', boat:'«Лагуна»',    client:'Наталя Кравець',  phone:'+380 67 000 00 08',
     len:7.8, reg:'UA-6605-KV', kind:'ангар',   from:10, to:12, paidTo:9,  since:'12 жовтня',  auto:true },
 ];
+
+/* Каса: кожен запис — один рух грошей.
+   in  — прихід, завжди привʼязаний до броні (bookingId) і місяців (months),
+         щоб видалення запису повертало бронь у попередній стан.
+   out — витрата, вноситься руками або через бот.                       */
+const KASSA = [
+  { id:1, kind:'in',  how:'bank', m:10, d:2, sum:3000, bookingId:1, months:1, what:'Стоянка, жовтень', by:'Катя' },
+  { id:2, kind:'in',  how:'cash', m:10, d:3, sum:2500, bookingId:3, months:1, what:'Стоянка, жовтень', by:'Влад' },
+  { id:3, kind:'out', how:'cash', m:10, d:3, sum:450,  what:'Пальне', by:'Влад' },
+  { id:4, kind:'in',  how:'bank', m:10, d:4, sum:4000, bookingId:4, months:1, what:'Стоянка, жовтень', by:'Катя' },
+  { id:5, kind:'in',  how:'cash', m:10, d:5, sum:3000, bookingId:5, months:1, what:'Стоянка, жовтень', by:'Влад' },
+  { id:6, kind:'in',  how:'bank', m:10, d:6, sum:4000, bookingId:7, months:1, what:'Стоянка, жовтень', by:'Катя' },
+  { id:7, kind:'out', how:'bank', m:10, d:6, sum:1200, what:'Господарські дрібниці', by:'Катя' },
+];
+let nextK = 8;
+const HOW = { cash:'готівка', bank:'переказ' };
 
 const SLOTS = ['A-01','A-02','A-03','A-04','A-05','B-01','B-02','B-03','C-01','C-02'];
 let nextId = 9;
@@ -648,12 +699,335 @@ function screenNew(slot, m) {
   wire();
 }
 
+/* ── каса: спільні функції ────────────────────────────────────────────── */
+const monthsWord = n => n === 1 ? 'місяць' : (n < 5 ? 'місяці' : 'місяців');
+const periodOf = (from, n) => n === 1 ? MN[from-1].toLowerCase()
+  : M[from-1] + '–' + M[from+n-2];
+
+function addIncome(b, months, sum, how) {
+  const from = b.paidTo - months + 1;
+  KASSA.push({ id: nextK++, kind:'in', how, m: NOW, d: null, sum,
+               bookingId: b.id, months,
+               what: 'Стоянка, ' + periodOf(from, months), by: 'Влад' });
+}
+function addExpense(sum, what, how) {
+  KASSA.push({ id: nextK++, kind:'out', how, m: NOW, d: null, sum, what, by: 'Влад' });
+}
+const dayOf = e => e.d ? e.d + ' ' + MF[e.m-1] : 'сьогодні';
+
+/* ── екран 7: каса ────────────────────────────────────────────────────── */
+let kFilter = 'all';
+function screenKassa() {
+  const month = KASSA.filter(e => e.m === NOW);
+  const sum = (arr) => arr.reduce((s,e) => s + e.sum, 0);
+  const inSum  = sum(month.filter(e => e.kind === 'in'));
+  const outSum = sum(month.filter(e => e.kind === 'out'));
+  const cash   = sum(KASSA.filter(e => e.how === 'cash' && e.kind === 'in'))
+               - sum(KASSA.filter(e => e.how === 'cash' && e.kind === 'out'));
+
+  const shown = KASSA.filter(e => kFilter === 'all' || e.kind === kFilter)
+                     .slice().reverse();
+  const rows = shown.map(e => {
+    const b = e.bookingId && BOOKINGS.find(x => x.id === e.bookingId);
+    const who = b ? b.client : e.what;
+    const sub = (b ? e.what + ' · ' : '') + HOW[e.how] + ' · ' + dayOf(e);
+    return `<div class="row-card" data-k="${e.id}">
+      <div class="ichip ${e.kind}">${e.kind === 'in' ? '+' : '−'}</div>
+      <div class="body"><div class="n">${who}</div><div class="m">${sub}</div></div>
+      <div class="v ${e.kind}">${e.kind === 'in' ? '+' : '−'}${money(e.sum)}</div>
+    </div>`;
+  }).join('') || '<div class="note">Записів немає.</div>';
+
+  view.innerHTML = `
+    <div class="bar">
+      <div class="t">
+        <h1>Каса</h1>
+        <div class="s">${MN[NOW-1].toLowerCase()} ${YEAR}</div>
+      </div>
+    </div>
+
+    <div class="kpi">
+      <div class="k"><div class="l">Прийшло</div><div class="v ok">${money(inSum)}</div></div>
+      <div class="k"><div class="l">Витрати</div><div class="v debt">${money(outSum)}</div></div>
+      <div class="k wide"><div class="l">Готівка на&nbsp;руках</div><div class="v">${money(cash)}</div></div>
+    </div>
+
+    <div class="kbtns">
+      <button class="btn solid" id="kIn">+ Прихід</button>
+      <button class="btn" id="kOut">+ Витрата</button>
+    </div>
+    <div style="margin-top:9px">
+      <button class="btn" id="kBot">Бот для витрат</button>
+    </div>
+
+    <div class="sect">Записи</div>
+    <div class="chips" id="kf" style="margin-bottom:11px">
+      <button data-f="all" class="${kFilter==='all'?'on':''}">Усе</button>
+      <button data-f="in"  class="${kFilter==='in'?'on':''}">Приходи</button>
+      <button data-f="out" class="${kFilter==='out'?'on':''}">Витрати</button>
+    </div>
+    ${rows}
+
+    <div class="note">
+      Прихід, внесений тут, одразу закриває місяці в&nbsp;броні — смуга
+      в&nbsp;календарі стає синьою, борг на&nbsp;дашборді зникає.
+      Натисніть запис, щоб видалити помилковий.
+    </div>
+    <div style="height:8px"></div>
+  `;
+
+  document.getElementById('kIn').onclick  = () => screenIncome();
+  document.getElementById('kOut').onclick = () => screenExpense();
+  document.getElementById('kBot').onclick = () => screenBot();
+  view.querySelectorAll('#kf button').forEach(el =>
+    el.onclick = () => { kFilter = el.dataset.f; screenKassa(); });
+  view.querySelectorAll('[data-k]').forEach(el =>
+    el.onclick = () => screenEntry(+el.dataset.k));
+}
+
+/* ── екран 8: запис каси ──────────────────────────────────────────────── */
+function screenEntry(id) {
+  const e = KASSA.find(x => x.id === id);
+  const b = e.bookingId && BOOKINGS.find(x => x.id === e.bookingId);
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" id="eBack">←</button>
+      <div class="t">
+        <h1>${e.kind === 'in' ? 'Прихід' : 'Витрата'}</h1>
+        <div class="s">${dayOf(e)}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Сума</span><span class="v">${money(e.sum)}</span></div>
+        ${b ? `<div class="row"><span class="k">Клієнт</span><span class="v">${b.client}</span></div>
+               <div class="row"><span class="k">Човен</span><span class="v">${b.boat}, ${b.slot}</span></div>` : ''}
+        <div class="row"><span class="k">За що</span><span class="v">${e.what}</span></div>
+        <div class="row"><span class="k">Спосіб</span><span class="v">${HOW[e.how]}</span></div>
+        <div class="row"><span class="k">Хто вніс</span><span class="v">${e.by}</span></div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn" id="eDel">Видалити запис</button>
+    </div>
+    ${b ? `<div class="note">Видалення поверне бронь: ${e.months}&nbsp;${monthsWord(e.months)}
+           знову стане неоплаченим.</div>` : ''}
+  `;
+  document.getElementById('eBack').onclick = () => screenKassa();
+  document.getElementById('eDel').onclick = () => {
+    if (!confirm('Видалити цей запис?')) return;
+    if (b) b.paidTo -= e.months;
+    KASSA.splice(KASSA.indexOf(e), 1);
+    say('Запис видалено');
+    screenKassa();
+  };
+}
+
+/* ── екран 9: новий прихід ────────────────────────────────────────────────
+   Влад отримав гроші — і не йде в календар: вводить імʼя або телефон,
+   обирає клієнта, кількість місяців, спосіб. Бронь оновлюється сама.  */
+function screenIncome() {
+  let picked = null, months = 1, how = 'cash';
+
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" id="iBack">←</button>
+      <div class="t"><h1>Новий прихід</h1><div class="s">оплата за&nbsp;стоянку</div></div>
+    </div>
+    <input class="field" id="iQ" placeholder="Імʼя клієнта або телефон" autocomplete="off">
+    <div id="iList" style="margin-top:10px"></div>
+    <div id="iForm"></div>
+  `;
+  document.getElementById('iBack').onclick = () => screenKassa();
+
+  const q = document.getElementById('iQ');
+  const list = document.getElementById('iList');
+  const form = document.getElementById('iForm');
+
+  function drawList() {
+    const t = q.value.trim().toLowerCase();
+    const digits = t.replace(/\D/g, '');
+    const found = !t ? [] : BOOKINGS.filter(b =>
+      b.client.toLowerCase().includes(t) || b.boat.toLowerCase().includes(t) ||
+      (digits.length >= 2 && b.phone.replace(/\D/g, '').includes(digits)));
+    list.innerHTML = !t ? ''
+      : found.length ? found.map(b => {
+          const d = debtOf(b);
+          return `<div class="row-card${picked === b ? ' pick' : ''}" data-p="${b.id}">
+            <div class="bchip${d ? ' debt' : ''}">${b.slot}</div>
+            <div class="body"><div class="n">${b.client}</div>
+              <div class="m">${b.boat} · ${b.phone}</div></div>
+            <div class="v ${d ? 'debt' : 'ok'}">${d ? money(d) : '✓'}</div>
+          </div>`; }).join('')
+      : '<div class="note">Нікого не&nbsp;знайдено.</div>';
+    list.querySelectorAll('[data-p]').forEach(el => el.onclick = () => {
+      picked = BOOKINGS.find(x => x.id === +el.dataset.p);
+      months = Math.max(debtMonths(picked), 1);
+      drawList(); drawForm();
+    });
+  }
+
+  function drawForm() {
+    if (!picked) { form.innerHTML = ''; return; }
+    const fee = feeOf(picked.len);
+    if (!fee) {
+      form.innerHTML = `<div class="note">У&nbsp;${picked.boat} тариф <b>уточнити</b>
+        (довжина ${String(picked.len).replace('.',',')}&nbsp;м). Суму вигадувати
+        не&nbsp;можна — спершу треба домовитись про ціну.</div>`;
+      return;
+    }
+    const from = picked.paidTo + 1;
+    const opts = [...new Set([Math.max(debtMonths(picked), 1), 1, 3, 6])]
+                 .filter(n => from + n - 1 <= 12).sort((a,b) => a - b);
+    if (!opts.includes(months)) months = opts[0] || 1;
+    const room = from > 12 ? 0 : 12 - from + 1;
+
+    form.innerHTML = room === 0
+      ? `<div class="note">${picked.client} уже оплатив по&nbsp;грудень ${YEAR}.</div>`
+      : `
+      <div class="sect">За скільки місяців</div>
+      <div class="chips" id="iM">${opts.map(n =>
+        `<button data-n="${n}" class="${n===months?'on':''}">${n}&nbsp;${monthsWord(n)}</button>`).join('')}
+      </div>
+      <div class="sect">Як заплатив</div>
+      <div class="chips" id="iH">
+        <button data-h="cash" class="${how==='cash'?'on':''}">Готівка</button>
+        <button data-h="bank" class="${how==='bank'?'on':''}">Переказ</button>
+      </div>
+      <div class="sum-box" style="margin-top:14px">
+        <div class="l">ДО&nbsp;ВНЕСЕННЯ · ${periodOf(from, months).toUpperCase()}</div>
+        <div class="v">${money(months * fee)}</div>
+      </div>
+      <div style="margin-top:12px"><button class="btn solid" id="iSave">Внести оплату</button></div>
+      <div class="note">Сума рахується з&nbsp;тарифу за&nbsp;довжиною судна:
+        ${money(fee)} на&nbsp;місяць. Вписувати руками не&nbsp;треба.</div>`;
+
+    form.querySelectorAll('#iM button').forEach(el =>
+      el.onclick = () => { months = +el.dataset.n; drawForm(); });
+    form.querySelectorAll('#iH button').forEach(el =>
+      el.onclick = () => { how = el.dataset.h; drawForm(); });
+    const save = document.getElementById('iSave');
+    if (save) save.onclick = () => {
+      const newTo = picked.paidTo + months;
+      if (newTo > picked.to) {
+        const clash = BOOKINGS.find(o => o !== picked && o.slot === picked.slot &&
+                                    o.from <= newTo && o.to > picked.to);
+        if (clash) { say('Місце ' + picked.slot + ' з ' + MF[clash.from-1] + ' зайняте'); return; }
+        picked.to = newTo;          // заплатив наперед — бронь подовжується
+      }
+      picked.paidTo = newTo;
+      addIncome(picked, months, months * fee, how);
+      say(money(months * fee) + ' · ' + picked.client + ' · внесено');
+      screenKassa();
+    };
+  }
+
+  q.oninput = () => { picked = null; drawList(); drawForm(); };
+  q.focus();
+}
+
+/* ── екран 10: нова витрата ───────────────────────────────────────────── */
+function screenExpense() {
+  let how = 'cash';
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" id="xBack">←</button>
+      <div class="t"><h1>Нова витрата</h1><div class="s">${MF[NOW-1]}</div></div>
+    </div>
+    <input class="field" id="xSum"  placeholder="Сума, ₴" inputmode="numeric">
+    <input class="field" id="xWhat" placeholder="На що, напр. пальне" style="margin-top:10px">
+    <div class="sect">Чим платили</div>
+    <div class="chips" id="xH">
+      <button data-h="cash" class="on">Готівка</button>
+      <button data-h="bank">Переказ / картка</button>
+    </div>
+    <div style="margin-top:14px"><button class="btn solid" id="xSave">Записати витрату</button></div>
+  `;
+  document.getElementById('xBack').onclick = () => screenKassa();
+  view.querySelectorAll('#xH button').forEach(el => el.onclick = () => {
+    how = el.dataset.h;
+    view.querySelectorAll('#xH button').forEach(x => x.classList.toggle('on', x === el));
+  });
+  document.getElementById('xSave').onclick = () => {
+    const sum = parseInt(document.getElementById('xSum').value.replace(/\D/g, ''), 10);
+    const what = document.getElementById('xWhat').value.trim();
+    if (!sum) { say('Вкажіть суму'); return; }
+    if (!what) { say('Вкажіть, на що витратили'); return; }
+    addExpense(sum, what, how);
+    say('Витрату записано: ' + money(sum));
+    screenKassa();
+  };
+}
+
+/* ── екран 11: бот для витрат ─────────────────────────────────────────────
+   Імітація чату з ботом у Telegram. Одне повідомлення — одна витрата:
+   «450 пальне», «1200 фарба картка». Слово «картка» / «переказ» / «безнал»
+   робить витрату безготівковою, інакше — готівка.                     */
+const CHAT = [
+  { me:false, t:'Надішліть витрату одним рядком: сума й&nbsp;на&nbsp;що. Наприклад: <b>450 пальне</b>. Якщо платили карткою — додайте слово <b>картка</b>.' },
+];
+function parseExpense(text) {
+  const m = text.match(/\d[\d\s]*/);
+  if (!m) return null;
+  const sum = parseInt(m[0].replace(/\s/g, ''), 10);
+  // \b у JavaScript не бачить кирилиці, тому ділимо на слова
+  const BANK = ['картка','карткою','карта','переказ','безнал'];
+  const CASH = ['готівка','готівкою','нал'];
+  let how = 'cash';
+  const words = text.replace(m[0], ' ').split(/\s+/).filter(w => {
+    const l = w.toLowerCase();
+    if (BANK.includes(l)) { how = 'bank'; return false; }
+    return l && !CASH.includes(l);
+  });
+  const what = words.join(' ');
+  if (!sum || !what) return null;
+  return { sum, what: what[0].toUpperCase() + what.slice(1), how };
+}
+const esc = t => t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function screenBot() {
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" id="bBack">←</button>
+      <div class="t"><h1>Skipper · Каса</h1><div class="s">бот у&nbsp;Telegram</div></div>
+    </div>
+    <div class="chat" id="chat">${CHAT.map(c =>
+      `<div class="msg ${c.me ? 'me' : 'bot'}">${c.t}</div>`).join('')}</div>
+    <div class="chat-in">
+      <input class="field" id="bIn" placeholder="450 пальне" autocomplete="off">
+      <button class="btn solid" id="bSend" aria-label="Надіслати">➤</button>
+    </div>
+    <div class="note">Витрата з&nbsp;бота одразу зʼявляється у&nbsp;вкладці «Каса».</div>
+  `;
+  document.getElementById('bBack').onclick = () => screenKassa();
+  const inp = document.getElementById('bIn');
+  const send = () => {
+    const text = inp.value.trim();
+    if (!text) return;
+    CHAT.push({ me:true, t: esc(text) });
+    const x = parseExpense(text);
+    if (x) {
+      addExpense(x.sum, x.what, x.how);
+      CHAT.push({ me:false, t: 'Записав витрату: <b>' + money(x.sum) + '</b> · ' +
+                  esc(x.what) + ' · ' + HOW[x.how] + '.' });
+    } else {
+      CHAT.push({ me:false, t: 'Не&nbsp;зрозумів. Напишіть суму й&nbsp;на&nbsp;що: <b>450 пальне</b>.' });
+    }
+    screenBot();
+    const c = document.getElementById('chat'); c.scrollIntoView({block:'end'});
+    document.getElementById('bIn').focus();
+  };
+  document.getElementById('bSend').onclick = send;
+  inp.onkeydown = e => { if (e.key === 'Enter') send(); };
+}
+
 /* ── екран 6: дашборд ─────────────────────────────────────────────────── */
 function screenDash() {
   const debtors = BOOKINGS.filter(isDebt);
   const paid    = BOOKINGS.filter(b => !isDebt(b));
   const debtSum = debtors.reduce((s,b) => s + debtOf(b), 0);
-  const gotSum  = paid.reduce((s,b) => s + (feeOf(b.len) || 0), 0);
+  const gotSum  = KASSA.filter(e => e.kind === 'in' && e.m === NOW)
+                       .reduce((s,e) => s + e.sum, 0);
   const autoOn  = BOOKINGS.filter(b => b.auto).length;
 
   const list = arr => arr.map(b => {
@@ -680,7 +1054,7 @@ function screenDash() {
       <div class="k"><div class="l">Не оплатили</div><div class="v debt">${debtors.length}</div></div>
       <div class="k"><div class="l">Оплатили</div><div class="v ok">${paid.length}</div></div>
       <div class="k wide"><div class="l">Борг усього</div><div class="v debt">${money(debtSum)}</div></div>
-      <div class="k wide"><div class="l">Отримано за ${MF[NOW-1]}</div><div class="v ok">${money(gotSum)}</div></div>
+      <div class="k wide"><div class="l">Отримано за ${MN[NOW-1].toLowerCase()}</div><div class="v ok">${money(gotSum)}</div></div>
     </div>
 
     <div class="note">
@@ -708,8 +1082,11 @@ function payManually(id, how) {
   const b = BOOKINGS.find(x => x.id === id);
   const fee = feeOf(b.len) || 0;
   const n = Math.max(debtMonths(b), 1);     // гасимо борг, або місяць наперед
+  const from = b.paidTo + 1;
   b.paidTo = Math.min(b.paidTo + n, b.to);
-  say((how === 'cash' ? 'Готівка' : 'Переказ') + ' · ' + money(n * fee) + ' внесено');
+  const got = b.paidTo - from + 1;
+  if (got > 0) addIncome(b, got, got * fee, how);
+  say((how === 'cash' ? 'Готівка' : 'Переказ') + ' · ' + money(got * fee) + ' внесено');
   screenBooking(id);
 }
 
@@ -749,7 +1126,9 @@ function syncTabs() {
 document.querySelectorAll('.tab').forEach(t => {
   t.onclick = () => {
     tab = t.dataset.tab; syncTabs(); view.scrollTop = 0;
-    tab === 'cal' ? screenCal() : screenDash();
+    if (tab === 'cal') screenCal();
+    else if (tab === 'kassa') screenKassa();
+    else screenDash();
   };
 });
 
