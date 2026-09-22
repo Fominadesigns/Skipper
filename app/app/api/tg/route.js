@@ -61,12 +61,15 @@ export async function POST(req) {
     return ok();
   }
 
-  if (!isStaff(from)) {
+  if (!isStaff(msg.from)) {
     await askPhone(chat);
     return ok();
   }
 
   await ensureSchema();
+  await sql`INSERT INTO staff_chats (tg_id, username)
+            VALUES (${String(from)}, ${msg.from.username || null})
+            ON CONFLICT (tg_id) DO UPDATE SET username = EXCLUDED.username, seen_at = now()`;
 
   if (text === '/start' || text === '/help') {
     await tgSend(chat,

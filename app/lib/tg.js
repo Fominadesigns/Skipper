@@ -1,4 +1,5 @@
 import { createHmac } from 'crypto';
+import { sql } from '@/lib/db';
 
 /* Спільне для бота: надсилання повідомлень і секрет вебхука.
 
@@ -14,11 +15,21 @@ export function webhookSecret() {
   return t ? createHmac('sha256', t).update('skipper-webhook').digest('hex').slice(0, 48) : '';
 }
 
-/* Хто з персоналу може вносити витрати: Telegram ID через кому
-   у змінній SKIPPER_STAFF_IDS. Бот підкаже ID командою /id. */
-export function isStaff(tgId) {
-  const ids = (process.env.SKIPPER_STAFF_IDS || '').split(/[\s,;]+/).filter(Boolean);
-  return ids.includes(String(tgId));
+/* Персонал — змінна SKIPPER_STAFF_IDS: через кому числові Telegram ID
+   або імена з @ («123456789, @ssvvss7733»). Бот за іменем написати
+   людині не може — Telegram не дає ботам шукати людей за іменем. Тому
+   ім'я спрацьовує з першого повідомлення людини боту: тоді бот
+   запамʼятовує її номер у таблиці staff_chats і далі пише сам. */
+function staffList() {
+  return (process.env.SKIPPER_STAFF_IDS || '').split(/[\s,;]+/).filter(Boolean)
+    .map((x) => x.toLowerCase());
+}
+/** user — обʼєкт from із повідомлення Telegram (id, username). */
+export function isStaff(user) {
+  if (!user) return false;
+  const list = staffList();
+  const name = user.username ? '@' + String(user.username).toLowerCase() : null;
+  return list.includes(String(user.id)) || (name !== null && list.includes(name));
 }
 
 /** Виклик методу Bot API. Повертає розібрану відповідь або null. */
@@ -46,9 +57,16 @@ export async function tgSend(chatId, text, extra = {}) {
 
 /** Усім з персоналу (SKIPPER_STAFF_IDS). */
 export async function tellStaff(text) {
-  const ids = (process.env.SKIPPER_STAFF_IDS || '').split(/[\s,;]+/).filter(Boolean);
+  const ids = new Set(staffList().filter((x) => /^\d+$/.test(x)));
+  // Ті, хто в списку за @іменем і вже писав боту.
+  try {
+    const rows = (await sql`SELECT tg_id, username FROM staff_chats`).rows;
+    for (const r of rows) {
+      if (isStaff({ id: r.tg_id, username: r.username })) ids.add(String(r.tg_id));
+    }
+  } catch { /* таблиці ще немає — лише числові ID */ }
   for (const id of ids) await tgSend(id, text);
-  return ids.length;
+  return ids.size;
 }
 
 /* Телефон для порівняння — останні 9 цифр. Так «+380 67 123 45 67»,

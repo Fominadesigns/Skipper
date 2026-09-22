@@ -125,6 +125,14 @@ export async function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
 
+    /* Персонал, який писав боту: щоб писати людині, записаній
+       у SKIPPER_STAFF_IDS за @іменем, потрібен її числовий номер. */
+    await sql`CREATE TABLE IF NOT EXISTS staff_chats (
+      tg_id    TEXT PRIMARY KEY,
+      username TEXT,
+      seen_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+
     /* Журнал розсилок — проти дублів. Ключ у БАЗІ, а не в памʼяті процесу:
        на Vercel кожен запит може виконуватись іншим екземпляром. */
     await sql`CREATE TABLE IF NOT EXISTS message_log (
