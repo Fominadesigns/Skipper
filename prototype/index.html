@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Skipper — матеріали проєкту</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,6 +52,25 @@ body{padding:60px 20px 80px}
 .foot{
   text-align:center;color:var(--muted);font-size:12.5px;
   margin-top:40px;line-height:1.6;
+}
+
+.crm-links{display:flex;gap:10px;flex-wrap:wrap}
+.crm-links a{
+  padding:11px 18px;border-radius:var(--r-md);text-decoration:none;
+  background:var(--card);box-shadow:var(--out-sm);
+  color:var(--ink);font-size:14px;font-weight:700;
+}
+.crm-links a:active{box-shadow:var(--in)}
+
+@media (max-width:760px){
+  body{padding:34px 14px 52px}
+  .hero{margin-bottom:32px}
+  .hero h1{font-size:30px}
+  .hero .lead{font-size:15px}
+  .mark{width:70px;height:70px;font-size:32px;border-radius:20px}
+  .tiles{grid-template-columns:1fr;gap:13px}
+  .tile{padding:22px 20px}
+  .what{margin-top:34px}
 }
 </style>
 </head>
@@ -125,9 +144,20 @@ body{padding:60px 20px 80px}
     <a class="tile" href="crm.html">
       <div class="ic"><svg class="icon"><use href="#i-calendar"/></svg></div>
       <h2>CRM</h2>
-      <p>Календар стоянки: місця зверху, числа зліва, клік — картка човна.</p>
+      <p>Календар, човни, рахунки, каса, місця — усе, що бачить адміністратор.</p>
       <span class="go">Подивитись&nbsp;→</span>
     </a>
+  </div>
+
+  <div class="what">
+    <h3>Розділи CRM</h3>
+    <div class="crm-links">
+      <a href="crm.html">Календар</a>
+      <a href="boats.html">Човни</a>
+      <a href="invoices.html">Рахунки</a>
+      <a href="kassa.html">Каса</a>
+      <a href="berths.html">Місця</a>
+    </div>
   </div>
 
   <div class="what">

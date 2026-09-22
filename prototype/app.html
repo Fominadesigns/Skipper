@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Skipper — міні-додаток</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -158,6 +158,16 @@ body{padding:30px 16px 64px}
 }
 .toggle.off{background:var(--sunk);box-shadow:var(--in)}
 .toggle.off::after{right:auto;left:4px;background:var(--bg);box-shadow:var(--out-sm)}
+
+@media (max-width:760px){
+  body{padding:20px 14px 44px}
+  .rail{gap:20px}
+  .phone{width:100%;max-width:330px}
+  .page-head h1{font-size:24px}
+  .kit{margin-top:36px}
+  .kit-grid{gap:12px}
+  .kit-box{min-width:0;flex:1 1 100%}
+}
 </style>
 </head>
 <body>
