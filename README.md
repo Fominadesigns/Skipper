@@ -1,4 +1,4 @@
-# Причал
+# Skipper
 
 Облік стоянки човнів і щомісячна оплата для човнової станції
 поруч із базою відпочинку «Темп Дніпра».
@@ -8,7 +8,7 @@
 
 ## Подивитись
 
-**[fominadesigns.github.io/prychal](https://fominadesigns.github.io/prychal/)**
+**[fominadesigns.github.io/Skipper](https://fominadesigns.github.io/Skipper/)**
 
 | Сторінка | Що там |
 |---|---|
