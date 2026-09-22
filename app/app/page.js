@@ -771,9 +771,10 @@ function Kassa({ kassa, nowKey, busy, act, onIncome, onExpense }) {
           і витрата одразу з&apos;являється тут. «скасувати» прибирає останню.
         </div>
         <div className="note">
-          Щоб запрацювало: 1) у Vercel додати змінну <b>SKIPPER_STAFF_IDS</b> —
-          Telegram ID тих, хто вносить витрати, через кому (бот скаже ID
-          на&nbsp;команду <b>/id</b>); 2) задеплоїти; 3) натиснути кнопку нижче один раз.
+          Щоб запрацювало: 1)&nbsp;натисніть кнопку нижче; 2)&nbsp;напишіть боту
+          <b>/id</b> — він скаже ваш номер у&nbsp;Telegram; 3)&nbsp;у&nbsp;Vercel додайте
+          змінну <b>SKIPPER_STAFF_IDS</b> — номери тих, хто вносить витрати, через кому;
+          4)&nbsp;задеплойте ще раз.
         </div>
         <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={busy}
                 onClick={() => act('tg-setup', {})}>
