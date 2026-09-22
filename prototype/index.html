@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Причал — матеріали проєкту</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+body{padding:60px 20px 80px}
+.wrap{max-width:900px;margin:0 auto}
+
+.hero{text-align:center;margin-bottom:46px}
+.mark{
+  width:82px;height:82px;margin:0 auto 22px;border-radius:24px;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-size:38px;box-shadow:0 12px 26px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.hero h1{font-size:38px;font-weight:800;letter-spacing:-.028em}
+.hero .lead{
+  color:var(--muted);font-size:16px;margin-top:10px;
+  max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6;
+}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.tile{
+  display:block;text-decoration:none;color:inherit;
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:26px 24px;transition:box-shadow .16s,transform .16s;
+}
+.tile:hover{box-shadow:var(--out-lg);transform:translateY(-2px)}
+.tile:active{box-shadow:var(--in);transform:none}
+.tile .ic{
+  width:50px;height:50px;border-radius:15px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-size:23px;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);margin-bottom:16px;
+}
+.tile h2{font-size:18px;font-weight:800;letter-spacing:-.014em}
+.tile p{color:var(--muted);font-size:13.5px;margin-top:7px;line-height:1.5}
+.tile .go{
+  display:inline-block;margin-top:14px;font-size:13px;font-weight:700;color:var(--blue);
+}
+
+.what{margin-top:46px}
+.what h3{font-size:16px;font-weight:800;margin-bottom:12px}
+.what .card p{font-size:14.5px;line-height:1.65;color:var(--muted)}
+.what .card p + p{margin-top:11px}
+.what b{color:var(--ink)}
+
+.foot{
+  text-align:center;color:var(--muted);font-size:12.5px;
+  margin-top:40px;line-height:1.6;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="mark">⚓</div>
+    <h1>Причал</h1>
+    <p class="lead">
+      Облік стоянки човнів і&nbsp;щомісячна оплата.
+      Клієнт бачить своє місце й&nbsp;рахунок, платить за&nbsp;QR прямо
+      зі&nbsp;свого банку. Ви бачите, хто де&nbsp;стоїть і&nbsp;хто скільки винен.
+    </p>
+  </div>
+
+  <div class="tiles">
+    <a class="tile" href="brief.html">
+      <div class="ic">📋</div>
+      <h2>Вопросы</h2>
+      <p>Десять питань, без яких не&nbsp;почати. Тарифи, спуск на&nbsp;воду, місця.</p>
+      <span class="go">Відкрити&nbsp;→</span>
+    </a>
+
+    <a class="tile" href="app.html">
+      <div class="ic">📱</div>
+      <h2>Додаток</h2>
+      <p>Що бачить човняр у&nbsp;Telegram і&nbsp;що бачить адміністратор.</p>
+      <span class="go">Подивитись&nbsp;→</span>
+    </a>
+
+    <a class="tile" href="crm.html">
+      <div class="ic">🗓</div>
+      <h2>CRM</h2>
+      <p>Календар стоянки: місця зверху, числа зліва, клік — картка човна.</p>
+      <span class="go">Подивитись&nbsp;→</span>
+    </a>
+  </div>
+
+  <div class="what">
+    <h3>Як це працює</h3>
+    <div class="card">
+      <p>
+        <b>Клієнт.</b> Відкриває бота в&nbsp;Telegram — бачить свій човен, місце
+        й&nbsp;суму за&nbsp;місяць. Натискає QR — відкривається його банк
+        із&nbsp;уже вписаною сумою. Після оплати тисне «Я&nbsp;оплатив».
+      </p>
+      <p>
+        <b>Ви.</b> Бачите повідомлення про оплату, звіряєте з&nbsp;банком
+        і&nbsp;підтверджуєте. Система сама ніколи не&nbsp;позначає гроші
+        отриманими — вона не&nbsp;бачить банківського рахунку.
+      </p>
+      <p>
+        <b>Раз на&nbsp;місяць.</b> У&nbsp;визначений день кожному клієнту
+        автоматично йде рахунок. Перед відправкою ви бачите список
+        і&nbsp;підтверджуєте — наосліп нічого не&nbsp;летить.
+      </p>
+    </div>
+  </div>
+
+  <p class="foot">
+    Це демонстрація вигляду, а&nbsp;не працюючий сервіс.<br>
+    Усі цифри, імена й&nbsp;номери — заглушки.
+  </p>
+
+</div>
+</body>
+</html>

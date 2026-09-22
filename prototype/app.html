@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Причал — міні-додаток</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+body{padding:30px 16px 64px}
+
+.rail{
+  max-width:1240px;margin:0 auto;
+  display:flex;gap:30px;flex-wrap:wrap;justify-content:center;align-items:flex-start;
+}
+
+.phone{width:300px}
+.phone-cap{
+  text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:11px;
+}
+.screen{
+  background:var(--bg);border-radius:30px;padding:20px 16px 12px;
+  box-shadow:var(--out-lg);
+  min-height:608px;display:flex;flex-direction:column;
+}
+
+/* сума до оплати — найконтрастніший елемент екрана */
+.due{
+  background:var(--grad);border-radius:var(--r-lg);padding:17px 18px;
+  box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
+  color:#fff;display:flex;justify-content:space-between;align-items:center;
+}
+.due-l{font-size:11.5px;font-weight:600;opacity:.82;letter-spacing:.045em}
+.due-v{font-size:25px;font-weight:800;letter-spacing:-.022em;margin-top:1px;
+       text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.due-go{font-size:13px;font-weight:700;opacity:.9}
+
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.q{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:14px 12px;text-align:center;font-size:13px;font-weight:700;line-height:1.35;
+}
+.q span{display:block;font-size:19px;margin-bottom:5px}
+
+.bill{display:flex;flex-direction:column;gap:12px}
+.bill-row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.bill-row .t{color:var(--muted)}
+.bill-row .a{font-weight:700;white-space:nowrap}
+.bill-sum{
+  display:flex;justify-content:space-between;margin-top:13px;padding-top:13px;
+  border-top:1px solid rgba(20,26,38,.12);font-size:16px;font-weight:800;
+}
+
+.qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.qr{
+  width:152px;height:152px;border-radius:var(--r-md);background:#fff;
+  box-shadow:var(--in);padding:13px;
+}
+.qr-cap{font-size:12px;color:var(--muted);text-align:center;line-height:1.45}
+.qr-cap b{color:var(--ink)}
+
+.boat{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:12px 13px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+.boat + .boat{margin-top:10px}
+.boat .n{font-weight:700;font-size:14.5px}
+.boat .m{color:var(--muted);font-size:12.5px;margin-top:2px}
+.amt{font-weight:800;font-size:14px;white-space:nowrap}
+.amt.debt{color:var(--warn)}
+.amt.paid{color:var(--ok)}
+
+.tabs{margin-top:auto;padding-top:16px;display:flex;gap:7px}
+.tab{
+  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  background:var(--card);box-shadow:var(--out-sm);
+}
+.tab.on{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+/* набір елементів */
+.kit{max-width:1240px;margin:52px auto 0}
+.kit h2{font-size:19px;font-weight:800;margin-bottom:6px}
+.kit .note{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:700px}
+.kit-grid{display:flex;gap:16px;flex-wrap:wrap}
+.kit-box{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:20px;min-width:212px;flex:1;
+}
+.kit-box h3{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+            color:var(--muted);margin-bottom:14px}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.chip{width:46px;height:46px;border-radius:13px;box-shadow:var(--out-sm)}
+.toggle{
+  width:66px;height:34px;border-radius:999px;background:var(--grad);
+  box-shadow:var(--cast-sm);position:relative;
+}
+.toggle::after{
+  content:"";position:absolute;top:4px;right:4px;width:26px;height:26px;
+  border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.toggle.off{background:var(--sunk);box-shadow:var(--in)}
+.toggle.off::after{right:auto;left:4px;background:var(--bg);box-shadow:var(--out-sm)}
+</style>
+</head>
+<body>
+
+<div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Усі матеріали</a></div>
+
+<div class="page-head">
+  <h1>Міні-додаток «Причал»</h1>
+  <p>Що бачить човняр і що бачить адміністратор</p>
+  <div class="disclaimer">
+    Усі цифри, імена й номери на&nbsp;екранах — заглушки для показу дизайну.
+    Справжні тарифи й дані вписуємо після брифу.
+  </div>
+</div>
+
+<div class="rail">
+
+  <!-- 1. Мій човен -->
+  <div class="phone">
+    <div class="phone-cap">Човняр · Мій човен</div>
+    <div class="screen">
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="h">Ваш човен</div>
+            <div class="sub">«Чайка» · UA-0000-KV</div>
+          </div>
+          <div class="berth">A-12</div>
+        </div>
+        <div class="rows" style="margin-top:16px">
+          <div class="row"><span class="k">Місце</span><span class="v">A-12, на&nbsp;воді</span></div>
+          <div class="row"><span class="k">Стоїть із</span><span class="v">14 квітня</span></div>
+          <div class="row"><span class="k">Тариф</span><span class="v">0&nbsp;000&nbsp;₴ / місяць</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="due">
+          <span>
+            <span class="due-l">До&nbsp;оплати за вересень</span>
+            <span class="due-v">0&nbsp;000&nbsp;₴</span>
+          </span>
+          <span class="due-go">Оплатити&nbsp;→</span>
+        </div>
+      </div>
+
+      <div class="sect">Що зробити</div>
+      <div class="quick">
+        <div class="q"><span>⚓</span>Спустити<br>на&nbsp;воду</div>
+        <div class="q"><span>🧾</span>Мій<br>рахунок</div>
+        <div class="q"><span>🔑</span>Як&nbsp;потрапити<br>на&nbsp;причал</div>
+        <div class="q"><span>💬</span>Написати<br>Владу</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab on">Човен</div>
+        <div class="tab">Рахунок</div>
+        <div class="tab">Заявки</div>
+        <div class="tab">Причал</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Рахунок -->
+  <div class="phone">
+    <div class="phone-cap">Човняр · Рахунок</div>
+    <div class="screen">
+      <div class="sect">Рахунок №0000-00</div>
+      <div class="card">
+        <div class="bill">
+          <div class="bill-row"><span class="t">Стоянка, вересень</span><span class="a">0&nbsp;000&nbsp;₴</span></div>
+          <div class="bill-row"><span class="t">Спуск на&nbsp;воду, 2&nbsp;шт</span><span class="a">000&nbsp;₴</span></div>
+          <div class="bill-row"><span class="t">Електрика</span><span class="a">000&nbsp;₴</span></div>
+        </div>
+        <div class="bill-sum"><span>До&nbsp;оплати</span><span>0&nbsp;000&nbsp;₴</span></div>
+      </div>
+
+      <div class="sect">Як оплатити</div>
+      <div class="card">
+        <div class="qr-wrap">
+          <div class="qr">
+            <svg viewBox="0 0 29 29" width="100%" height="100%" shape-rendering="crispEdges" aria-label="Приклад QR-коду">
+              <rect width="29" height="29" fill="#fff"/>
+              <g fill="#141a26">
+                <path d="M0 0h7v7H0zM22 0h7v7h-7zM0 22h7v7H0z"/>
+                <path d="M1 1h5v5H1zM23 1h5v5h-5zM1 23h5v5H1z" fill="#fff"/>
+                <path d="M2 2h3v3H2zM24 2h3v3h-3zM2 24h3v3H2z"/>
+                <path d="M9 0h2v2H9zM13 1h2v2h-2zM17 0h2v3h-2zM11 3h2v2h-2zM9 5h3v2H9zM15 4h2v3h-2zM19 5h2v2h-2z"/>
+                <path d="M0 9h2v2H0zM4 9h3v2H4zM1 13h2v2H1zM0 17h3v2H0zM5 15h2v3H5zM3 19h2v2H3z"/>
+                <path d="M22 9h2v2h-2zM26 10h3v2h-3zM23 13h3v2h-3zM27 15h2v3h-2zM22 17h2v2h-2zM25 19h2v2h-2z"/>
+                <path d="M9 22h2v3H9zM13 23h3v2h-3zM10 26h3v2h-3zM17 22h2v2h-2zM19 25h2v3h-2zM15 27h2v2h-2z"/>
+                <path d="M9 9h3v3H9zM14 10h2v2h-2zM18 9h2v3h-2zM10 14h2v2h-2zM13 13h3v3h-3zM17 15h3v2h-3zM9 18h2v2H9zM12 17h2v3h-2zM15 19h2v2h-2zM18 18h3v2h-3z"/>
+              </g>
+            </svg>
+          </div>
+          <p class="qr-cap">
+            Натисніть код — відкриється ваш банк.<br>
+            З&nbsp;іншого телефона його можна відсканувати камерою.<br>
+            <b>Сума вже вписана всередині</b>
+          </p>
+        </div>
+        <button class="btn solid" style="margin-top:15px">Оплатити в&nbsp;застосунку банку</button>
+      </div>
+
+      <div class="sect">Або переказом</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Отримувач</span><span class="v">ФОП Задирко&nbsp;К.&nbsp;С.</span></div>
+          <div class="row"><span class="k">IBAN</span><span class="v mono">UA00 0000 0000 0000</span></div>
+        </div>
+        <button class="btn" style="margin-top:14px">Скопіювати IBAN</button>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="btn solid">Я&nbsp;оплатив</button>
+        <p class="qr-cap" style="margin-top:10px;text-align:left">
+          Це повідомлення для господарів, а&nbsp;не списання коштів.
+          Вони звірять надходження з&nbsp;банком і&nbsp;підтвердять.
+        </p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Човен</div>
+        <div class="tab on">Рахунок</div>
+        <div class="tab">Заявки</div>
+        <div class="tab">Причал</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Човни -->
+  <div class="phone">
+    <div class="phone-cap">Адмін · Човни</div>
+    <div class="screen">
+      <div class="top" style="margin-bottom:14px">
+        <div>
+          <div class="h">Човни</div>
+          <div class="sub">00 місць · 00 зайнято</div>
+        </div>
+        <div class="pill blue">Вересень</div>
+      </div>
+
+      <div class="field">Пошук: номер, човен, прізвище…</div>
+
+      <div class="sect">Борг</div>
+      <div class="boat">
+        <div class="berth">A-12</div>
+        <div style="flex:1">
+          <div class="n">«Чайка»</div>
+          <div class="m">Петро Коваль · 0&nbsp;000</div>
+        </div>
+        <div class="amt debt">0&nbsp;000&nbsp;₴</div>
+      </div>
+      <div class="boat">
+        <div class="berth">B-03</div>
+        <div style="flex:1">
+          <div class="n">«Барракуда»</div>
+          <div class="m">Ірина Лисенко · 0&nbsp;000</div>
+        </div>
+        <div class="amt debt">0&nbsp;000&nbsp;₴</div>
+      </div>
+
+      <div class="sect">Оплачено</div>
+      <div class="boat">
+        <div class="berth">A-04</div>
+        <div style="flex:1">
+          <div class="n">«Стріла»</div>
+          <div class="m">Андрій Мороз · 0&nbsp;000</div>
+        </div>
+        <div class="amt paid">✓</div>
+      </div>
+      <div class="boat">
+        <div class="berth free">B-07</div>
+        <div style="flex:1">
+          <div class="n" style="color:var(--muted)">Вільне місце</div>
+          <div class="m">до&nbsp;0&nbsp;м</div>
+        </div>
+        <div class="amt" style="color:var(--muted)">—</div>
+      </div>
+
+      <div style="margin-top:16px">
+        <button class="btn solid">Виставити рахунки за&nbsp;вересень</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab on">Човни</div>
+        <div class="tab">Каса</div>
+        <div class="tab">Місця</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Картка човна -->
+  <div class="phone">
+    <div class="phone-cap">Адмін · Картка човна</div>
+    <div class="screen">
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="h">«Чайка»</div>
+            <div class="sub">UA-0000-KV</div>
+          </div>
+          <div class="berth">A-12</div>
+        </div>
+      </div>
+
+      <div class="sect">Власник</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Ім'я</span><span class="v">Петро Коваль</span></div>
+          <div class="row"><span class="k">Телефон</span><span class="v mono">+380 00 000 0000</span></div>
+          <div class="row"><span class="k">Telegram</span><span class="v" style="color:var(--ok)">під'єднано ✓</span></div>
+        </div>
+      </div>
+
+      <div class="sect">Човен</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Довжина (заміряна)</span><span class="v">0,00&nbsp;м</span></div>
+          <div class="row"><span class="k">Ширина</span><span class="v">0,00&nbsp;м</span></div>
+          <div class="row"><span class="k">Мотор</span><span class="v">—</span></div>
+          <div class="row"><span class="k">Трейлер</span><span class="v">—</span></div>
+          <div class="row"><span class="k">Страховка до</span><span class="v">—</span></div>
+        </div>
+      </div>
+
+      <div class="sect">Стоянка</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">З&nbsp;якої дати</span><span class="v">14 квітня</span></div>
+          <div class="row"><span class="k">Тариф</span><span class="v" style="color:var(--muted)">тариф уточнити</span></div>
+          <div class="row"><span class="k">Рахунок числа</span><span class="v">—</span></div>
+        </div>
+      </div>
+
+      <div class="sect">Журнал</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Спуск на&nbsp;воду</span><span class="v">00.09</span></div>
+          <div class="row"><span class="k">Рахунок надіслано</span><span class="v">00.09</span></div>
+          <div class="row"><span class="k">Оплату підтверджено</span><span class="v">00.09</span></div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab on">Човни</div>
+        <div class="tab">Каса</div>
+        <div class="tab">Місця</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="kit">
+  <h2>З чого це зроблено</h2>
+  <p class="note">
+    Один прийом на весь додаток: картка того&nbsp;ж тону, що&nbsp;й фон,
+    і&nbsp;дві тіні одночасно — чорна знизу-справа, біла згори-зліва.
+    Радіус розмиття короткий, тому край різкий і&nbsp;предмет виглядає
+    справді випуклим. Натиснутий елемент отримує ті&nbsp;самі тіні всередину.
+    Кольорових тіней немає ніде. Синій — тільки там, де треба діяти.
+  </p>
+  <div class="kit-grid">
+    <div class="kit-box">
+      <h3>Кольори</h3>
+      <div class="sw">
+        <div class="chip" style="background:#e6e9ee"></div>
+        <div class="chip" style="background:linear-gradient(145deg,#35699f,#1a3153);box-shadow:var(--cast-sm)"></div>
+        <div class="chip" style="background:#1e3a63"></div>
+        <div class="chip" style="background:#141a26"></div>
+        <div class="chip" style="background:#5d6675"></div>
+      </div>
+    </div>
+    <div class="kit-box">
+      <h3>Кнопки</h3>
+      <button class="btn solid">Головна дія</button>
+      <button class="btn">Звичайна</button>
+    </div>
+    <div class="kit-box">
+      <h3>Втиснуте й перемикачі</h3>
+      <div class="field" style="margin-bottom:14px">Поле вводу</div>
+      <div style="display:flex;gap:12px">
+        <div class="toggle"></div>
+        <div class="toggle off"></div>
+      </div>
+    </div>
+    <div class="kit-box">
+      <h3>Мітки</h3>
+      <div class="sw" style="gap:8px">
+        <span class="pill blue">На&nbsp;воді</span>
+        <span class="pill ok">Оплачено</span>
+        <span class="pill warn">Борг</span>
+        <span class="pill">Вільне</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

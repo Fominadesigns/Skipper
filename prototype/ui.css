@@ -1,0 +1,154 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Причал — спільні стилі
+   Неоморфізм: світла поверхня, різкі ЧОРНІ тіні, приглушений темний синій.
+
+   Три правила, на яких тримається вигляд:
+     1. Тіні тільки чорні. Кольорових тіней немає — вони розмивають обʼєм.
+     2. Фон не білий: на чисто білому тінь не читається і випуклість зникає.
+     3. Текст і суми завжди контрастні. Тінь дає обʼєм коробці,
+        а не літерам — інакше все сповзає в сіре на сірому.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* поверхні */
+  --bg:#e6e9ee;
+  --card:#eaedf2;
+  --sunk:#dfe3ea;
+
+  /* тіні — лише чорні, короткий радіус для різкості */
+  --lift:#ffffff;
+  --drop:rgba(0,0,0,.24);
+  --drop-soft:rgba(0,0,0,.17);
+
+  /* приглушений темний синій */
+  --blue:#1e3a63;
+  --blue-lo:#16294a;
+  --blue-hi:#35699f;
+  --blue-pale:#dde4ee;
+  --grad:linear-gradient(145deg,#35699f 0%,#1a3153 100%);
+  --grad-soft:linear-gradient(145deg,#4a7cb0 0%,#24406a 100%);
+
+  /* текст */
+  --ink:#141a26;
+  --muted:#5d6675;
+  --ok:#186b4c;
+  --warn:#9e3412;
+
+  --r-lg:20px;
+  --r-md:14px;
+  --r-sm:10px;
+
+  /* випукле, втиснуте, підняте */
+  --out:7px 7px 12px var(--drop), -6px -6px 11px var(--lift);
+  --out-sm:4px 4px 8px var(--drop-soft), -4px -4px 8px var(--lift);
+  --out-lg:12px 12px 22px var(--drop), -9px -9px 18px var(--lift);
+  --in:inset 5px 5px 9px var(--drop-soft), inset -4px -4px 8px var(--lift);
+  --cast:0 7px 15px rgba(0,0,0,.30);
+  --cast-sm:0 4px 10px rgba(0,0,0,.26);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:400 15px/1.5 Manrope,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── шапка сторінки ──────────────────────────────────────────────────── */
+.page-head{max-width:1200px;margin:0 auto 26px;text-align:center}
+.page-head h1{font-size:30px;font-weight:800;letter-spacing:-.022em}
+.page-head p{color:var(--muted);margin-top:6px}
+
+.disclaimer{
+  max-width:640px;margin:18px auto 0;padding:13px 20px;
+  border-radius:var(--r-md);background:var(--card);box-shadow:var(--out-sm);
+  color:var(--warn);font-size:13.5px;font-weight:600;line-height:1.45;
+}
+
+.back{
+  display:inline-block;margin:0 0 20px;padding:9px 18px;
+  border-radius:999px;background:var(--card);box-shadow:var(--out-sm);
+  color:var(--muted);font-size:13px;font-weight:700;text-decoration:none;
+}
+.back:active{box-shadow:var(--in)}
+
+/* ── базові блоки ────────────────────────────────────────────────────── */
+.card{
+  background:var(--card);border-radius:var(--r-lg);
+  box-shadow:var(--out);padding:16px;
+}
+
+.sect{
+  font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);margin:18px 0 9px 4px;
+}
+.sect:first-child{margin-top:0}
+
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.h{font-size:20px;font-weight:800;letter-spacing:-.016em}
+.sub{color:var(--muted);font-size:13px;margin-top:2px}
+
+.rows{display:flex;flex-direction:column;gap:11px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.row .k{color:var(--muted)}
+.row .v{font-weight:700;text-align:right}
+
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+
+/* ── кнопки: градієнт від світлого синього до темного ────────────────── */
+.btn{
+  display:block;width:100%;border:0;cursor:pointer;font:inherit;
+  padding:14px;border-radius:var(--r-md);
+  background:var(--card);box-shadow:var(--out);
+  color:var(--ink);font-weight:700;font-size:15px;
+  transition:box-shadow .15s,transform .15s;
+}
+.btn:active{box-shadow:var(--in);transform:translateY(1px)}
+.btn + .btn{margin-top:11px}
+
+.btn.solid{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.22);
+  text-shadow:0 1px 2px rgba(0,0,0,.28);
+}
+.btn.solid:active{
+  box-shadow:inset 3px 3px 9px rgba(0,0,0,.42);
+  transform:translateY(1px);
+}
+
+/* ── мітки ───────────────────────────────────────────────────────────── */
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 13px;border-radius:999px;
+  background:var(--card);box-shadow:var(--out-sm);
+  font-size:12.5px;font-weight:700;white-space:nowrap;
+}
+.pill.blue{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.pill.ok{color:var(--ok)}
+.pill.warn{color:var(--warn)}
+
+/* ── поле вводу: втиснуте ────────────────────────────────────────────── */
+.field{
+  background:var(--sunk);border-radius:var(--r-md);box-shadow:var(--in);
+  padding:12px 15px;color:var(--muted);font-size:14px;border:0;width:100%;
+  font-family:inherit;
+}
+
+/* ── номер місця ─────────────────────────────────────────────────────── */
+.berth{
+  min-width:44px;height:44px;border-radius:12px;
+  background:var(--grad);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:13px;flex:none;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.berth.free{
+  background:var(--sunk);color:var(--muted);
+  box-shadow:var(--in);text-shadow:none;
+}

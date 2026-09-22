@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Причал — CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+body{padding:26px 22px 60px}
+.wrap{max-width:1320px;margin:0 auto}
+
+/* ── шапка ───────────────────────────────────────────────────────────── */
+.bar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;margin-bottom:20px;
+}
+.bar-l{display:flex;align-items:center;gap:14px}
+.logo{
+  width:46px;height:46px;border-radius:14px;background:var(--grad);
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;font-size:21px;
+}
+.bar h1{font-size:21px;font-weight:800;letter-spacing:-.018em}
+.bar .sub{color:var(--muted);font-size:13px}
+
+.nav{display:flex;gap:8px;background:var(--card);padding:6px;
+     border-radius:var(--r-md);box-shadow:var(--out-sm)}
+.nav a{
+  padding:9px 16px;border-radius:var(--r-sm);font-size:13.5px;font-weight:700;
+  color:var(--muted);text-decoration:none;
+}
+.nav a.on{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+.month{display:flex;align-items:center;gap:12px}
+.mbtn{
+  width:40px;height:40px;border:0;cursor:pointer;border-radius:12px;
+  background:var(--card);box-shadow:var(--out-sm);
+  font-size:16px;font-weight:800;color:var(--muted);
+}
+.mbtn:active{box-shadow:var(--in)}
+.mname{font-size:16px;font-weight:800;min-width:150px;text-align:center}
+
+/* ── легенда ─────────────────────────────────────────────────────────── */
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.lg{display:flex;align-items:center;gap:8px;font-size:12.5px;
+    color:var(--muted);font-weight:600}
+.key{width:22px;height:14px;border-radius:5px}
+.key.paid{background:var(--grad)}
+.key.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.key.soon{background:linear-gradient(145deg,#8e9bb0,#5b6679)}
+.key.free{background:var(--sunk);box-shadow:var(--in)}
+
+/* ── сітка календаря ─────────────────────────────────────────────────── */
+.grid-card{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:14px;overflow:auto;max-height:76vh;
+}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:900px}
+
+/* зверху — горизонтальна лінія назв місць */
+thead th{
+  position:sticky;top:0;z-index:3;background:var(--card);
+  padding:0 4px 12px;
+}
+thead th.corner{left:0;z-index:5;min-width:62px}
+.slot{
+  background:var(--sunk);border-radius:11px;box-shadow:var(--in);
+  padding:9px 6px;text-align:center;
+}
+.slot .sn{font-size:12.5px;font-weight:800;letter-spacing:.02em}
+.slot .sk{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px}
+
+/* зліва — числа місяця */
+tbody th{
+  position:sticky;left:0;z-index:2;background:var(--card);
+  padding:0 10px 0 0;text-align:right;width:62px;
+}
+.day{
+  font-size:12.5px;font-weight:700;color:var(--muted);
+  padding:0 8px;line-height:26px;white-space:nowrap;
+}
+.day.wknd{color:var(--warn)}
+.day.today{
+  background:var(--grad);color:#fff;border-radius:8px;
+  box-shadow:var(--cast-sm);text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+tbody td{padding:2px 3px}
+
+.cell{
+  height:26px;border-radius:7px;background:var(--sunk);
+  box-shadow:inset 2px 2px 4px rgba(0,0,0,.12), inset -2px -2px 4px #fff;
+}
+.cell.occ{
+  cursor:pointer;background:var(--grad);
+  box-shadow:0 3px 7px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.18);
+  display:flex;align-items:center;padding:0 9px;
+  color:#fff;font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.cell.occ.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.cell.occ.soon{background:linear-gradient(145deg,#8e9bb0,#5b6679)}
+/* Смуга стоянки має читатися суцільною, а не розсипом по днях:
+   середні клітинки перекривають вертикальні проміжки між рядками. */
+.cell.mid{
+  border-radius:0;height:30px;margin:-2px 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.cell.top{border-radius:7px 7px 0 0;height:28px;margin-bottom:-2px}
+.cell.bot{border-radius:0 0 7px 7px;height:28px;margin-top:-2px}
+.cell.occ:hover{filter:brightness(1.12)}
+
+/* ── панель картки човна ─────────────────────────────────────────────── */
+.veil{
+  position:fixed;inset:0;background:rgba(15,20,30,.42);
+  display:none;z-index:40;
+}
+.veil.on{display:block}
+.panel{
+  position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;z-index:50;
+  background:var(--bg);box-shadow:-14px 0 34px rgba(0,0,0,.34);
+  padding:24px 22px;overflow:auto;transform:translateX(100%);
+  transition:transform .22s ease-out;
+}
+.panel.on{transform:none}
+.panel-x{
+  position:absolute;top:18px;right:20px;width:36px;height:36px;border:0;
+  cursor:pointer;border-radius:11px;background:var(--card);
+  box-shadow:var(--out-sm);font-size:17px;font-weight:800;color:var(--muted);
+}
+.panel-x:active{box-shadow:var(--in)}
+.panel .card + .card{margin-top:0}
+
+.empty{
+  text-align:center;color:var(--muted);font-size:13.5px;
+  padding:30px 20px;line-height:1.55;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← Усі матеріали</a>
+
+<div class="bar">
+  <div class="bar-l">
+    <div class="logo">⚓</div>
+    <div>
+      <h1>Причал · CRM</h1>
+      <div class="sub">Календар стоянки човнів</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="#" class="on">Календар</a>
+    <a href="#">Човни</a>
+    <a href="#">Рахунки</a>
+    <a href="#">Каса</a>
+    <a href="#">Місця</a>
+  </div>
+
+  <div class="month">
+    <button class="mbtn" aria-label="Попередній місяць">‹</button>
+    <div class="mname">Вересень 2026</div>
+    <button class="mbtn" aria-label="Наступний місяць">›</button>
+  </div>
+</div>
+
+<div class="disclaimer" style="margin:0 0 18px;max-width:none">
+  Демонстраційна сітка: назви човнів, прізвища й телефони вигадані,
+  суми — нулі. Справжні дані з'являться після брифу з&nbsp;Владом.
+</div>
+
+<div class="legend">
+  <span class="lg"><span class="key paid"></span> Стоїть, оплачено</span>
+  <span class="lg"><span class="key debt"></span> Стоїть, є&nbsp;борг</span>
+  <span class="lg"><span class="key soon"></span> Заброньовано наперед</span>
+  <span class="lg"><span class="key free"></span> Вільно</span>
+  <span class="lg" style="margin-left:auto">Натисніть смугу — відкриється картка човна</span>
+</div>
+
+<div class="grid-card">
+  <table id="cal">
+    <thead><tr id="head"><th class="corner"></th></tr></thead>
+    <tbody id="body"></tbody>
+  </table>
+</div>
+
+</div>
+
+<div class="veil" id="veil"></div>
+<aside class="panel" id="panel" aria-label="Картка човна">
+  <button class="panel-x" id="close" aria-label="Закрити">×</button>
+  <div id="panelBody"></div>
+</aside>
+
+<script>
+/* Місця причалу — зверху горизонтальною лінією.
+   kind показуємо під номером: вода / суша / елінг. */
+const SLOTS = [
+  {n:'A-01', k:'вода'},  {n:'A-02', k:'вода'},  {n:'A-03', k:'вода'},
+  {n:'A-04', k:'вода'},  {n:'A-05', k:'вода'},  {n:'B-01', k:'суша'},
+  {n:'B-02', k:'суша'},  {n:'B-03', k:'суша'},  {n:'C-01', k:'елінг'},
+  {n:'C-02', k:'елінг'},
+];
+
+const DAYS = 30;          // вересень
+const TODAY = 22;
+
+/* Стоянки. from/to — числа місяця. Дані вигадані для показу. */
+const STAYS = [
+  {slot:'A-01', from:1,  to:30, state:'paid', boat:'«Чайка»',      reg:'UA-0000-KV',
+   owner:'Петро Коваль',    phone:'+380 00 000 0000', since:'14 квітня', tg:true},
+  {slot:'A-02', from:1,  to:30, state:'debt', boat:'«Барракуда»',  reg:'UA-0000-KV',
+   owner:'Ірина Лисенко',   phone:'+380 00 000 0000', since:'2 травня',  tg:true},
+  {slot:'A-03', from:1,  to:14, state:'paid', boat:'«Стріла»',     reg:'UA-0000-KV',
+   owner:'Андрій Мороз',    phone:'+380 00 000 0000', since:'1 червня',  tg:false},
+  {slot:'A-03', from:18, to:30, state:'soon', boat:'«Нептун»',     reg:'UA-0000-KV',
+   owner:'Олег Шевчук',     phone:'+380 00 000 0000', since:'18 вересня',tg:false},
+  {slot:'A-05', from:1,  to:30, state:'paid', boat:'«Дельфін»',    reg:'UA-0000-KV',
+   owner:'Марина Гриценко', phone:'+380 00 000 0000', since:'20 квітня', tg:true},
+  {slot:'B-01', from:6,  to:30, state:'paid', boat:'«Сокіл»',      reg:'UA-0000-KV',
+   owner:'Василь Ткаченко', phone:'+380 00 000 0000', since:'6 вересня', tg:true},
+  {slot:'B-02', from:1,  to:30, state:'debt', boat:'«Вітер»',      reg:'UA-0000-KV',
+   owner:'Сергій Бондар',   phone:'+380 00 000 0000', since:'11 травня', tg:false},
+  {slot:'C-01', from:1,  to:30, state:'paid', boat:'«Фрегат»',     reg:'UA-0000-KV',
+   owner:'Дмитро Савчук',   phone:'+380 00 000 0000', since:'3 квітня',  tg:true},
+  {slot:'C-02', from:12, to:30, state:'soon', boat:'«Лагуна»',     reg:'UA-0000-KV',
+   owner:'Наталя Кравець',  phone:'+380 00 000 0000', since:'12 вересня',tg:false},
+];
+
+const WEEKEND = [5,6,12,13,19,20,26,27];   // умовні вихідні вересня
+const LABEL = {paid:'оплачено', debt:'є борг', soon:'заброньовано'};
+
+/* ── шапка: назви місць ───────────────────────────────────────────────── */
+const head = document.getElementById('head');
+for (const s of SLOTS) {
+  const th = document.createElement('th');
+  th.innerHTML = '<div class="slot"><div class="sn">' + s.n +
+                 '</div><div class="sk">' + s.k + '</div></div>';
+  head.appendChild(th);
+}
+
+/* ── тіло: рядок на кожне число місяця ───────────────────────────────── */
+const body = document.getElementById('body');
+const stayAt = (slot, day) =>
+  STAYS.find(s => s.slot === slot && day >= s.from && day <= s.to);
+
+for (let d = 1; d <= DAYS; d++) {
+  const tr = document.createElement('tr');
+
+  const th = document.createElement('th');
+  const cls = 'day' + (d === TODAY ? ' today' : WEEKEND.includes(d) ? ' wknd' : '');
+  th.innerHTML = '<div class="' + cls + '">' + d + ' вер</div>';
+  tr.appendChild(th);
+
+  for (const s of SLOTS) {
+    const td = document.createElement('td');
+    const stay = stayAt(s.n, d);
+
+    if (!stay) {
+      td.innerHTML = '<div class="cell"></div>';
+    } else {
+      // Назву човна пишемо лише в перший день смуги — далі вона заважала б.
+      const first = d === stay.from;
+      const last  = d === stay.to;
+      // Стоянка на один день лишається заокругленою з усіх боків.
+      const shape = first && last ? '' : first ? ' top' : last ? ' bot' : ' mid';
+      const div = document.createElement('div');
+      div.className = 'cell occ ' + stay.state + shape;
+      div.textContent = first ? stay.boat : '';
+      div.title = stay.boat + ' · ' + stay.owner;
+      div.onclick = () => open(stay);
+      td.appendChild(div);
+    }
+    tr.appendChild(td);
+  }
+  body.appendChild(tr);
+}
+
+/* ── картка човна ─────────────────────────────────────────────────────── */
+const veil = document.getElementById('veil');
+const panel = document.getElementById('panel');
+const panelBody = document.getElementById('panelBody');
+
+function open(s) {
+  const state = s.state === 'debt'
+    ? '<span class="pill warn">Є&nbsp;борг · 0&nbsp;000&nbsp;₴</span>'
+    : s.state === 'soon'
+      ? '<span class="pill">Заброньовано наперед</span>'
+      : '<span class="pill ok">Оплачено за&nbsp;вересень</span>';
+
+  panelBody.innerHTML = `
+    <div class="card" style="margin-top:8px">
+      <div class="top">
+        <div>
+          <div class="h">${s.boat}</div>
+          <div class="sub">${s.reg}</div>
+        </div>
+        <div class="berth">${s.slot}</div>
+      </div>
+      <div style="margin-top:14px">${state}</div>
+    </div>
+
+    <div class="sect">Власник</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Ім'я</span><span class="v">${s.owner}</span></div>
+        <div class="row"><span class="k">Телефон</span><span class="v mono">${s.phone}</span></div>
+        <div class="row"><span class="k">Telegram</span><span class="v" style="color:${
+          s.tg ? 'var(--ok)' : 'var(--warn)'}">${
+          s.tg ? "під'єднано ✓" : 'не під’єднано'}</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Човен</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Довжина (заміряна)</span><span class="v">0,00&nbsp;м</span></div>
+        <div class="row"><span class="k">Ширина</span><span class="v">0,00&nbsp;м</span></div>
+        <div class="row"><span class="k">Мотор</span><span class="v">—</span></div>
+        <div class="row"><span class="k">Трейлер</span><span class="v">—</span></div>
+        <div class="row"><span class="k">Страховка до</span><span class="v">—</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Стоянка</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Місце</span><span class="v">${s.slot}</span></div>
+        <div class="row"><span class="k">Стоїть із</span><span class="v">${s.since}</span></div>
+        <div class="row"><span class="k">Тариф</span><span class="v" style="color:var(--muted)">тариф уточнити</span></div>
+        <div class="row"><span class="k">Рахунок числа</span><span class="v">—</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Журнал</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Спуск на&nbsp;воду</span><span class="v">00.09</span></div>
+        <div class="row"><span class="k">Рахунок надіслано</span><span class="v">00.09</span></div>
+        <div class="row"><span class="k">Оплату підтверджено</span><span class="v">00.09</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px">
+      <button class="btn solid">Виставити рахунок</button>
+      <button class="btn">Редагувати картку</button>
+    </div>
+    <div style="height:20px"></div>
+  `;
+  veil.classList.add('on');
+  panel.classList.add('on');
+}
+
+function close() {
+  veil.classList.remove('on');
+  panel.classList.remove('on');
+}
+document.getElementById('close').onclick = close;
+veil.onclick = close;
+document.onkeydown = e => { if (e.key === 'Escape') close(); };
+</script>
+</body>
+</html>
