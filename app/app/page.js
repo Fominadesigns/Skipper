@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Script from 'next/script';
 
 /* ══════════════════════════════════════════════════════════════════════
    CRM човнової станції. Відкривається з комп'ютера за паролем.
@@ -53,8 +54,8 @@ const Anchor = () => (
 function Setup({ st }) {
   const Item = ({ ok, name, what }) => (
     <div className="row-card" style={{ cursor: 'default' }}>
-      <div className="bchip" style={ok ? { background: 'linear-gradient(145deg,#2f9d72,#12674a)' }
-                                       : { background: 'linear-gradient(145deg,#ffe24a,#f8d613)', color: '#111835', textShadow: 'none' }}>
+      <div className="bchip" style={ok ? { background: 'linear-gradient(145deg,#ffffff,#e2e7f7)' }
+                                       : { background: 'linear-gradient(145deg,#ffd84d,#f5c21b)', color: '#141d42', textShadow: 'none' }}>
         {ok ? '✓' : '—'}
       </div>
       <div className="body">
@@ -139,7 +140,7 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
   for (const b of bookings) (bySlot[b.slot_id] ||= []).push(b);
 
   return (
-    <>
+    <div className="cal-desk">
       <div className="top" style={{ marginBottom: 12 }}>
         <button className="btn sm" onClick={() => setWinStart(winStart - 1)}>‹</button>
         <div style={{ fontWeight: 800, fontSize: 15 }}>
@@ -204,8 +205,83 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
         <span><i className="u" />попереду, ще не нараховано</span>
         <span><i className="f" />вільно · натисніть, щоб додати</span>
       </div>
-    </>
+    </div>
+ );
+}
+
+/* ── календар на телефоні ─────────────────────────────────────────────────
+   Таблиця з шести місяців не влазить у телефон, і її доводилось возити
+   пальцем. Тут — один місяць списком: кожне місце одним рядком,
+   колір плашки — стан. Місяці гортаються стрілками. */
+function MobileMonth({ slots, bookings, nowKey, onBooking, onFree }) {
+  const [k, setK] = useState(nowKey);
+  const bySlot = {};
+  for (const b of bookings) (bySlot[b.slot_id] ||= []).push(b);
+
+  const rows = slots.map((s) => {
+    const b = (bySlot[s.id] || []).find((x) => {
+      const from = mKey(x.starts_on);
+      const to = x.ends_on ? mKey(x.ends_on) : Infinity;
+      return k >= from && k <= to;
+    });
+    if (!b) return { s, state: 'free' };
+    const coveredKey = b.covered_through ? mKey(b.covered_through) : -Infinity;
+    const state = k > nowKey ? 'future' : k > coveredKey ? 'debt' : 'paid';
+    return { s, b, state };
+  });
+  const count = (st) => rows.filter((r) => r.state === st).length;
+
+  return (
+    <div className="cal-mob">
+      <div className="top" style={{ marginBottom: 12, flexWrap: 'nowrap' }}>
+        <button className="btn sm" onClick={() => setK(k - 1)} aria-label="Попередній місяць">‹</button>
+        <div style={{ fontWeight: 800, fontSize: 16, flex: 1, textAlign: 'center' }}>
+          {keyToLabel(k)}{k === nowKey ? ' · зараз' : ''}
+        </div>
+        <button className="btn sm" onClick={() => setK(k + 1)} aria-label="Наступний місяць">›</button>
+      </div>
+
+      <div className="mstat">
+        <span>оплачено <b>{count('paid')}</b></span>
+        <span>борг <b>{count('debt')}</b></span>
+        {count('future') > 0 && <span>попереду <b>{count('future')}</b></span>}
+        <span>вільно <b>{count('free')}</b></span>
+      </div>
+
+      {rows.map(({ s, b, state }) => (
+        <div className="mrow" key={s.id}
+             onClick={() => (b ? onBooking(b) : onFree(s, k))}>
+          <div className={'bchip' + (state === 'debt' ? ' debt' : state === 'future' ? ' future'
+                                       : state === 'free' ? ' free' : '')}>{s.name}</div>
+          <div className="body">
+            <div className="n">{b ? (b.boat_name || 'Човен без назви') : 'Вільне місце'}</div>
+            <div className="m">{b ? b.client_name : (KIND[s.kind] || s.kind)}</div>
+          </div>
+          <div className={'v ' + (state === 'debt' ? 'debt' : state === 'free' ? 'free' : 'ok')}>
+            {state === 'debt' ? money(b.debt_kop)
+              : state === 'paid' ? '✓'
+              : state === 'future' ? '' : '+ додати'}
+          </div>
+        </div>
+      ))}
+    </div>
   );
+}
+
+/* Telegram. Коли CRM відкрита як міні-додаток, свайп униз за
+   замовчуванням згортає вікно — під час прокрутки воно смикалось.
+   Вимикаємо це й розгортаємо на весь екран. У звичайному браузері
+   window.Telegram.WebApp.initData порожній, і нічого не відбувається. */
+function initTelegram() {
+  const tg = typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp;
+  if (!tg || !tg.initData) return;
+  try {
+    tg.ready();
+    tg.expand();
+    if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+    if (tg.setHeaderColor) tg.setHeaderColor('#141d42');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#141d42');
+  } catch { /* стара версія Telegram — просто без цих зручностей */ }
 }
 
 /* ── картка броні ─────────────────────────────────────────────────────── */
@@ -313,9 +389,9 @@ function PayModal({ b, onClose, onSave, busy }) {
         <div style={{ marginTop: 14 }}>
           <div className="lbl">Як отримали</div>
           <div className="two">
-            <button className={"btn" + (how === "cash" ? " solid" : "")}
+            <button className={"btn" + (how === "cash" ? " blue" : "")}
                     onClick={() => setHow("cash")}>Готівкою</button>
-            <button className={"btn" + (how === "bank" ? " solid" : "")}
+            <button className={"btn" + (how === "bank" ? " blue" : "")}
                     onClick={() => setHow("bank")}>Переказом</button>
           </div>
         </div>
@@ -647,7 +723,7 @@ function Kassa({ kassa, nowKey, busy, act, onIncome, onExpense }) {
       <div className="sect">Записи</div>
       <div className="two" style={{ gridTemplateColumns: 'repeat(3,1fr)', marginBottom: 12 }}>
         {[['all', 'Усе'], ['in', 'Приходи'], ['out', 'Витрати']].map(([k, l]) => (
-          <button key={k} className={'btn sm' + (filter === k ? ' solid' : '')}
+          <button key={k} className={'btn sm' + (filter === k ? ' blue' : '')}
                   onClick={() => setFilter(k)}>{l}</button>
         ))}
       </div>
@@ -768,8 +844,8 @@ function ExpenseModal({ open, onClose, onSave, busy }) {
         <div style={{ marginTop: 12 }}>
           <div className="lbl">Чим платили</div>
           <div className="two">
-            <button className={'btn' + (how === 'cash' ? ' solid' : '')} onClick={() => setHow('cash')}>Готівкою</button>
-            <button className={'btn' + (how === 'bank' ? ' solid' : '')} onClick={() => setHow('bank')}>Карткою / переказом</button>
+            <button className={'btn' + (how === 'cash' ? ' blue' : '')} onClick={() => setHow('cash')}>Готівкою</button>
+            <button className={'btn' + (how === 'bank' ? ' blue' : '')} onClick={() => setHow('bank')}>Карткою / переказом</button>
           </div>
         </div>
         <button className="btn solid" style={{ width: '100%', marginTop: 16 }}
@@ -867,6 +943,8 @@ export default function Page() {
 
   return (
     <div className="wrap">
+      <Script src="https://telegram.org/js/telegram-web-app.js" strategy="afterInteractive"
+              onReady={initTelegram} />
       <div className="top">
         <div className="logo"><Anchor /></div>
         <div>
@@ -920,6 +998,11 @@ export default function Page() {
         </div>
       )}
 
+      {tab === "cal" && slots.length > 0 && (
+        <MobileMonth slots={slots} bookings={bookings} nowKey={nowKey}
+                     onBooking={setOpen}
+                     onFree={(slot, monthKey) => setNewAt({ slot, monthKey })} />
+      )}
       {tab === "cal" && slots.length > 0 && (
         <Calendar slots={slots} bookings={bookings} winStart={winStart}
                   setWinStart={setWinStart} nowKey={nowKey}
