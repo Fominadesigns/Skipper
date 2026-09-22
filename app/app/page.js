@@ -1129,10 +1129,6 @@ export default function Page() {
               Клієнт відкриває бота, натискає «Старт» і&nbsp;«Поділитися номером» —
               і&nbsp;рахунки з&nbsp;CRM приходять йому в&nbsp;Telegram.
             </div>
-            <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={busy}
-                    onClick={() => act('tg-setup', {})}>
-              Під&apos;єднати бота (один раз після оновлення)
-            </button>
           </div>
 
         </div>

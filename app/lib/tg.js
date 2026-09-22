@@ -96,3 +96,25 @@ export const cabinetButton = (req) => ({ text: '⚓ Мій кабінет', web_
 
 export const escapeHtml = (s) =>
   String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+/* Налаштування бота без кнопки: вебхук (куди Telegram шле повідомлення)
+   і кнопка меню «Мій кабінет». Перевіряємо раз на запуск сервера; якщо
+   адреса вже правильна — нічого не міняємо. */
+let setupDone = false;
+export async function ensureBotSetup(req) {
+  if (setupDone || !botToken()) return;
+  const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
+  if (!host || !host.endsWith('skipper-crm.vercel.app')) return;   // лише основна адреса
+  const url = `https://${host}/api/tg`;
+  const info = await tgCall('getWebhookInfo');
+  if (!info?.ok) return;
+  if (info.result.url !== url) {
+    const r = await tgCall('setWebhook', { url, secret_token: webhookSecret(),
+      allowed_updates: ['message', 'callback_query'] });
+    if (!r?.ok) return;
+  }
+  await tgCall('setChatMenuButton', {
+    menu_button: { type: 'web_app', text: 'Мій кабінет', web_app: { url: `https://${host}/client` } },
+  });
+  setupDone = true;
+}

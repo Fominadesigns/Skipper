@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
-import { botUsername } from '@/lib/tg';
+import { botUsername, ensureBotSetup } from '@/lib/tg';
 import { debtKop, creditKop, accruedKop, coveredThrough, feeForLength } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
    й клієнтами, рахунки. Даних мало (десятки рядків), тож ділити
    на кілька запитів немає сенсу — а один зменшує миготіння. */
 
-export async function GET() {
+export async function GET(req) {
   if (!isSignedIn()) {
     return NextResponse.json({ error: 'Потрібен вхід' }, { status: 401 });
   }
@@ -76,6 +76,9 @@ export async function GET() {
      WHERE seen = false ORDER BY created_at DESC`).rows;
 
   // Імʼя бота — щоб CRM могла показати клієнту посилання t.me/…
+  console.log('data', { bookings: bookings.map((b) => b.id) });
+  // Бот налаштовується сам: вебхук і кнопка «Мій кабінет» (раз на запуск сервера).
+  await ensureBotSetup(req).catch(() => {});
   const bot = await botUsername().catch(() => null);
   return NextResponse.json({ slots, bookings: withDebt, invoices, bot, requests, claims });
 }

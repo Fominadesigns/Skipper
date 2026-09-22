@@ -14,6 +14,8 @@ export async function GET(req) {
   if (!user) return NextResponse.json({ error: 'Відкрийте через бота в Telegram' }, { status: 401 });
   await ensureSchema();
   const bookings = await clientBookings(user.id);
+  // Службовий запис для перевірки: лише номери броней, без імен і телефонів.
+  console.log('client/me', { bookings: bookings.map((b) => b.id) });
   /* QR і посилання в банк — для кожної броні з боргом, на суму боргу.
      Реквізити ті самі, що в Butler (lib/payment-qr.js). */
   for (const b of bookings) {
