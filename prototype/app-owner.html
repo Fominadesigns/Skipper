@@ -13,21 +13,19 @@ body{padding:30px 16px 64px}
 .stage{max-width:1000px;margin:0 auto;display:flex;gap:34px;flex-wrap:wrap;
        justify-content:center;align-items:flex-start}
 
-.phone{width:330px;flex:none}
+.phone{width:340px;flex:none}
 .phone-cap{
   text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted);margin-bottom:11px;
 }
 .screen{
   background:var(--bg);border-radius:32px;padding:18px 15px 10px;
-  box-shadow:var(--out-lg);height:660px;display:flex;flex-direction:column;
+  box-shadow:var(--out-lg);height:670px;display:flex;flex-direction:column;
 }
 .view{flex:1;overflow-y:auto;overflow-x:hidden;margin:0 -3px;padding:0 3px 4px}
 .view::-webkit-scrollbar{width:0}
 
-.hint{
-  max-width:330px;font-size:13.5px;line-height:1.6;color:var(--muted);
-}
+.hint{max-width:330px;font-size:13.5px;line-height:1.6;color:var(--muted)}
 .hint h3{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:9px}
 .hint p + p{margin-top:10px}
 .hint b{color:var(--ink)}
@@ -45,56 +43,52 @@ body{padding:30px 16px 64px}
 }
 .back-btn:active{box-shadow:var(--in)}
 
-/* ── перемикач року ──────────────────────────────────────────────────── */
-.yr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.yr .y{font-size:15px;font-weight:800}
+/* ── вікно місяців ───────────────────────────────────────────────────────
+   Показуємо шість місяців, а не дванадцять. Дванадцять не вміщаються
+   в телефон, і сітку доводилось возити вбік — усередині Telegram це
+   відчувається як зламаний додаток.                                    */
+.yr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.yr .y{font-size:14px;font-weight:800;text-align:center;flex:1;min-width:0}
 .yr button{
-  width:32px;height:32px;border:0;cursor:pointer;border-radius:10px;
+  width:34px;height:34px;flex:none;border:0;cursor:pointer;border-radius:11px;
   background:var(--card);box-shadow:var(--out-sm);
-  font-size:14px;font-weight:800;color:var(--muted);
+  font-size:15px;font-weight:800;color:var(--muted);
 }
 .yr button:active{box-shadow:var(--in)}
+.yr button[disabled]{opacity:.4;cursor:default}
 
-/* ── календар по місяцях ─────────────────────────────────────────────── */
+/* ── календар ────────────────────────────────────────────────────────── */
 .cal-card{
   background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
-  padding:11px 10px;overflow-x:auto;
+  padding:11px 10px;
 }
-.cal-card::-webkit-scrollbar{height:0}
-.mgrid{border-collapse:separate;border-spacing:0 6px;min-width:430px}
+.mgrid{border-collapse:separate;border-spacing:0 6px;width:100%;table-layout:fixed}
 .mgrid th{
-  position:sticky;top:0;background:var(--card);z-index:2;
-  padding:0 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--muted);text-align:center;width:31px;
+  padding:0 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--muted);text-align:center;
 }
-.mgrid th.c{
-  left:0;z-index:3;text-align:left;width:52px;padding-right:7px;
-}
-.mgrid td.slot{
-  position:sticky;left:0;z-index:1;background:var(--card);
-  padding-right:7px;width:52px;
-}
+.mgrid th.c{text-align:left;width:46px;padding-right:6px}
+.mgrid td.slot{padding-right:6px;width:46px}
 .mgrid .sn{
-  display:block;font-size:11.5px;font-weight:800;
+  display:block;font-size:11px;font-weight:800;
   padding:7px 0;color:var(--ink);white-space:nowrap;
 }
-.mgrid td.m{padding:0 1px;width:31px}
+.mgrid td.m{padding:0 2px}
 .cell{
-  height:30px;border-radius:6px;background:var(--sunk);
+  height:32px;border-radius:7px;background:var(--sunk);
   box-shadow:inset 2px 2px 4px rgba(0,0,0,.12), inset -2px -2px 4px #fff;
 }
+.cell.free{cursor:pointer}
+.cell.free:active{box-shadow:inset 4px 4px 7px rgba(0,0,0,.22)}
 .cell.on{
-  cursor:pointer;background:var(--grad);
+  cursor:pointer;border-radius:7px;background:var(--grad);
   box-shadow:0 3px 7px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.18);
 }
 .cell.on.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
-.cell.on.mid{border-radius:0}
-.cell.on.st{border-radius:6px 0 0 6px}
-.cell.on.en{border-radius:0 6px 6px 0}
 .cell.on:active{filter:brightness(1.15)}
 .cell.now{outline:2px solid var(--blue-hi);outline-offset:1px}
 
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;
+.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:12px;
         font-size:11.5px;color:var(--muted);font-weight:600}
 .legend i{display:inline-block;width:13px;height:11px;border-radius:4px;
           margin-right:6px;vertical-align:-1px}
@@ -102,11 +96,10 @@ body{padding:30px 16px 64px}
 .legend i.d{background:linear-gradient(145deg,#c06a42,#8a3a15)}
 .legend i.f{background:var(--sunk);box-shadow:var(--in)}
 
-/* ── список і рядки ──────────────────────────────────────────────────── */
+/* ── рядки списків ───────────────────────────────────────────────────── */
 .row-card{
   background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:12px 13px;display:flex;align-items:center;gap:11px;
-  cursor:pointer;
+  padding:12px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;
 }
 .row-card + .row-card{margin-top:9px}
 .row-card:active{box-shadow:var(--in)}
@@ -128,28 +121,15 @@ body{padding:30px 16px 64px}
 
 /* ── дашборд ─────────────────────────────────────────────────────────── */
 .kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.k{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out);
-  padding:14px 15px;
-}
+.k{background:var(--card);border-radius:var(--r-md);box-shadow:var(--out);padding:14px 15px}
 .k .l{font-size:10.5px;font-weight:700;letter-spacing:.07em;
       text-transform:uppercase;color:var(--muted);line-height:1.3}
-.k .v{font-size:23px;font-weight:800;letter-spacing:-.025em;margin-top:6px}
+.k .v{font-size:22px;font-weight:800;letter-spacing:-.025em;margin-top:6px}
 .k .v.debt{color:var(--warn)}
 .k .v.ok{color:var(--ok)}
 .k.wide{grid-column:1 / -1}
 
-/* ── дрібниці ────────────────────────────────────────────────────────── */
-.badge{
-  display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
-  font-size:12px;font-weight:700;white-space:nowrap;
-  background:var(--sunk);box-shadow:var(--in);color:var(--muted);
-}
-.badge.ok{background:linear-gradient(145deg,#2f9d72,#12674a);color:#fff;
-          box-shadow:var(--cast-sm);text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.badge.debt{background:linear-gradient(145deg,#c06a42,#8a3a15);color:#fff;
-            box-shadow:var(--cast-sm);text-shadow:0 1px 2px rgba(0,0,0,.3)}
-
+/* ── решта ───────────────────────────────────────────────────────────── */
 .sum-box{
   background:var(--grad);border-radius:var(--r-lg);padding:15px 17px;color:#fff;
   box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
@@ -166,6 +146,29 @@ body{padding:30px 16px 64px}
 }
 .note b{color:var(--ink)}
 
+.auto-row{
+  margin-top:12px;background:var(--card);border-radius:var(--r-md);
+  box-shadow:var(--out-sm);padding:13px 14px;
+  display:flex;align-items:center;gap:12px;
+}
+.auto-row .body{flex:1;min-width:0}
+.auto-row b{display:block;font-size:13.5px;font-weight:700}
+.auto-row span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.sw{
+  width:46px;height:27px;flex:none;border:0;cursor:pointer;border-radius:999px;
+  background:var(--grad);box-shadow:var(--cast-sm);position:relative;
+}
+.sw::after{
+  content:"";position:absolute;top:3px;right:3px;width:21px;height:21px;
+  border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.3);
+  transition:all .2s;
+}
+.sw.off{background:var(--sunk);box-shadow:var(--in)}
+.sw.off::after{right:auto;left:3px;background:var(--bg);box-shadow:var(--out-sm)}
+
+.two-btn{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.two-btn .btn{padding:13px 8px;font-size:13.5px}
+
 .tabs{margin-top:auto;padding-top:14px;display:flex;gap:7px}
 .tab{
   flex:1;text-align:center;padding:11px 4px;border-radius:var(--r-sm);
@@ -178,10 +181,9 @@ body{padding:30px 16px 64px}
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
-/* спливаюче підтвердження */
 .toast{
   position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
-  background:var(--deep,#0f1c33);color:#fff;
+  background:#0f1c33;color:#fff;
   padding:13px 20px;border-radius:14px;font-size:13.5px;font-weight:700;
   box-shadow:0 12px 28px rgba(0,0,0,.4);
   opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;
@@ -189,27 +191,30 @@ body{padding:30px 16px 64px}
 }
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
-@media (max-width:760px){
-  body{padding:20px 14px 44px}
-  .stage{gap:22px}
-  .phone{width:100%;max-width:340px}
-  .hint{max-width:none}
-  .page-head h1{font-size:24px}
+/* ══ ТЕЛЕФОН ═════════════════════════════════════════════════════════════
+   Рамка мокапа зникає: додаток займає весь екран. Коли сторінку
+   відкривають із Telegram, телефон усередині телефона виглядає
+   як помилка, а вміст стає вдвічі дрібнішим.                          */
+@media (max-width:700px){
+  body{padding:0}
+  .stage{gap:0;display:block}
+  .phone{width:100%;max-width:none}
+  .phone-cap{display:none}
+  .screen{
+    border-radius:0;box-shadow:none;
+    height:100svh;padding:16px 14px 10px;
+  }
+  @supports not (height:100svh){ .screen{height:100vh} }
+  .page-head,.hint,.back{display:none}
+  .k .v{font-size:20px}
 }
 </style>
 </head>
 <body>
 
 <svg class="sprite" aria-hidden="true">
-  <symbol id="i-receipt" viewBox="0 0 24 24">
-    <path d="M6.2 3h11.6v18l-1.94-1.4-1.93 1.4-1.93-1.4-1.94 1.4-1.93-1.4L6.2 21z"/>
-    <path d="M9.4 8.4h5.2M9.4 12.4h5.2"/>
-  </symbol>
   <symbol id="i-send" viewBox="0 0 24 24">
     <path d="M21 3.6L10.6 14"/><path d="M21 3.6l-6.6 17.2-3.8-6.8-6.8-3.8z"/>
-  </symbol>
-  <symbol id="i-phone" viewBox="0 0 24 24">
-    <path d="M6.4 3.2h3l1.5 3.8-1.9 1.4a11.4 11.4 0 0 0 5.6 5.6l1.4-1.9 3.8 1.5v3a2 2 0 0 1-2.2 2C10.5 18 6 13.5 4.4 5.4a2 2 0 0 1 2-2.2z"/>
   </symbol>
 </svg>
 
@@ -240,19 +245,18 @@ body{padding:30px 16px 64px}
   <div class="hint">
     <h3>Что можно нажать</h3>
     <ol>
-      <li>Полосу в&nbsp;календаре — откроется бронь</li>
+      <li>Синюю полосу — откроется бронь</li>
+      <li>Пустую клетку — добавить бронь вручную</li>
       <li>В&nbsp;брони «Карточка клиента» — данные владельца лодки</li>
+      <li>«Оплатил наличными» или «Оплатил переводом» — внести оплату руками</li>
       <li>«Выставить счёт» — счёт уходит клиенту в&nbsp;Telegram</li>
       <li>Внизу «Дашборд» — долги и&nbsp;поступления</li>
     </ol>
     <p>
-      <b>Календарь по&nbsp;месяцам, а&nbsp;не&nbsp;по&nbsp;дням.</b> Лодку ставят
-      минимум на&nbsp;месяц, и&nbsp;дневная сетка только мешала&nbsp;бы:
-      в&nbsp;ней не&nbsp;видно сезон целиком.
-    </p>
-    <p>
-      Оранжевым — те, у&nbsp;кого долг. Синим — оплаченные.
-      Рамка — текущий месяц.
+      <b>Календарь по&nbsp;месяцам.</b> Лодку ставят минимум на&nbsp;месяц,
+      и&nbsp;дневная сетка только мешала&nbsp;бы. Показываем шесть месяцев
+      сразу — двенадцать не&nbsp;помещаются в&nbsp;телефон, и&nbsp;сетку
+      приходилось&nbsp;бы возить вбок.
     </p>
   </div>
 
@@ -264,60 +268,57 @@ body{padding:30px 16px 64px}
 /* ══════════════════════════════════════════════════════════════════════
    Кликабельный прототип приложения владельца.
 
-   Вместо CRM на большом экране — то же самое в телефоне: календарь
-   стоянок по месяцам, проваливание в бронь, оттуда в клиента,
-   оттуда выставление счёта. Внизу дашборд.
-
-   Данные вымышленные, но тарифы настоящие: 2500 / 3000 / 4000 ₴
+   Данные вымышленные, тарифы настоящие: 2500 / 3000 / 4000 ₴
    по длине судна, как назвал владелец станции.
    ══════════════════════════════════════════════════════════════════ */
 
 const M  = ['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
 const MF = ['січня','лютого','березня','квітня','травня','червня',
             'липня','серпня','вересня','жовтня','листопада','грудня'];
-const NOW = 10;          // жовтень 2026 — «сьогодні» для прототипу
+const MN = ['Січень','Лютий','Березень','Квітень','Травень','Червень',
+            'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+const NOW = 10;
 const YEAR = 2026;
+const WIN = 6;              // скільки місяців показуємо одночасно
+let winStart = 7;           // липень — щоб поточний жовтень був у вікні
 
-/* from / to — місяці стоянки. paidTo — по який місяць оплачено.
-   Тариф береться з довжини судна, як у власника станції. */
 const BOOKINGS = [
-  { id:1,  slot:'A-01', boat:'«Чайка»',     client:'Петро Коваль',    phone:'+380 67 000 00 01',
-    len:6.4, reg:'UA-1042-KV', kind:'на воді',  from:4,  to:11, paidTo:10, since:'14 квітня' },
-  { id:2,  slot:'A-02', boat:'«Барракуда»', client:'Ірина Лисенко',   phone:'+380 67 000 00 02',
-    len:7.2, reg:'UA-2318-KV', kind:'на воді',  from:5,  to:12, paidTo:8,  since:'2 травня' },
-  { id:3,  slot:'A-03', boat:'«Стріла»',    client:'Андрій Мороз',    phone:'+380 67 000 00 03',
-    len:5.1, reg:'UA-7734-KV', kind:'на воді',  from:6,  to:10, paidTo:10, since:'1 червня' },
-  { id:4,  slot:'A-05', boat:'«Дельфін»',   client:'Марина Гриценко', phone:'+380 67 000 00 04',
-    len:8.6, reg:'UA-5521-KV', kind:'на воді',  from:4,  to:12, paidTo:10, since:'20 квітня' },
-  { id:5,  slot:'B-01', boat:'«Сокіл»',     client:'Василь Ткаченко', phone:'+380 67 000 00 05',
-    len:6.0, reg:'UA-8890-KV', kind:'на суші',  from:9,  to:12, paidTo:10, since:'6 вересня' },
-  { id:6,  slot:'B-02', boat:'«Вітер»',     client:'Сергій Бондар',   phone:'+380 67 000 00 06',
-    len:4.8, reg:'UA-3367-KV', kind:'на суші',  from:5,  to:11, paidTo:7,  since:'11 травня' },
-  { id:7,  slot:'C-01', boat:'«Фрегат»',    client:'Дмитро Савчук',   phone:'+380 67 000 00 07',
-    len:9.4, reg:'UA-1199-KV', kind:'ангар',    from:4,  to:12, paidTo:10, since:'3 квітня' },
-  { id:8,  slot:'C-02', boat:'«Лагуна»',    client:'Наталя Кравець',  phone:'+380 67 000 00 08',
-    len:7.8, reg:'UA-6605-KV', kind:'ангар',    from:10, to:12, paidTo:9,  since:'12 жовтня' },
+  { id:1, slot:'A-01', boat:'«Чайка»',     client:'Петро Коваль',    phone:'+380 67 000 00 01',
+    len:6.4, reg:'UA-1042-KV', kind:'на воді', from:4,  to:11, paidTo:10, since:'14 квітня', auto:true },
+  { id:2, slot:'A-02', boat:'«Барракуда»', client:'Ірина Лисенко',   phone:'+380 67 000 00 02',
+    len:7.2, reg:'UA-2318-KV', kind:'на воді', from:5,  to:12, paidTo:8,  since:'2 травня',   auto:true },
+  { id:3, slot:'A-03', boat:'«Стріла»',    client:'Андрій Мороз',    phone:'+380 67 000 00 03',
+    len:5.1, reg:'UA-7734-KV', kind:'на воді', from:6,  to:10, paidTo:10, since:'1 червня',   auto:true },
+  { id:4, slot:'A-05', boat:'«Дельфін»',   client:'Марина Гриценко', phone:'+380 67 000 00 04',
+    len:8.6, reg:'UA-5521-KV', kind:'на воді', from:4,  to:12, paidTo:10, since:'20 квітня',  auto:true },
+  { id:5, slot:'B-01', boat:'«Сокіл»',     client:'Василь Ткаченко', phone:'+380 67 000 00 05',
+    len:6.0, reg:'UA-8890-KV', kind:'на суші', from:9,  to:12, paidTo:10, since:'6 вересня',  auto:true },
+  { id:6, slot:'B-02', boat:'«Вітер»',     client:'Сергій Бондар',   phone:'+380 67 000 00 06',
+    len:4.8, reg:'UA-3367-KV', kind:'на суші', from:5,  to:11, paidTo:7,  since:'11 травня',  auto:false },
+  { id:7, slot:'C-01', boat:'«Фрегат»',    client:'Дмитро Савчук',   phone:'+380 67 000 00 07',
+    len:9.4, reg:'UA-1199-KV', kind:'ангар',   from:4,  to:12, paidTo:10, since:'3 квітня',   auto:true },
+  { id:8, slot:'C-02', boat:'«Лагуна»',    client:'Наталя Кравець',  phone:'+380 67 000 00 08',
+    len:7.8, reg:'UA-6605-KV', kind:'ангар',   from:10, to:12, paidTo:9,  since:'12 жовтня',  auto:true },
 ];
 
 const SLOTS = ['A-01','A-02','A-03','A-04','A-05','B-01','B-02','B-03','C-01','C-02'];
+let nextId = 9;
 
 /* Тариф за довжиною судна — цифри власника станції. */
 function feeOf(len) {
-  if (len < 4)  return null;      // гідроцикли — за домовленістю
-  if (len <= 6) return 2500;
-  if (len <= 8) return 3000;
+  if (len < 4)   return null;     // гідроцикли — за домовленістю
+  if (len <= 6)  return 2500;
+  if (len <= 8)  return 3000;
   if (len <= 10) return 4000;
   return null;
 }
 const money = n => n.toLocaleString('uk-UA').replace(/ /g,' ') + ' ₴';
 
-/* Борг: скільки місяців від останнього оплаченого до поточного. */
-function debtOf(b) {
-  const months = Math.max(0, Math.min(NOW, b.to) - b.paidTo);
-  return months * (feeOf(b.len) || 0);
-}
 const debtMonths = b => Math.max(0, Math.min(NOW, b.to) - b.paidTo);
+const debtOf = b => debtMonths(b) * (feeOf(b.len) || 0);
 const isDebt = b => debtOf(b) > 0;
+const bookingAt = (slot, m) =>
+  BOOKINGS.find(b => b.slot === slot && m >= b.from && m <= b.to);
 
 const view  = document.getElementById('view');
 const toast = document.getElementById('toast');
@@ -327,42 +328,44 @@ function say(text) {
   toast.textContent = text;
   toast.classList.add('on');
   clearTimeout(say._t);
-  say._t = setTimeout(() => toast.classList.remove('on'), 2600);
+  say._t = setTimeout(() => toast.classList.remove('on'), 2800);
 }
 
-/* ── екран 1: календар стоянок по місяцях ─────────────────────────────── */
+/* ── екран 1: календар стоянок ────────────────────────────────────────── */
 function screenCal() {
-  let head = '<tr><th class="c"></th>' +
-    M.map((m,i) => '<th>' + m + '</th>').join('') + '</tr>';
+  const months = [];
+  for (let i = 0; i < WIN; i++) months.push(winStart + i);
 
-  let rows = SLOTS.map(slot => {
-    const b = BOOKINGS.find(x => x.slot === slot);
-    let cells = '';
-    for (let m = 1; m <= 12; m++) {
-      if (!b || m < b.from || m > b.to) {
-        cells += '<td class="m"><div class="cell' + (m===NOW?' now':'') + '"></div></td>';
-      } else {
-        const pos = m === b.from ? ' st' : m === b.to ? ' en' : ' mid';
-        const st  = isDebt(b) && m > b.paidTo ? ' debt' : '';
-        cells += '<td class="m"><div class="cell on' + pos + st + (m===NOW?' now':'') +
-                 '" data-b="' + b.id + '"></div></td>';
+  const head = '<tr><th class="c"></th>' +
+    months.map(m => '<th>' + M[m-1] + '</th>').join('') + '</tr>';
+
+  const rows = SLOTS.map(slot => {
+    const cells = months.map(m => {
+      const b = bookingAt(slot, m);
+      if (!b) {
+        return '<td class="m"><div class="cell free' + (m===NOW?' now':'') +
+               '" data-add="' + slot + '" data-m="' + m + '"></div></td>';
       }
-    }
+      const st = isDebt(b) && m > b.paidTo ? ' debt' : '';
+      return '<td class="m"><div class="cell on' + st + (m===NOW?' now':'') +
+             '" data-b="' + b.id + '"></div></td>';
+    }).join('');
     return '<tr><td class="slot"><span class="sn">' + slot + '</span></td>' + cells + '</tr>';
   }).join('');
 
+  const last = winStart + WIN - 1;
   view.innerHTML = `
     <div class="bar">
       <div class="t">
         <h1>Стоянки</h1>
-        <div class="s">${BOOKINGS.length} човнів · ${SLOTS.length - BOOKINGS.length} місць вільно</div>
+        <div class="s">${BOOKINGS.length} човнів · ${SLOTS.length - new Set(BOOKINGS.map(b=>b.slot)).size} місць вільно</div>
       </div>
     </div>
 
     <div class="yr">
-      <button type="button">‹</button>
-      <div class="y">${YEAR}</div>
-      <button type="button">›</button>
+      <button type="button" id="pm" ${winStart <= 1 ? 'disabled' : ''}>‹</button>
+      <div class="y">${MN[winStart-1]} — ${MN[last-1]} ${YEAR}</div>
+      <button type="button" id="nm" ${last >= 12 ? 'disabled' : ''}>›</button>
     </div>
 
     <div class="cal-card">
@@ -376,15 +379,20 @@ function screenCal() {
     </div>
 
     <div class="note">
-      Натисніть смугу — відкриється бронь. Рамкою позначений
-      поточний місяць, <b>${MF[NOW-1]}</b>.
+      Натисніть смугу — відкриється бронь. Натисніть порожню клітинку —
+      додасте бронь вручну. Рамка — поточний місяць, <b>${MF[NOW-1]}</b>.
     </div>
     <div style="height:8px"></div>
   `;
 
-  view.querySelectorAll('.cell.on').forEach(c => {
-    c.onclick = () => screenBooking(+c.dataset.b);
-  });
+  const pm = document.getElementById('pm'), nm = document.getElementById('nm');
+  if (pm) pm.onclick = () => { if (winStart > 1) { winStart--; screenCal(); } };
+  if (nm) nm.onclick = () => { if (winStart + WIN - 1 < 12) { winStart++; screenCal(); } };
+
+  view.querySelectorAll('.cell.on').forEach(c =>
+    c.onclick = () => screenBooking(+c.dataset.b));
+  view.querySelectorAll('.cell.free').forEach(c =>
+    c.onclick = () => screenNew(c.dataset.add, +c.dataset.m));
 }
 
 /* ── екран 2: бронь ───────────────────────────────────────────────────── */
@@ -392,6 +400,7 @@ function screenBooking(id) {
   const b = BOOKINGS.find(x => x.id === id);
   const fee = feeOf(b.len);
   const debt = debtOf(b);
+  const long = (b.to - b.from) >= 1;      // стоїть більше одного місяця
 
   view.innerHTML = `
     <div class="bar">
@@ -420,7 +429,6 @@ function screenBooking(id) {
         <div class="row"><span class="k">Стоїть по</span><span class="v">${MF[b.to-1]} ${YEAR}</span></div>
         <div class="row"><span class="k">Довжина</span><span class="v">${String(b.len).replace('.',',')}&nbsp;м</span></div>
         <div class="row"><span class="k">Тариф</span><span class="v">${fee ? money(fee) + ' / міс' : 'уточнити'}</span></div>
-        <div class="row"><span class="k">Оплачено по</span><span class="v">${MF[b.paidTo-1]}</span></div>
       </div>
     </div>
 
@@ -434,15 +442,30 @@ function screenBooking(id) {
       <div class="v">›</div>
     </div>
 
-    <div style="margin-top:16px">
-      ${debt
-        ? `<button class="btn solid" data-go="invoice" data-b="${b.id}">Виставити рахунок</button>`
-        : `<button class="btn" data-go="invoice" data-b="${b.id}">Виставити наперед</button>`}
+    <div class="sect">Оплата</div>
+    <div class="two-btn">
+      <button class="btn" data-pay="cash" data-b="${b.id}">Оплатив<br>готівкою</button>
+      <button class="btn" data-pay="bank" data-b="${b.id}">Оплатив<br>переказом</button>
+    </div>
+    <div style="margin-top:10px">
+      <button class="btn solid" data-go="invoice" data-b="${b.id}">
+        ${debt ? 'Виставити рахунок' : 'Виставити наперед'}
+      </button>
     </div>
 
+    ${long ? `
+    <div class="auto-row">
+      <div class="body">
+        <b>Рахунок щомісяця сам</b>
+        <span>1&nbsp;числа йде клієнту в&nbsp;Telegram</span>
+      </div>
+      <button class="sw${b.auto ? '' : ' off'}" data-auto="${b.id}" aria-label="Перемкнути"></button>
+    </div>` : ''}
+
     <div class="note">
-      Рахунок не&nbsp;йде сам: ви бачите суму, натискаєте —
-      і&nbsp;тільки тоді він потрапляє клієнту в&nbsp;Telegram.
+      Дві кнопки зверху — для оплати, яку ви прийняли самі: готівкою
+      на&nbsp;місці або переказом без рахунку. Сервіс не&nbsp;бачить
+      банківського рахунку й&nbsp;ніколи не&nbsp;позначає оплату сам.
     </div>
     <div style="height:8px"></div>
   `;
@@ -469,9 +492,9 @@ function screenClient(id) {
         <div class="row"><span class="k">Телефон</span><span class="v mono">${b.phone}</span></div>
         <div class="row"><span class="k">Telegram</span><span class="v" style="color:var(--ok)">під'єднано ✓</span></div>
       </div>
-      <div style="display:flex;gap:9px;margin-top:14px">
-        <button class="btn" style="flex:1" data-say="Відкриється телефон і набере номер">Подзвонити</button>
-        <button class="btn" style="flex:1" data-say="Відкриється чат із клієнтом у Telegram">Написати</button>
+      <div class="two-btn">
+        <button class="btn" data-say="Відкриється телефон і набере номер">Подзвонити</button>
+        <button class="btn" data-say="Відкриється чат у Telegram">Написати</button>
       </div>
     </div>
 
@@ -494,11 +517,11 @@ function screenClient(id) {
           <span class="v" style="color:${debt ? 'var(--warn)' : 'var(--ok)'}">
             ${debt ? money(debt) : 'немає'}</span></div>
       </div>
+      <div class="two-btn">
+        <button class="btn" data-pay="cash" data-b="${b.id}">Оплатив<br>готівкою</button>
+        <button class="btn" data-pay="bank" data-b="${b.id}">Оплатив<br>переказом</button>
+      </div>
     </div>
-
-    ${debt ? `<div style="margin-top:16px">
-      <button class="btn solid" data-go="invoice" data-b="${b.id}">Виставити рахунок</button>
-    </div>` : ''}
     <div style="height:10px"></div>
   `;
   wire();
@@ -508,17 +531,14 @@ function screenClient(id) {
 function screenInvoice(id) {
   const b = BOOKINGS.find(x => x.id === id);
   const fee = feeOf(b.len);
-  const debt = debtOf(b);
-  const n = debtMonths(b);
+  const n = Math.max(debtMonths(b), 1);
 
-  // Рядки рахунку: по місяцю за кожен неоплачений.
   let lines = '';
-  for (let i = 1; i <= Math.max(n, 1); i++) {
+  for (let i = 1; i <= n; i++) {
     const m = Math.min(b.paidTo + i, 12);
     lines += `<div class="row"><span class="k">Стоянка, ${MF[m-1]}</span>
               <span class="v">${money(fee)}</span></div>`;
   }
-  const total = Math.max(n, 1) * fee;
 
   view.innerHTML = `
     <div class="bar">
@@ -534,7 +554,7 @@ function screenInvoice(id) {
       <div class="row" style="margin-top:13px;padding-top:13px;
            border-top:1px solid rgba(20,26,38,.12)">
         <span class="k" style="font-weight:800;color:var(--ink)">Разом</span>
-        <span class="v" style="font-size:16px">${money(total)}</span>
+        <span class="v" style="font-size:16px">${money(n * fee)}</span>
       </div>
     </div>
 
@@ -547,8 +567,7 @@ function screenInvoice(id) {
       </div>
       <div class="note">
         Клієнт отримає рахунок із QR: сума вже вписана, вводити
-        реквізити руками не&nbsp;треба. Готівкою теж можна —
-        тоді позначите оплату самі.
+        реквізити руками не&nbsp;треба.
       </div>
     </div>
 
@@ -559,19 +578,83 @@ function screenInvoice(id) {
   `;
 
   document.getElementById('sendInv').onclick = () => {
-    say('Рахунок надіслано ' + b.client.split(' ')[0]);
+    say('Рахунок надіслано: ' + b.client);
     screenBooking(b.id);
   };
   wire();
 }
 
-/* ── екран 5: дашборд ─────────────────────────────────────────────────── */
+/* ── екран 5: нова бронь ──────────────────────────────────────────────── */
+function screenNew(slot, m) {
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" data-go="cal">←</button>
+      <div class="t">
+        <h1>Нова бронь</h1>
+        <div class="s">місце ${slot} · з ${MF[m-1]}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Місце</span><span class="v">${slot}</span></div>
+        <div class="row"><span class="k">З місяця</span><span class="v">${MN[m-1]}</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Човен і клієнт</div>
+    <input class="field" id="nBoat"   placeholder="Назва човна, напр. «Чайка»">
+    <input class="field" id="nLen"    placeholder="Довжина, напр. 6,4" inputmode="decimal" style="margin-top:10px">
+    <input class="field" id="nClient" placeholder="Ім'я клієнта" style="margin-top:10px">
+    <input class="field" id="nPhone"  placeholder="+380 __ ___ __ __" inputmode="tel" style="margin-top:10px">
+
+    <div class="sect">По який місяць</div>
+    <div class="yr">
+      <button type="button" id="tMinus">‹</button>
+      <div class="y" id="tLabel">${MN[Math.min(m+5,12)-1]}</div>
+      <button type="button" id="tPlus">›</button>
+    </div>
+
+    <div style="margin-top:14px">
+      <button class="btn solid" id="saveNew">Зберегти бронь</button>
+    </div>
+
+    <div class="note">
+      Тариф порахується сам за&nbsp;довжиною: до&nbsp;6&nbsp;м — 2500&nbsp;₴,
+      до&nbsp;8&nbsp;м — 3000&nbsp;₴, до&nbsp;10&nbsp;м — 4000&nbsp;₴.
+    </div>
+    <div style="height:10px"></div>
+  `;
+
+  let to = Math.min(m + 5, 12);
+  const lbl = document.getElementById('tLabel');
+  document.getElementById('tMinus').onclick = () => { if (to > m) { to--; lbl.textContent = MN[to-1]; } };
+  document.getElementById('tPlus').onclick  = () => { if (to < 12) { to++; lbl.textContent = MN[to-1]; } };
+
+  document.getElementById('saveNew').onclick = () => {
+    const boat   = document.getElementById('nBoat').value.trim()   || '«Без назви»';
+    const client = document.getElementById('nClient').value.trim() || 'Новий клієнт';
+    const phone  = document.getElementById('nPhone').value.trim()  || '+380 __ ___ __ __';
+    const len    = parseFloat(document.getElementById('nLen').value.replace(',','.')) || 6;
+
+    BOOKINGS.push({
+      id: nextId++, slot, boat, client, phone, len,
+      reg: '—', kind: slot[0] === 'C' ? 'ангар' : slot[0] === 'B' ? 'на суші' : 'на воді',
+      from: m, to, paidTo: m - 1, since: MF[m-1], auto: true,
+    });
+    say('Бронь додана: ' + slot + ', ' + boat);
+    tab = 'cal'; syncTabs(); screenCal();
+  };
+  wire();
+}
+
+/* ── екран 6: дашборд ─────────────────────────────────────────────────── */
 function screenDash() {
   const debtors = BOOKINGS.filter(isDebt);
   const paid    = BOOKINGS.filter(b => !isDebt(b));
   const debtSum = debtors.reduce((s,b) => s + debtOf(b), 0);
-  // Отримано за місяць: ті, у кого оплачено включно з поточним.
   const gotSum  = paid.reduce((s,b) => s + (feeOf(b.len) || 0), 0);
+  const autoOn  = BOOKINGS.filter(b => b.auto).length;
 
   const list = arr => arr.map(b => {
     const d = debtOf(b);
@@ -594,22 +677,15 @@ function screenDash() {
     </div>
 
     <div class="kpi">
-      <div class="k">
-        <div class="l">Не оплатили</div>
-        <div class="v debt">${debtors.length}</div>
-      </div>
-      <div class="k">
-        <div class="l">Оплатили</div>
-        <div class="v ok">${paid.length}</div>
-      </div>
-      <div class="k wide">
-        <div class="l">Борг усього</div>
-        <div class="v debt">${money(debtSum)}</div>
-      </div>
-      <div class="k wide">
-        <div class="l">Отримано за ${MF[NOW-1]}</div>
-        <div class="v ok">${money(gotSum)}</div>
-      </div>
+      <div class="k"><div class="l">Не оплатили</div><div class="v debt">${debtors.length}</div></div>
+      <div class="k"><div class="l">Оплатили</div><div class="v ok">${paid.length}</div></div>
+      <div class="k wide"><div class="l">Борг усього</div><div class="v debt">${money(debtSum)}</div></div>
+      <div class="k wide"><div class="l">Отримано за ${MF[NOW-1]}</div><div class="v ok">${money(gotSum)}</div></div>
+    </div>
+
+    <div class="note">
+      <b>${autoOn} із ${BOOKINGS.length}</b> броней отримують рахунок автоматично
+      1&nbsp;числа. Решті виставляєте вручну.
     </div>
 
     <div class="sect">Треба виставити рахунок</div>
@@ -627,17 +703,37 @@ function screenDash() {
   wire();
 }
 
-/* ── навігація ────────────────────────────────────────────────────────── */
+/* ── дії ──────────────────────────────────────────────────────────────── */
+function payManually(id, how) {
+  const b = BOOKINGS.find(x => x.id === id);
+  const fee = feeOf(b.len) || 0;
+  const n = Math.max(debtMonths(b), 1);     // гасимо борг, або місяць наперед
+  b.paidTo = Math.min(b.paidTo + n, b.to);
+  say((how === 'cash' ? 'Готівка' : 'Переказ') + ' · ' + money(n * fee) + ' внесено');
+  screenBooking(id);
+}
+
 function wire() {
   view.querySelectorAll('[data-go]').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
-      const id = +el.dataset.b;
-      const to = el.dataset.go;
-      if (to === 'cal')      { tab = 'cal'; syncTabs(); screenCal(); }
-      if (to === 'booking')  screenBooking(id);
-      if (to === 'client')   screenClient(id);
-      if (to === 'invoice')  screenInvoice(id);
+      const id = +el.dataset.b, to = el.dataset.go;
+      if (to === 'cal')     { tab = 'cal'; syncTabs(); screenCal(); }
+      if (to === 'booking') screenBooking(id);
+      if (to === 'client')  screenClient(id);
+      if (to === 'invoice') screenInvoice(id);
+    };
+  });
+  view.querySelectorAll('[data-pay]').forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); payManually(+el.dataset.b, el.dataset.pay); };
+  });
+  view.querySelectorAll('[data-auto]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const b = BOOKINGS.find(x => x.id === +el.dataset.auto);
+      b.auto = !b.auto;
+      el.classList.toggle('off', !b.auto);
+      say(b.auto ? 'Рахунок ітиме автоматично 1 числа' : 'Автоматичний рахунок вимкнено');
     };
   });
   view.querySelectorAll('[data-say]').forEach(el => {
@@ -652,9 +748,7 @@ function syncTabs() {
 
 document.querySelectorAll('.tab').forEach(t => {
   t.onclick = () => {
-    tab = t.dataset.tab;
-    syncTabs();
-    view.scrollTop = 0;
+    tab = t.dataset.tab; syncTabs(); view.scrollTop = 0;
     tab === 'cal' ? screenCal() : screenDash();
   };
 });
