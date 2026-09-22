@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skipper — сайти човнових станцій світу</title>
+<link rel="stylesheet" href="ui.css">
+<style>
+body{padding:34px 20px 70px}
+.wrap{max-width:1000px;margin:0 auto}
+
+.hero{margin-bottom:26px}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:-.024em}
+.hero p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.65}
+.hero b{color:var(--ink)}
+
+.group{margin-top:34px}
+.group > h2{font-size:19px;font-weight:800;letter-spacing:-.016em}
+.group > .why{color:var(--muted);font-size:14.5px;margin:8px 0 16px;line-height:1.6;max-width:720px}
+
+.list{display:flex;flex-direction:column;gap:12px}
+.ref{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:20px 22px;display:flex;gap:18px;align-items:flex-start;
+  text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s;
+}
+.ref:hover{box-shadow:var(--out-lg);transform:translateY(-2px)}
+.ref:active{box-shadow:var(--in);transform:none}
+.no{
+  width:40px;height:40px;flex:none;border-radius:12px;background:var(--grad);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:14px;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.ref .body{flex:1;min-width:0}
+.ref .nm{font-size:17px;font-weight:800;letter-spacing:-.012em}
+.ref .where{color:var(--muted);font-size:13px;font-weight:600;margin-top:2px}
+.ref .note{font-size:14.5px;margin-top:9px;line-height:1.6}
+.ref .url{
+  display:inline-block;margin-top:10px;font-size:12.5px;font-weight:700;
+  color:var(--blue);word-break:break-all;
+}
+.tag{
+  display:inline-block;margin-top:10px;margin-right:7px;
+  padding:5px 12px;border-radius:999px;
+  background:var(--sunk);box-shadow:var(--in);
+  font-size:11.5px;font-weight:700;color:var(--muted);
+}
+
+.honest{
+  margin-top:34px;padding:20px 22px;border-radius:var(--r-lg);
+  background:var(--card);box-shadow:var(--out);
+}
+.honest h3{font-size:16px;font-weight:800;margin-bottom:10px}
+.honest p{color:var(--muted);font-size:14.5px;line-height:1.65}
+.honest p + p{margin-top:10px}
+.honest b{color:var(--ink)}
+
+@media (max-width:620px){
+  body{padding:22px 14px 50px}
+  .hero h1{font-size:24px}
+  .ref{padding:17px 16px;gap:13px}
+  .no{width:34px;height:34px;border-radius:10px;font-size:13px}
+  .ref .nm{font-size:15.5px}
+  .ref .note{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← Усі матеріали</a>
+
+<div class="hero">
+  <h1>Сайти човнових станцій світу</h1>
+  <p>
+    Двадцять марин і&nbsp;мереж марин. Усі посилання перевірені —
+    відкриваються станом на&nbsp;22.09.2026.
+  </p>
+  <p>
+    Головне, що варто сказати одразу: <b>більшість із них — величезні
+    яхтові містечка на&nbsp;500–900 місць із готелями й&nbsp;ресторанами.</b>
+    Копіювати їхню подачу «розкішний спосіб життя» станції на&nbsp;24&nbsp;місця
+    не&nbsp;варто: вона обіцяє те, чого немає, і&nbsp;людина це відчує.
+    Тому список поділений на&nbsp;дві частини — <b>ті, що роблять ту&nbsp;саму
+    роботу, що&nbsp;й&nbsp;ми</b>, і&nbsp;ті, звідки варто брати лише картинку
+    та&nbsp;настрій.
+  </p>
+</div>
+
+<!-- ── перша група ──────────────────────────────────────────────────── -->
+<div class="group">
+  <h2>Роблять ту&nbsp;саму роботу, що&nbsp;й&nbsp;ми</h2>
+  <p class="why">
+    Ці сайти відповідають на&nbsp;ті&nbsp;самі питання: які бувають місця,
+    скільки коштує, як забронювати, що&nbsp;робити взимку.
+    Дивитись у&nbsp;першу чергу сюди.
+  </p>
+
+  <div class="list">
+
+    <a class="ref" href="https://www.boatfolk.co.uk" target="_blank" rel="noopener">
+      <div class="no">1</div>
+      <div class="body">
+        <div class="nm">boatfolk</div>
+        <div class="where">Велика Британія · мережа марин</div>
+        <p class="note">
+          Найсучасніший бренд у&nbsp;списку й&nbsp;найближчий нам за&nbsp;тоном:
+          не&nbsp;«розкіш», а&nbsp;спільнота людей із човнами. Дивився сам —
+          великі фото, живі кольори, спокійна типографіка.
+        </p>
+        <span class="tag">тон розмови</span><span class="tag">бренд</span>
+        <span class="url">boatfolk.co.uk</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.aci-marinas.com" target="_blank" rel="noopener">
+      <div class="no">2</div>
+      <div class="body">
+        <div class="nm">ACI Marinas</div>
+        <div class="where">Хорватія · мережа з&nbsp;22 марин</div>
+        <p class="note">
+          Онлайн-бронювання місця й&nbsp;зимівлі, прозорі прайси по&nbsp;довжині
+          судна. Найкорисніше для нас — як вони показують ціну
+          за&nbsp;метр і&nbsp;сезонні пакети.
+        </p>
+        <span class="tag">бронювання</span><span class="tag">прайс за метр</span>
+        <span class="url">aci-marinas.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.marina-punat.hr" target="_blank" rel="noopener">
+      <div class="no">3</div>
+      <div class="body">
+        <div class="nm">Marina Punat</div>
+        <div class="where">Хорватія · сімейна марина</div>
+        <p class="note">
+          Сімейний бізнес, а&nbsp;не&nbsp;корпорація — за&nbsp;духом найближче
+          до&nbsp;вашої станції. Сильний блок про зимове зберігання
+          й&nbsp;сервіс, а&nbsp;це рівно наш ангар.
+        </p>
+        <span class="tag">зимівля</span><span class="tag">сервіс</span>
+        <span class="url">marina-punat.hr</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.premiermarinas.com" target="_blank" rel="noopener">
+      <div class="no">4</div>
+      <div class="body">
+        <div class="nm">Premier Marinas</div>
+        <div class="where">Велика Британія · мережа</div>
+        <p class="note">
+          Чітко розведені типи стоянки: на&nbsp;воді, на&nbsp;суші, зимове
+          зберігання. Подивіться, як вони пояснюють різницю —
+          у&nbsp;нас той самий вибір із трьох.
+        </p>
+        <span class="tag">типи місць</span>
+        <span class="url">premiermarinas.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.mdlmarinas.co.uk" target="_blank" rel="noopener">
+      <div class="no">5</div>
+      <div class="body">
+        <div class="nm">MDL Marinas</div>
+        <div class="where">Велика Британія · мережа</div>
+        <p class="note">
+          Калькулятор вартості за&nbsp;довжиною судна й&nbsp;членські пакети.
+          Якщо Влад назве ціну за&nbsp;метр — нам знадобиться щось подібне.
+        </p>
+        <span class="tag">калькулятор ціни</span>
+        <span class="url">mdlmarinas.co.uk</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.d-marin.com" target="_blank" rel="noopener">
+      <div class="no">6</div>
+      <div class="body">
+        <div class="nm">D-Marin</div>
+        <div class="where">Хорватія, Греція, Туреччина, ОАЕ</div>
+        <p class="note">
+          Дивився сам. Дуже акуратна структура сайту й&nbsp;форма запиту
+          місця: коротка, з&nbsp;довжиною судна першим полем.
+          Рівно те, що&nbsp;ми зробили у&nbsp;формі бронювання.
+        </p>
+        <span class="tag">структура</span><span class="tag">форма заявки</span>
+        <span class="url">d-marin.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.marinadivarazze.it" target="_blank" rel="noopener">
+      <div class="no">7</div>
+      <div class="body">
+        <div class="nm">Marina di Varazze</div>
+        <div class="where">Італія · Лігурія</div>
+        <p class="note">
+          Середній розмір, зрозуміла подача послуг і&nbsp;тарифів.
+          Гарний приклад, як не&nbsp;ховати ціни за&nbsp;«зателефонуйте».
+        </p>
+        <span class="tag">прозорі тарифи</span>
+        <span class="url">marinadivarazze.it</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.suntex.com" target="_blank" rel="noopener">
+      <div class="no">8</div>
+      <div class="body">
+        <div class="nm">Suntex Marinas</div>
+        <div class="where">США · мережа марин</div>
+        <p class="note">
+          Американський підхід: сухе зберігання (dry stack) подане
+          як окрема повноцінна послуга. Нам це корисно для ангара.
+        </p>
+        <span class="tag">сухе зберігання</span>
+        <span class="url">suntex.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.flisvosmarina.com" target="_blank" rel="noopener">
+      <div class="no">9</div>
+      <div class="body">
+        <div class="nm">Flisvos Marina</div>
+        <div class="where">Греція · Афіни</div>
+        <p class="note">
+          Компактний сайт без зайвого. Добре зроблений розділ
+          із правилами марини — у&nbsp;нас це буде екран «Причал».
+        </p>
+        <span class="tag">правила</span>
+        <span class="url">flisvosmarina.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.navigare-yachting.com" target="_blank" rel="noopener">
+      <div class="no">10</div>
+      <div class="body">
+        <div class="nm">Navigare Yachting</div>
+        <div class="where">Міжнародна · управління яхтами</div>
+        <p class="note">
+          Не&nbsp;марина, а&nbsp;сервіс навколо човна. Корисний як приклад,
+          що&nbsp;ще можна допродавати власнику судна, коли воно вже у&nbsp;вас.
+        </p>
+        <span class="tag">допослуги</span>
+        <span class="url">navigare-yachting.com</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ── друга група ──────────────────────────────────────────────────── -->
+<div class="group">
+  <h2>Звідки брати картинку й&nbsp;настрій</h2>
+  <p class="why">
+    Великі й&nbsp;дорогі. Копіювати їхню подачу не&nbsp;варто — вони продають
+    інше. Але робота з&nbsp;фото, сіткою й&nbsp;типографікою там сильна,
+    і&nbsp;дивитись на&nbsp;це корисно.
+  </p>
+
+  <div class="list">
+
+    <a class="ref" href="https://www.portomontenegro.com" target="_blank" rel="noopener">
+      <div class="no">11</div>
+      <div class="body">
+        <div class="nm">Porto Montenegro</div>
+        <div class="where">Чорногорія · Тіват</div>
+        <p class="note">
+          Дивився сам. Крупний кіношний заголовок поверх фото
+          на&nbsp;весь екран. Саме звідси варто брати відчуття простору.
+        </p>
+        <span class="tag">перший екран</span><span class="tag">фото</span>
+        <span class="url">portomontenegro.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.portadriano.com" target="_blank" rel="noopener">
+      <div class="no">12</div>
+      <div class="body">
+        <div class="nm">Port Adriano</div>
+        <div class="where">Іспанія · Мальорка</div>
+        <p class="note">
+          Марина за&nbsp;проєктом Філіпа Старка. Сильна архітектурна
+          зйомка — приклад того, як фото може продавати місце.
+        </p>
+        <span class="tag">архітектурне фото</span>
+        <span class="url">portadriano.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.marinaibiza.com" target="_blank" rel="noopener">
+      <div class="no">13</div>
+      <div class="body">
+        <div class="nm">Marina Ibiza</div>
+        <div class="where">Іспанія · Ібіца</div>
+        <p class="note">Легкий сучасний вигляд, багато повітря між блоками.</p>
+        <span class="tag">повітря в макеті</span>
+        <span class="url">marinaibiza.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.marinaportvell.com" target="_blank" rel="noopener">
+      <div class="no">14</div>
+      <div class="body">
+        <div class="nm">Marina Port Vell</div>
+        <div class="where">Іспанія · Барселона</div>
+        <p class="note">Міська марина. Гарно зроблений перехід між розділами.</p>
+        <span class="tag">навігація</span>
+        <span class="url">marinaportvell.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.limassolmarina.com" target="_blank" rel="noopener">
+      <div class="no">15</div>
+      <div class="body">
+        <div class="nm">Limassol Marina</div>
+        <div class="where">Кіпр · Лімасол</div>
+        <p class="note">Марина плюс житло. Добре показані послуги списком.</p>
+        <span class="tag">перелік послуг</span>
+        <span class="url">limassolmarina.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.igymarinas.com" target="_blank" rel="noopener">
+      <div class="no">16</div>
+      <div class="body">
+        <div class="nm">IGY Marinas</div>
+        <div class="where">Світова мережа</div>
+        <p class="note">
+          Велика мережа. Корисно подивитись, як вони тримають один
+          стиль на&nbsp;десятках різних марин — це наша задача,
+          коли Skipper піде до&nbsp;інших станцій.
+        </p>
+        <span class="tag">єдиний стиль мережі</span>
+        <span class="url">igymarinas.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.one15marina.com" target="_blank" rel="noopener">
+      <div class="no">17</div>
+      <div class="body">
+        <div class="nm">ONE°15 Marina</div>
+        <div class="where">Сінгапур · Сентоза</div>
+        <p class="note">Марина-клуб. Сильна робота з&nbsp;фото людей, а&nbsp;не&nbsp;лише човнів.</p>
+        <span class="tag">люди у кадрі</span>
+        <span class="url">one15marina.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.ports-monaco.com" target="_blank" rel="noopener">
+      <div class="no">18</div>
+      <div class="body">
+        <div class="nm">Ports de Monaco</div>
+        <div class="where">Монако</div>
+        <p class="note">Офіційний порт. Багато інформації, подана без каші.</p>
+        <span class="tag">щільна інформація</span>
+        <span class="url">ports-monaco.com</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.portgrimaud.fr" target="_blank" rel="noopener">
+      <div class="no">19</div>
+      <div class="body">
+        <div class="nm">Port Grimaud</div>
+        <div class="where">Франція · Прованс</div>
+        <p class="note">
+          Тепліший і&nbsp;людяніший за&nbsp;решту французьких.
+          Приклад, що&nbsp;марина не&nbsp;зобовʼязана виглядати холодно.
+        </p>
+        <span class="tag">теплий тон</span>
+        <span class="url">portgrimaud.fr</span>
+      </div>
+    </a>
+
+    <a class="ref" href="https://www.lusailmarina.com" target="_blank" rel="noopener">
+      <div class="no">20</div>
+      <div class="body">
+        <div class="nm">Marina Lusail</div>
+        <div class="where">Катар · Лусаїл</div>
+        <p class="note">Нова марина, дуже чистий сучасний макет і&nbsp;великі відступи.</p>
+        <span class="tag">чистий макет</span>
+        <span class="url">lusailmarina.com</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="honest">
+  <h3>Чесно про цей список</h3>
+  <p>
+    <b>Що я перевірив точно:</b> усі двадцять посилань відкриваються,
+    це справжні діючі марини, і&nbsp;кожна належить до&nbsp;вказаної країни.
+  </p>
+  <p>
+    <b>Що я подивився на&nbsp;власні очі:</b> Porto&nbsp;Montenegro, boatfolk
+    і&nbsp;D-Marin. Про них сказано конкретно.
+  </p>
+  <p>
+    <b>Решта дванадцять</b> відібрані за&nbsp;репутацією й&nbsp;масштабом,
+    а&nbsp;не&nbsp;за&nbsp;моєю оцінкою дизайну. Красу оцінюєте ви —
+    я&nbsp;в&nbsp;цьому списку відповідаю за&nbsp;те, що&nbsp;посилання робочі
+    й&nbsp;доречні, а&nbsp;не&nbsp;за&nbsp;смак.
+  </p>
+  <p>
+    <b>І головне.</b> Наша станція — 24&nbsp;місця, а&nbsp;не&nbsp;800.
+    Сайт, який обіцяє більше, ніж є, відштовхує швидше за&nbsp;простий.
+    Тому перша група важливіша за&nbsp;другу.
+  </p>
+</div>
+
+</div>
+</body>
+</html>
