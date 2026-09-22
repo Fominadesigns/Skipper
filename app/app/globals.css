@@ -246,3 +246,11 @@ option{color:#141d42;background:#fff}
           padding-top:14px;border-top:1px solid rgba(255,255,255,.12);
           font-weight:800;font-size:15px}
 .bill-sum span:last-child{font-size:24px;color:var(--yellow)}
+/* QR на білому: камера й банк мають бачити контрастний код. */
+.qr-frame{display:block;margin:4px auto 0;width:220px;max-width:70vw;aspect-ratio:1;
+          padding:14px;border:0;border-radius:18px;background:#fff;cursor:pointer;
+          box-shadow:var(--cast)}
+.qr-frame svg{width:100%;height:100%;display:block}
+.qr-cap{color:var(--muted);font-size:13px;line-height:1.55;margin-top:12px}
+.qr-cap b{color:var(--ink)}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}

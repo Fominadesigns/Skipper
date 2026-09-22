@@ -3,6 +3,7 @@ import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
 import { unpaidMonths, isoMonth, monthLabel, formatKop, feeForLength } from '@/lib/money';
 import { tgSend, escapeHtml, cabinetButton } from '@/lib/tg';
+import { payFor, purposeFor } from '@/lib/payment-qr';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,21 +60,25 @@ export async function POST(req) {
   const list = created.map((r) => '• Стоянка, ' + monthLabel(r.period) +
                                   ' — ' + formatKop(r.amount_kop)).join('\n');
 
-  /* Реквізити — лише зі змінної SKIPPER_PAY_DETAILS. Вигадувати їх
-     не можна: це рахунок реальної людини. Немає змінної — пишемо,
-     що реквізити надішле станція. */
-  const pay = (process.env.SKIPPER_PAY_DETAILS || '').trim();
+  /* Реквізити ФОП і посилання НБУ з уже вписаною сумою — як у Butler
+     (lib/payment-qr.js). Посилання відкриває застосунок банку. */
+  const { payee: p, payUrl } = await payFor(total,
+    purposeFor(b.slot_name, b.boat_name, b.client_name));
   const text =
     `<b>Рахунок за стоянку</b>\n` +
     `${escapeHtml(b.boat_name || 'Ваш човен')}, місце ${escapeHtml(b.slot_name)}\n\n` +
     `${list}\n\n` +
     `<b>Разом: ${formatKop(total)}</b>\n\n` +
-    (pay ? `Реквізити для оплати:\n${escapeHtml(pay)}\n\n`
-         : 'Реквізити для оплати надішле станція окремо.\n\n') +
+    (p ? `<b>Отримувач:</b> ${escapeHtml(p.name)}\n<b>IBAN:</b> <code>${p.iban}</code>\n` +
+         `<b>ІПН:</b> <code>${p.taxId}</code>\n\n` +
+         (payUrl ? 'Кнопка «Оплатити в банку» відкриє ваш банк — сума вже вписана.\n\n' : '')
+       : 'Реквізити для оплати надішле станція окремо.\n\n') +
     'Усі деталі — у «Моєму кабінеті». Після оплати натисніть «Я оплатив» — ми звіримо з банком і підтвердимо.';
 
   const sent = b.telegram_id ? await tgSend(b.telegram_id, text, {
-    reply_markup: { inline_keyboard: [[cabinetButton(req)],
+    reply_markup: { inline_keyboard: [
+      ...(payUrl ? [[{ text: '💳 Оплатити в банку', url: payUrl }]] : []),
+      [cabinetButton(req)],
                                       [{ text: '✅ Я оплатив', callback_data: `paid:${id}` }]] },
   }) : false;
 

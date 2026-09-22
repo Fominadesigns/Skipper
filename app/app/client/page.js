@@ -70,7 +70,19 @@ function Boat({ b, nowKey, onBill }) {
 }
 
 /* ── вкладка «Рахунок» ────────────────────────────────────────────────── */
-function Bill({ bookings, pay, busy, onPaid }) {
+/* Посилання НБУ відкриваємо через Telegram: звичайне посилання відкрилось би
+   у вбудованому вікні, звідки в банк не перейти (так само в Butler). */
+function openPay(url) {
+  if (!url) return;
+  const w = tg();
+  if (w && w.openLink) w.openLink(url); else window.open(url, '_blank', 'noopener');
+}
+async function copyIban(iban) {
+  try { await navigator.clipboard.writeText(iban); tg()?.showAlert?.('IBAN скопійовано'); }
+  catch { tg()?.showAlert?.('Не вдалося скопіювати — номер на екрані, його можна переписати'); }
+}
+
+function Bill({ bookings, payee, busy, onPaid }) {
   const owing = bookings.filter((b) => b.debt_kop > 0);
   if (!owing.length) {
     return <div className="note" style={{ fontSize: 15 }}>Боргу немає — усе оплачено. Дякуємо!</div>;
@@ -90,19 +102,39 @@ function Bill({ bookings, pay, busy, onPaid }) {
         <div className="bill-sum"><span>До&nbsp;оплати</span><span>{money(b.debt_kop)}</span></div>
       </div>
 
-      <div className="sect">Як оплатити</div>
-      <div className="card">
-        {pay
-          ? <>
-              <div style={{ whiteSpace: 'pre-wrap', fontSize: 14.5, lineHeight: 1.6 }}>{pay}</div>
-              <button className="btn" style={{ width: '100%', marginTop: 12 }}
-                      onClick={() => navigator.clipboard?.writeText(pay).then(() =>
-                        tg()?.showAlert?.('Реквізити скопійовано'))}>
-                Скопіювати реквізити
-              </button>
-            </>
-          : <div style={{ fontSize: 14.5, lineHeight: 1.6 }}>Реквізити для оплати надішле станція.</div>}
-      </div>
+      {b.qrSvg && <>
+        <div className="sect">Як оплатити</div>
+        <div className="card" style={{ textAlign: 'center' }}>
+          {/* Той самий QR, що в Butler: посилання НБУ з реквізитами й сумою. */}
+          <button className="qr-frame" aria-label="Відкрити застосунок банку"
+                  onClick={() => openPay(b.payUrl)}
+                  dangerouslySetInnerHTML={{ __html: b.qrSvg }} />
+          <p className="qr-cap">
+            Натисніть код — відкриється ваш банк.<br />
+            З&nbsp;іншого телефона його можна відсканувати камерою.<br />
+            <b>Сума вже вписана всередині</b>
+          </p>
+          <button className="btn solid" style={{ width: '100%', marginTop: 12 }}
+                  onClick={() => openPay(b.payUrl)}>
+            Оплатити в&nbsp;застосунку банку
+          </button>
+        </div>
+      </>}
+
+      {payee ? <>
+        <div className="sect">Або переказом за&nbsp;реквізитами</div>
+        <div className="card">
+          <div className="rows">
+            <div className="row"><span className="k">Отримувач</span><span className="v">{payee.name}</span></div>
+            <div className="row"><span className="k">IBAN</span><span className="v mono" style={{ wordBreak: 'break-all' }}>{payee.iban}</span></div>
+            <div className="row"><span className="k">ІПН</span><span className="v mono">{payee.taxId}</span></div>
+            <div className="row"><span className="k">Сума</span><span className="v">{money(b.debt_kop)}</span></div>
+          </div>
+          <button className="btn" style={{ width: '100%', marginTop: 12 }} onClick={() => copyIban(payee.iban)}>
+            Скопіювати IBAN
+          </button>
+        </div>
+      </> : <div className="note">Реквізити для оплати надішле станція.</div>}
 
       <button className="btn solid" style={{ width: '100%', marginTop: 14 }} disabled={busy}
               onClick={() => onPaid(b)}>
@@ -230,7 +262,7 @@ export default function Client() {
             : <div className="note" style={{ fontSize: 15 }}>
                 Броні за вашим номером поки немає. Залиште заявку у вкладці «Вільні місця».
               </div>)}
-          {tab === 'bill' && <Bill bookings={data.bookings} pay={data.pay} busy={busy} onPaid={onPaid} />}
+          {tab === 'bill' && <Bill bookings={data.bookings} payee={data.payee} busy={busy} onPaid={onPaid} />}
           {tab === 'free' && <Free free={data.free} busy={busy} onAsk={onAsk} />}
 
           <div className="nav">
