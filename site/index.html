@@ -708,6 +708,23 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
   }
 });
 </script>
+<!-- Кнопка «Забронювати»: завжди в правому нижньому куті, веде до календаря. -->
+<a class="fab" id="fab" href="#book" aria-label="Забронювати місце">
+  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+  <span class="fab-l">Забронювати місце</span>
+</a>
+
+<script>
+/* Ховаємо кнопку, коли календар уже на екрані — вона там не потрібна. */
+(function () {
+  var fab = document.getElementById('fab'), book = document.getElementById('book');
+  if (!fab || !book || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (e) {
+    fab.classList.toggle('away', e[0].isIntersecting);
+  }, { threshold: 0.25 }).observe(book);
+})();
+</script>
+
 <script>
 /* Заголовок: два рядки однакової ширини — рівно ліва половина екрана.
    Шрифт кожного рядка підбирається під ширину, тож «під Вишгородом»
