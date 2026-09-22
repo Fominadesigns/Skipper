@@ -30,6 +30,8 @@ const money = (kop) =>
 const mKey = (d) => { const x = new Date(d); return x.getUTCFullYear() * 12 + x.getUTCMonth(); };
 const keyToLabel = (k) => MONTHS_NOM[k % 12] + ' ' + Math.floor(k / 12);
 const KIND = { water: 'на воді', land: 'на суші', hangar: 'ангар' };
+/* По який місяць оплачено; -Infinity — не оплачено жодного. */
+const coveredKeyOf = (b) => (b.covered_through ? mKey(b.covered_through) : -Infinity);
 
 /* Місяці для випадайок: від початку минулого року до кінця
    наступного. Ширше не треба — стоянку не планують на пʼять років. */
@@ -160,7 +162,8 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
           <tbody>
             {slots.map((s) => (
               <tr key={s.id}>
-                <td className="slot"><span className="sn">{s.name}</span></td>
+                <td className="slot"><span className="sn">{s.name}</span>
+                  <span className="sk">{KIND[s.kind] || s.kind}</span></td>
                 {months.map((k) => {
                   const b = (bySlot[s.id] || []).find((x) => {
                     const from = mKey(x.starts_on);
@@ -176,15 +179,15 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
                       </td>
                     );
                   }
-                  /* Три стани, а не два: місяць у майбутньому ще не
-                     нарахований, і фарбувати його як оплачений — обман. */
-                  const coveredKey = b.covered_through ? mKey(b.covered_through) : -Infinity;
-                  const future = k > nowKey;
-                  const debt = !future && k > coveredKey;
+                  /* Два стани, як просила Катя: оплачений місяць білий,
+                     будь-який неоплачений місяць броні — жовтий, зокрема
+                     майбутні. Інакше бронь на три місяці виглядала
+                     як бронь на один. */
+                  const debt = k > coveredKeyOf(b);
                   const first = mKey(b.starts_on) === k || k === months[0];
                   return (
                     <td className="m" key={k}>
-                      <div className={"cell on" + (debt ? " debt" : future ? " future" : "")
+                      <div className={"cell on" + (debt ? " debt" : "")
                                        + (k === nowKey ? " now" : "")}
                            title={`${b.boat_name || 'Човен'} · ${b.client_name}`}
                            onClick={() => onBooking(b)}>
@@ -201,8 +204,7 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
 
       <div className="legend">
         <span><i className="p" />оплачено</span>
-        <span><i className="d" />борг</span>
-        <span><i className="u" />попереду, ще не нараховано</span>
+        <span><i className="d" />не оплачено</span>
         <span><i className="f" />вільно · натисніть, щоб додати</span>
       </div>
     </div>
@@ -210,60 +212,65 @@ function Calendar({ slots, bookings, winStart, setWinStart, nowKey, onBooking, o
 }
 
 /* ── календар на телефоні ─────────────────────────────────────────────────
-   Таблиця з шести місяців не влазить у телефон, і її доводилось возити
-   пальцем. Тут — один місяць списком: кожне місце одним рядком,
-   колір плашки — стан. Місяці гортаються стрілками. */
+   Шість місяців таблицею не влазять у телефон, тому тут три: поточний
+   і два наступні. Стрілка зсуває вікно на один місяць. Кожне місце —
+   картка: номер, тип (вода / суша / ангар), човен і клієнт, а під
+   ними три клітинки місяців. Біла — оплачено, жовта — не оплачено,
+   порожня — вільно (натисніть, щоб додати бронь). */
 function MobileMonth({ slots, bookings, nowKey, onBooking, onFree }) {
-  const [k, setK] = useState(nowKey);
+  const [k0, setK0] = useState(nowKey);
+  const months = [k0, k0 + 1, k0 + 2];
   const bySlot = {};
   for (const b of bookings) (bySlot[b.slot_id] ||= []).push(b);
-
-  const rows = slots.map((s) => {
-    const b = (bySlot[s.id] || []).find((x) => {
-      const from = mKey(x.starts_on);
-      const to = x.ends_on ? mKey(x.ends_on) : Infinity;
-      return k >= from && k <= to;
-    });
-    if (!b) return { s, state: 'free' };
-    const coveredKey = b.covered_through ? mKey(b.covered_through) : -Infinity;
-    const state = k > nowKey ? 'future' : k > coveredKey ? 'debt' : 'paid';
-    return { s, b, state };
+  const at = (s, k) => (bySlot[s.id] || []).find((x) => {
+    const from = mKey(x.starts_on);
+    const to = x.ends_on ? mKey(x.ends_on) : Infinity;
+    return k >= from && k <= to;
   });
-  const count = (st) => rows.filter((r) => r.state === st).length;
 
   return (
     <div className="cal-mob">
       <div className="top" style={{ marginBottom: 12, flexWrap: 'nowrap' }}>
-        <button className="btn sm" onClick={() => setK(k - 1)} aria-label="Попередній місяць">‹</button>
-        <div style={{ fontWeight: 800, fontSize: 16, flex: 1, textAlign: 'center' }}>
-          {keyToLabel(k)}{k === nowKey ? ' · зараз' : ''}
+        <button className="btn sm" onClick={() => setK0(k0 - 1)} aria-label="На місяць назад">‹</button>
+        <div style={{ fontWeight: 800, fontSize: 15, flex: 1, textAlign: 'center' }}>
+          {MONTHS_NOM[k0 % 12]} — {MONTHS_NOM[(k0 + 2) % 12]} {Math.floor((k0 + 2) / 12)}
         </div>
-        <button className="btn sm" onClick={() => setK(k + 1)} aria-label="Наступний місяць">›</button>
+        <button className="btn sm" onClick={() => setK0(k0 + 1)} aria-label="На місяць вперед">›</button>
       </div>
 
-      <div className="mstat">
-        <span>оплачено <b>{count('paid')}</b></span>
-        <span>борг <b>{count('debt')}</b></span>
-        {count('future') > 0 && <span>попереду <b>{count('future')}</b></span>}
-        <span>вільно <b>{count('free')}</b></span>
+      <div className="legend" style={{ margin: '0 0 12px' }}>
+        <span><i className="p" />оплачено</span>
+        <span><i className="d" />не оплачено</span>
+        <span><i className="f" />вільно</span>
       </div>
 
-      {rows.map(({ s, b, state }) => (
-        <div className="mrow" key={s.id}
-             onClick={() => (b ? onBooking(b) : onFree(s, k))}>
-          <div className={'bchip' + (state === 'debt' ? ' debt' : state === 'future' ? ' future'
-                                       : state === 'free' ? ' free' : '')}>{s.name}</div>
-          <div className="body">
-            <div className="n">{b ? (b.boat_name || 'Човен без назви') : 'Вільне місце'}</div>
-            <div className="m">{b ? b.client_name : (KIND[s.kind] || s.kind)}</div>
+      {slots.map((s) => {
+        const cells = months.map((k) => ({ k, b: at(s, k) }));
+        const main = cells.find((c) => c.b)?.b;          // хто стоїть у цьому вікні
+        return (
+          <div className="mslot" key={s.id}>
+            <div className="mhead" onClick={() => (main ? onBooking(main) : onFree(s, k0))}>
+              <div className="sname">{s.name}</div>
+              <div className="body">
+                <div className="n">{main ? (main.boat_name || 'Човен без назви') : 'Вільне місце'}</div>
+                <div className="m">{main ? main.client_name + ' · ' : ''}{KIND[s.kind] || s.kind}</div>
+              </div>
+              {main && main.debt_kop > 0 && <div className="v debt">{money(main.debt_kop)}</div>}
+            </div>
+            <div className="mcells">
+              {cells.map(({ k, b }) => {
+                const cls = !b ? 'free' : k > coveredKeyOf(b) ? 'on debt' : 'on';
+                return (
+                  <div key={k} className={'mcell ' + cls + (k === nowKey ? ' now' : '')}
+                       onClick={() => (b ? onBooking(b) : onFree(s, k))}>
+                    {MONTHS_SHORT[k % 12]}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className={'v ' + (state === 'debt' ? 'debt' : state === 'free' ? 'free' : 'ok')}>
-            {state === 'debt' ? money(b.debt_kop)
-              : state === 'paid' ? '✓'
-              : state === 'future' ? '' : '+ додати'}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
