@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { isSignedIn } from '@/lib/auth';
-import { botToken, webhookSecret, botUsername } from '@/lib/tg';
+import { botToken, webhookSecret, botUsername, tgCall, clientAppUrl } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +29,10 @@ export async function POST(req) {
   } catch {
     return NextResponse.json({ error: 'Telegram не відповідає' }, { status: 502 });
   }
+  // Кнопка меню бота (біля поля вводу) — відкриває кабінет клієнта.
+  await tgCall('setChatMenuButton', {
+    menu_button: { type: 'web_app', text: 'Мій кабінет', web_app: { url: clientAppUrl(req) } },
+  });
   return NextResponse.json({ ok: true, staff: Boolean(process.env.SKIPPER_STAFF_IDS),
                             bot: await botUsername() });
 }

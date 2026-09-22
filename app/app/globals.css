@@ -232,3 +232,17 @@ option{color:#141d42;background:#fff}
   .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
   .kpi .k .v{font-size:20px}
 }
+
+/* ── клієнтський міні-додаток ─────────────────────────────────────────
+   Той самий темний стиль. «До оплати» — жовта плашка: найпомітніше
+   на екрані, як і домовлялись (сума до оплати — найконтрастніша). */
+.due{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+     background:var(--yellow-grad);color:var(--on);border-radius:var(--r-lg);
+     padding:16px 18px;box-shadow:var(--cast);cursor:pointer}
+.due-l{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.8}
+.due-v{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.due-go{font-weight:800;font-size:14px;white-space:nowrap}
+.bill-sum{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;
+          padding-top:14px;border-top:1px solid rgba(255,255,255,.12);
+          font-weight:800;font-size:15px}
+.bill-sum span:last-child{font-size:24px;color:var(--yellow)}

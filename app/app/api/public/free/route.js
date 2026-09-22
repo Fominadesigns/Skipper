@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { sql, ensureSchema } from '@/lib/db';
-import { cors, KINDS } from '@/lib/public';
+import { ensureSchema } from '@/lib/db';
+import { cors } from '@/lib/public';
+import { freeByMonth } from '@/lib/free';
 import { botUsername } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
@@ -18,26 +19,7 @@ export async function GET(req) {
   const headers = cors(req);
   try {
     await ensureSchema();
-    const slots = (await sql`SELECT id, kind FROM slots`).rows;
-    const bookings = (await sql`
-      SELECT slot_id, starts_on, ends_on FROM bookings WHERE status <> 'cancelled'`).rows;
-
-    const now = new Date();
-    const months = {};
-    for (let i = 0; i < 12; i++) {
-      const y = now.getUTCFullYear(), m = now.getUTCMonth() + i;
-      const start = new Date(Date.UTC(y, m, 1));
-      const end = new Date(Date.UTC(y, m + 1, 0));
-      const key = start.toISOString().slice(0, 7);
-      const taken = new Set(bookings
-        .filter((b) => new Date(b.starts_on) <= end && (!b.ends_on || new Date(b.ends_on) >= start))
-        .map((b) => b.slot_id));
-      months[key] = {};
-      for (const k of KINDS) {
-        const all = slots.filter((s) => s.kind === k);
-        months[key][k] = { total: all.length, free: all.filter((s) => !taken.has(s.id)).length };
-      }
-    }
+    const months = await freeByMonth();
     const bot = await botUsername().catch(() => null);
     return NextResponse.json({ months, bot }, { headers });
   } catch {

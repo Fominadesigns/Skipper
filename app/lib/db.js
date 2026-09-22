@@ -39,6 +39,19 @@ export async function ensureSchema() {
       sort  INT  NOT NULL DEFAULT 0
     )`;
 
+    /* Місця станції — рішення Каті від 22.09.2026 (уточнюватиметься):
+       20 на воді (A), 20 на суші (B), 10 в ангарі (C). Лише ДОДАЄМО
+       бракуючі: наявні місця з бронями не чіпаємо. */
+    const plan = [['A', 'water', 20], ['B', 'land', 20], ['C', 'hangar', 10]];
+    let sort = 0;
+    for (const [letter, kind, count] of plan) {
+      for (let i = 1; i <= count; i++) {
+        const name = `${letter}-${String(i).padStart(2, '0')}`;
+        await sql`INSERT INTO slots (name, kind, sort) VALUES (${name}, ${kind}, ${sort++})
+                  ON CONFLICT (name) DO UPDATE SET sort = EXCLUDED.sort`;
+      }
+    }
+
     // Клієнт. telegram_id порожній, доки людина не натисне «Старт».
     await sql`CREATE TABLE IF NOT EXISTS clients (
       id          SERIAL PRIMARY KEY,

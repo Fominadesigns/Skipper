@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
-import { webhookSecret, tgSend, tgCall, tellStaff, phoneTail, escapeHtml } from '@/lib/tg';
+import { webhookSecret, tgSend, tgCall, tellStaff, phoneTail, escapeHtml, cabinetButton } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +35,7 @@ export async function POST(req) {
   if (!msg?.from || msg.chat?.type !== 'private') return ok();
 
   if (msg.contact) {
-    await onContact(msg);
+    await onContact(msg, req);
     return ok();
   }
   await askPhone(msg.chat.id);
@@ -54,7 +54,7 @@ async function askPhone(chat) {
         resize_keyboard: true, one_time_keyboard: true } });
 }
 
-async function onContact(msg) {
+async function onContact(msg, req) {
   const chat = msg.chat.id;
   const from = msg.from.id;
   // Чужий контакт не приймаємо: інакше можна «підключитись» до чужої броні.
@@ -73,6 +73,8 @@ async function onContact(msg) {
   if (found.length) {
     await tgSend(chat, `Готово, ${escapeHtml(found[0].name)}! Рахунки за стоянку ` +
                        'приходитимуть у цей чат.', off);
+    await tgSend(chat, 'Ваш човен, рахунок і вільні місця — у кабінеті:',
+                 { reply_markup: { inline_keyboard: [[cabinetButton(req)]] } });
   } else {
     await tgSend(chat, 'Не знайшли броні з цим номером. Можливо, його записали ' +
                        'інакше — зателефонуйте на станцію, і ми виправимо.', off);

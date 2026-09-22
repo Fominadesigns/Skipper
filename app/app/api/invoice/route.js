@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
 import { unpaidMonths, isoMonth, monthLabel, formatKop, feeForLength } from '@/lib/money';
-import { tgSend, escapeHtml } from '@/lib/tg';
+import { tgSend, escapeHtml, cabinetButton } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,10 +70,11 @@ export async function POST(req) {
     `<b>Разом: ${formatKop(total)}</b>\n\n` +
     (pay ? `Реквізити для оплати:\n${escapeHtml(pay)}\n\n`
          : 'Реквізити для оплати надішле станція окремо.\n\n') +
-    'Після оплати натисніть кнопку нижче — ми звіримо з банком і підтвердимо.';
+    'Усі деталі — у «Моєму кабінеті». Після оплати натисніть «Я оплатив» — ми звіримо з банком і підтвердимо.';
 
   const sent = b.telegram_id ? await tgSend(b.telegram_id, text, {
-    reply_markup: { inline_keyboard: [[{ text: '✅ Я оплатив', callback_data: `paid:${id}` }]] },
+    reply_markup: { inline_keyboard: [[cabinetButton(req)],
+                                      [{ text: '✅ Я оплатив', callback_data: `paid:${id}` }]] },
   }) : false;
 
   return NextResponse.json({

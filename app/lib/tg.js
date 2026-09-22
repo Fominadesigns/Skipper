@@ -86,5 +86,13 @@ export async function botUsername() {
   return botName;
 }
 
+/* Адреса клієнтського міні-додатка — з того ж домену, де працює CRM. */
+export function clientAppUrl(req) {
+  const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
+  return `https://${host}/client`;
+}
+/** Кнопка під повідомленням, що відкриває міні-додаток. */
+export const cabinetButton = (req) => ({ text: '⚓ Мій кабінет', web_app: { url: clientAppUrl(req) } });
+
 export const escapeHtml = (s) =>
   String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));

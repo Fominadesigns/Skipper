@@ -11,12 +11,8 @@ export const dynamic = 'force-dynamic';
    наперед, друга з боргом. Більше рядків лише засмічували б екран
    перед справжніми даними. */
 
-const SLOTS = [
-  ['A-01','water'],['A-02','water'],['A-03','water'],['A-04','water'],['A-05','water'],
-  ['A-06','water'],['A-07','water'],['A-08','water'],
-  ['B-01','land'],['B-02','land'],['B-03','land'],['B-04','land'],['B-05','land'],
-  ['C-01','hangar'],['C-02','hangar'],['C-03','hangar'],['C-04','hangar'],['C-05','hangar'],
-];
+// Самі місця (20 · 20 · 10) заводить ensureSchema у lib/db.js.
+const SLOTS = [];
 
 export async function POST() {
   if (!isSignedIn()) {
