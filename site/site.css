@@ -3,10 +3,40 @@
    Та сама система, що в додатку: світла поверхня, різкі ЧОРНІ тіні,
    приглушений темний синій із градієнтом на кнопках.
 
-   Шрифти — з Google Fonts, обидва вільні для комерційного використання:
-   Unbounded (заголовки, український дизайнер, є кирилиця) і
-   Manrope (текст). Підключені посиланням, нічого не треба качати.
+   Шрифт — Fixel від MacPaw. Український, ліцензія SIL Open Font License,
+   вільний для комерційного використання. Лежить у теці fonts разом
+   із текстом ліцензії — цього вимагає сама ліцензія.
+
+   Display іде в заголовки, Text — у решту. Це різні накреслення одного
+   сімейства: Display щільніший і виразніший у великому кеглі, Text
+   зроблений так, щоб читатись дрібним. Плутати їх місцями не можна.
+   Файли свої, а не з чужого CDN: сторінка відкривається навіть із диска.
    ══════════════════════════════════════════════════════════════════════ */
+
+@font-face{
+  font-family:'Fixel Display';font-style:normal;font-weight:600;font-display:swap;
+  src:url('fonts/FixelDisplay-SemiBold.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fixel Display';font-style:normal;font-weight:700;font-display:swap;
+  src:url('fonts/FixelDisplay-Bold.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fixel';font-style:normal;font-weight:400;font-display:swap;
+  src:url('fonts/FixelText-Regular.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fixel';font-style:normal;font-weight:500;font-display:swap;
+  src:url('fonts/FixelText-Medium.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fixel';font-style:normal;font-weight:600;font-display:swap;
+  src:url('fonts/FixelText-SemiBold.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fixel';font-style:normal;font-weight:700;font-display:swap;
+  src:url('fonts/FixelText-Bold.woff2') format('woff2');
+}
 
 :root{
   --bg:#e6e9ee;
@@ -42,7 +72,7 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   background:var(--bg);color:var(--ink);
-  font:400 16px/1.6 Manrope,system-ui,-apple-system,sans-serif;
+  font:400 16px/1.6 Fixel,system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
   overflow-x:clip;
 }
@@ -55,9 +85,9 @@ a{color:inherit}
    (min-width:auto), і на телефоні широкий календар усередині розпирав
    блок, а сторінка їхала вбік. Дозволяємо колонкам стискатись. */
 .hero-grid > *, .book > *, .contact > *, .facts > *,
-.places > *, .steps > *, .two > *, .choice > *{min-width:0}
+.places > *, .steps > *, .fleet > *, .two > *, .choice > *{min-width:0}
 
-h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em}
+h1,h2,h3,.display{font-family:"Fixel Display",Fixel,sans-serif;font-weight:600;letter-spacing:-.022em}
 
 /* ── шапка ───────────────────────────────────────────────────────────── */
 .top{
@@ -72,7 +102,7 @@ h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em
   display:flex;align-items:center;justify-content:center;font-size:19px;
   box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
 }
-.brand b{font-family:Unbounded,sans-serif;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.brand b{font-family:"Fixel Display",sans-serif;font-size:17px;font-weight:600;letter-spacing:-.01em}
 .brand span{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-top:-2px}
 
 .menu{display:flex;gap:6px;margin-left:auto}
@@ -167,7 +197,27 @@ h2{font-size:34px;font-weight:600;line-height:1.18}
   display:flex;align-items:baseline;justify-content:space-between;gap:10px;
 }
 .price-row .pl{font-size:12.5px;color:var(--muted);font-weight:600}
-.price-row .pv{font-family:Unbounded,sans-serif;font-size:15px;font-weight:500;color:var(--blue)}
+.price-row .pv{font-family:"Fixel Display",sans-serif;font-size:15px;font-weight:500;color:var(--blue)}
+
+/* ── кого приймаємо ──────────────────────────────────────────────────── */
+.fleet{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;
+}
+.unit{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:20px 21px;min-width:0;
+}
+.unit b{
+  display:block;font-family:"Fixel Display",sans-serif;
+  font-size:17px;font-weight:600;letter-spacing:-.015em;
+}
+.unit span{
+  display:inline-block;margin-top:9px;
+  padding:5px 12px;border-radius:999px;
+  background:var(--sunk);box-shadow:var(--in);
+  font-size:12.5px;font-weight:700;color:var(--blue);
+}
+.unit p{color:var(--muted);font-size:14px;margin-top:11px;line-height:1.55}
 
 /* ── як це працює ────────────────────────────────────────────────────── */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
@@ -178,7 +228,7 @@ h2{font-size:34px;font-weight:600;line-height:1.18}
 .step .no{
   width:38px;height:38px;border-radius:12px;background:var(--grad);color:#fff;
   display:flex;align-items:center;justify-content:center;
-  font-family:Unbounded,sans-serif;font-size:15px;font-weight:600;
+  font-family:"Fixel Display",sans-serif;font-size:15px;font-weight:600;
   box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
   text-shadow:0 1px 2px rgba(0,0,0,.3);margin-bottom:14px;
 }
@@ -231,7 +281,7 @@ select.field{appearance:none;background-image:none}
   display:flex;align-items:center;justify-content:space-between;
   gap:12px;margin-bottom:14px;
 }
-.cal-head .m{font-family:Unbounded,sans-serif;font-size:16px;font-weight:500}
+.cal-head .m{font-family:"Fixel Display",sans-serif;font-size:16px;font-weight:500}
 .cal-nav{display:flex;gap:8px}
 .cal-nav button{
   width:38px;height:38px;border:0;cursor:pointer;border-radius:11px;
@@ -332,6 +382,7 @@ footer{padding:36px 0 46px;color:var(--muted);font-size:13.5px;line-height:1.6}
   .hero h1{font-size:38px}
   .facts{grid-template-columns:1fr 1fr}
   .places{grid-template-columns:1fr;gap:18px}
+  .fleet{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
   .book{grid-template-columns:1fr;gap:28px;padding:28px 24px}
   .contact{grid-template-columns:1fr;gap:26px;padding:28px 24px}
@@ -359,6 +410,8 @@ footer{padding:36px 0 46px;color:var(--muted);font-size:13.5px;line-height:1.6}
   .facts{grid-template-columns:1fr;gap:11px;margin-top:30px}
   .fact{padding:17px 18px}
 
+  .fleet{grid-template-columns:1fr;gap:12px}
+  .unit{padding:17px 18px}
   .steps{grid-template-columns:1fr;gap:12px}
   .step{padding:18px 18px}
 

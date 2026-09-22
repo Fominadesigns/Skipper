@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fominadesigns.github.io/Skipper/site/sitemap.xml

@@ -3,12 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Skipper — зберігання човнів на Дніпрі</title>
-<meta name="description" content="Стоянка човнів біля Вишгорода: критий сухий ангар, місця на пірсі та понтоні, зберігання на суші під брезентом. Спуск на воду, охорона, зручний заїзд.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap">
+
+<!-- ═══ Пошук ═══════════════════════════════════════════════════════════
+     Заголовок сторінки побудований так, як людина питає: що робимо,
+     для чого і де. «Стоянка човнів» — те, що вводять у пошук;
+     «Вишгород» і «Київ» — де це шукають; решта вміщається в рядок
+     видачі й не обрізається.
+
+     Розмітка Schema.org унизу сторінки потрібна і Google, і відповідям
+     нейромереж: вони читають структуровані дані, а не здогадуються
+     з тексту. Там перелічені послуги, телефон, види зберігання
+     й питання з відповідями.
+     ══════════════════════════════════════════════════════════════════ -->
+<title>Стоянка човнів під Вишгородом — критий ангар, пірс, понтон | Skipper</title>
+<meta name="description" content="Зберігання човнів і катерів на Дніпрі під Вишгородом: сухий критий ангар до 10 суден, місця на пірсі та понтоні, стоянка на суші під брезентом. Спуск на воду, охорона, заїзд із причепом. Телефон +380 97 755 09 59.">
+<link rel="canonical" href="https://fominadesigns.github.io/Skipper/site/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="Skipper">
+<meta property="og:title" content="Стоянка човнів під Вишгородом — критий ангар, пірс, понтон">
+<meta property="og:description" content="Сухий критий ангар до 10 суден, місця на пірсі та понтоні, стоянка на суші під брезентом. Спуск на воду, охорона, заїзд із причепом.">
+<meta property="og:image" content="https://fominadesigns.github.io/Skipper/site/img/hangar-real.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#e6e9ee">
+
 <link rel="stylesheet" href="site.css">
+<link rel="preload" href="fonts/FixelDisplay-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/FixelText-Regular.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 
@@ -38,11 +60,15 @@
   <symbol id="i-send" viewBox="0 0 24 24">
     <path d="M21 3.6L10.6 14"/><path d="M21 3.6l-6.6 17.2-3.8-6.8-6.8-3.8z"/>
   </symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24">
+    <rect x="2.6" y="8.4" width="18.8" height="7.2" rx="1.8"/>
+    <path d="M6.6 8.4v3M10.2 8.4v4.4M13.8 8.4v3M17.4 8.4v4.4"/>
+  </symbol>
 </svg>
 
 <header class="top">
   <div class="wrap top-in">
-    <a class="brand" href="#top">
+    <a class="brand" href="#top" aria-label="Skipper — човнова станція">
       <span class="mk"><svg class="icon"><use href="#i-anchor"/></svg></span>
       <span>
         <b>Skipper</b>
@@ -50,8 +76,9 @@
       </span>
     </a>
 
-    <nav class="menu">
+    <nav class="menu" aria-label="Розділи сторінки">
       <a href="#places">Де стоятиме човен</a>
+      <a href="#fleet">Кого приймаємо</a>
       <a href="#how">Як це працює</a>
       <a href="#book">Бронювання</a>
       <a href="#faq">Питання</a>
@@ -65,8 +92,9 @@
 </header>
 
 <p class="proto">
-  Демонстраційна сторінка. Тарифів на ній немає навмисно — їх ще
-  не&nbsp;узгоджено. Три фотографії згенеровані для показу макета
+  Демонстраційна сторінка. Тарифів немає навмисно — їх ще не&nbsp;узгоджено.
+  Кількість місць і&nbsp;розміри суден поставлені як зразок і&nbsp;підлягають
+  уточненню. Три фотографії згенеровані для показу макета
   й&nbsp;перед запуском мають бути замінені справжніми знімками станції.
 </p>
 
@@ -77,12 +105,13 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <h1>Ваш човен під&nbsp;наглядом — <em>і&nbsp;взимку, і&nbsp;в&nbsp;сезон</em></h1>
+        <h1>Човен зимує в&nbsp;сухому ангарі, <em>а&nbsp;влітку чекає біля&nbsp;води</em></h1>
         <p class="lead">
-          Критий сухий ангар, місця на&nbsp;пірсі та&nbsp;понтоні,
-          зберігання на&nbsp;суші під брезентом. Спуск на&nbsp;воду,
-          цілодобова охорона, зручний заїзд з&nbsp;причепом.
-          Поруч із базою відпочинку під Вишгородом.
+          Стоянка човнів і&nbsp;катерів на&nbsp;Дніпрі під Вишгородом.
+          Критий сухий ангар, місця на&nbsp;пірсі та&nbsp;понтоні, зберігання
+          на&nbsp;суші під брезентом. Спускаємо на&nbsp;воду за&nbsp;дзвінком,
+          територія під охороною, під'їхати з&nbsp;причепом можна
+          просто до&nbsp;місця.
         </p>
         <div class="hero-cta">
           <a class="btn solid big" href="#book">Забронювати місце</a>
@@ -91,31 +120,31 @@
       </div>
 
       <div class="hero-photo">
-        <img src="img/hangar-real.webp" width="2000" height="1000"
-             alt="Критий ангар для зберігання човнів на березі">
+        <img src="img/hangar-real.webp" width="2000" height="1000" fetchpriority="high"
+             alt="Критий ангар човнової станції на березі Дніпра, усередині стоїть катер">
       </div>
     </div>
 
     <div class="facts">
       <div class="fact">
         <span class="ic-tile"><svg class="icon"><use href="#i-anchor"/></svg></span>
-        <b>До&nbsp;10 суден</b>
-        <span>в&nbsp;ангарі, плюс місця на&nbsp;воді та&nbsp;на&nbsp;суші</span>
+        <b>24 місця</b>
+        <span>10 в&nbsp;ангарі, 8&nbsp;на&nbsp;воді, 6&nbsp;на&nbsp;суші</span>
       </div>
       <div class="fact">
         <span class="ic-tile"><svg class="icon"><use href="#i-shield"/></svg></span>
-        <b>Територія під&nbsp;охороною</b>
+        <b>Під охороною</b>
         <span>закритий периметр, сторонніх немає</span>
       </div>
       <div class="fact">
         <span class="ic-tile"><svg class="icon"><use href="#i-boat"/></svg></span>
-        <b>Спуск на&nbsp;воду</b>
+        <b>Спуск за&nbsp;дзвінком</b>
         <span>піднімемо й&nbsp;спустимо, коли скажете</span>
       </div>
       <div class="fact">
-        <span class="ic-tile"><svg class="icon"><use href="#i-pin"/></svg></span>
-        <b>Зручний заїзд</b>
-        <span>під'їзд із причепом просто до&nbsp;місця</span>
+        <span class="ic-tile"><svg class="icon"><use href="#i-ruler"/></svg></span>
+        <b>Судна до&nbsp;12&nbsp;метрів</b>
+        <span>від гідроцикла до&nbsp;каютного катера</span>
       </div>
     </div>
   </div>
@@ -125,28 +154,30 @@
 <section id="places">
   <div class="wrap">
     <p class="eyebrow">Де стоятиме човен</p>
-    <h2>Три варіанти — від&nbsp;води до&nbsp;сухого ангара</h2>
+    <h2>Три місця на&nbsp;вибір — від&nbsp;понтона до&nbsp;сухого ангара</h2>
     <p class="lead">
-      Що обрати, залежить від розміру човна й&nbsp;від того, як часто ви
-      виходите на&nbsp;воду. Підкажемо на&nbsp;місці — приїздіть подивитись.
+      Вибір залежить від двох речей: наскільки цінний човен
+      і&nbsp;як часто ви виходите на&nbsp;воду. Підкажемо на&nbsp;місці —
+      приїздіть подивитись.
     </p>
 
     <div class="places">
 
       <article class="place">
         <div class="place-img">
-          <img src="img/pier.webp" width="1600" height="900"
-               alt="Пірс і понтон із пришвартованими човнами">
+          <img src="img/pier.webp" width="1600" height="900" loading="lazy"
+               alt="Пірс і плавучий понтон із пришвартованими катерами на Дніпрі">
         </div>
         <div class="place-body">
           <h3>На&nbsp;воді: пірс і&nbsp;понтон</h3>
           <p>
-            Човен стоїть на&nbsp;воді й&nbsp;завжди готовий до&nbsp;виходу —
+            Човен уже на&nbsp;воді. Приїхали, відв'язали, пішли —
             нічого спускати не&nbsp;треба.
           </p>
           <ul>
-            <li>Два причали на&nbsp;вибір: стаціонарний пірс і&nbsp;плавучий понтон</li>
+            <li>Два причали: стаціонарний пірс і&nbsp;плавучий понтон</li>
             <li>Підхід до&nbsp;судна з&nbsp;обох боків</li>
+            <li>8&nbsp;місць, судна до&nbsp;12&nbsp;м</li>
             <li>Для тих, хто виходить на&nbsp;воду щотижня</li>
           </ul>
           <div class="price-row">
@@ -158,18 +189,19 @@
 
       <article class="place">
         <div class="place-img">
-          <img src="img/land.webp" width="1600" height="1200"
-               alt="Човни на суші під брезентовими чохлами">
+          <img src="img/land.webp" width="1600" height="1200" loading="lazy"
+               alt="Моторні човни на суші, накриті брезентовими чохлами, на кільблоках і причепах">
         </div>
         <div class="place-body">
           <h3>На&nbsp;суші під&nbsp;брезентом</h3>
           <p>
             Човен на&nbsp;кільблоці або причепі, вкритий щільним чохлом.
-            Найпростіший варіант міжсезоння.
+            Найпростіший спосіб перечекати міжсезоння.
           </p>
           <ul>
             <li>Захист від сонця, дощу й&nbsp;снігу</li>
             <li>Місце для причепа поруч</li>
+            <li>6&nbsp;місць, судна до&nbsp;8&nbsp;м</li>
             <li>Спустимо на&nbsp;воду на&nbsp;ваше прохання</li>
           </ul>
           <div class="price-row">
@@ -181,18 +213,19 @@
 
       <article class="place">
         <div class="place-img">
-          <img src="img/hangar.webp" width="1600" height="1200"
-               alt="Човни всередині критого ангара">
+          <img src="img/hangar.webp" width="1600" height="1200" loading="lazy"
+               alt="Катери на кільблоках усередині критого ангара для сухого зберігання">
         </div>
         <div class="place-body">
           <h3>Критий сухий ангар</h3>
           <p>
             Закрите приміщення без вологи й&nbsp;ультрафіолету.
-            Найкраще для зимівлі та&nbsp;дорогих суден.
+            Те, що треба для зимівлі та&nbsp;дорогого судна.
           </p>
           <ul>
-            <li>До&nbsp;10&nbsp;суден, сухо цілий рік</li>
-            <li>Корпус і&nbsp;оббивка не&nbsp;вигорають</li>
+            <li>Сухо цілий рік, без конденсату</li>
+            <li>Гелькоут і&nbsp;оббивка не&nbsp;вигорають</li>
+            <li>10&nbsp;місць, судна до&nbsp;10&nbsp;м</li>
             <li>Місць небагато — бронюйте заздалегідь</li>
           </ul>
           <div class="price-row">
@@ -206,6 +239,51 @@
   </div>
 </section>
 
+<!-- ── кого приймаємо ────────────────────────────────────────────────── -->
+<section id="fleet">
+  <div class="wrap">
+    <p class="eyebrow">Кого приймаємо</p>
+    <h2>Від гідроцикла до&nbsp;каютного катера</h2>
+    <p class="lead">
+      Беремо судна завдовжки до&nbsp;12&nbsp;метрів. Якщо ваш човен більший
+      або незвичайної форми — зателефонуйте, подивимось окремо.
+    </p>
+
+    <div class="fleet">
+      <div class="unit">
+        <b>Гідроцикли</b>
+        <span>до&nbsp;4&nbsp;м</span>
+        <p>На причепі або в&nbsp;ангарі. Місця займають найменше.</p>
+      </div>
+      <div class="unit">
+        <b>Надувні човни та&nbsp;РІБи</b>
+        <span>до&nbsp;6&nbsp;м</span>
+        <p>Жорсткий транець, підвісний мотор. Зберігаємо накачаними.</p>
+      </div>
+      <div class="unit">
+        <b>Моторні човни</b>
+        <span>до&nbsp;7&nbsp;м</span>
+        <p>Алюміній або склопластик, відкритий кокпіт.</p>
+      </div>
+      <div class="unit">
+        <b>Катери з&nbsp;рубкою</b>
+        <span>до&nbsp;9&nbsp;м</span>
+        <p>Напівкаютні та&nbsp;каютні. Найчастіший гість ангара.</p>
+      </div>
+      <div class="unit">
+        <b>Каютні катери</b>
+        <span>до&nbsp;12&nbsp;м</span>
+        <p>Стоять на&nbsp;воді біля пірса — на&nbsp;суші їх не&nbsp;піднімаємо.</p>
+      </div>
+      <div class="unit">
+        <b>Вітрильні швертботи</b>
+        <span>до&nbsp;7&nbsp;м</span>
+        <p>Щогла знімається й&nbsp;зберігається окремо.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── як це працює ──────────────────────────────────────────────────── -->
 <section id="how">
   <div class="wrap">
@@ -215,23 +293,23 @@
     <div class="steps">
       <div class="step">
         <div class="no">1</div>
-        <b>Заявка</b>
-        <p>Лишаєте розмір човна й&nbsp;бажаний тип місця. Передзвонюємо того&nbsp;ж дня.</p>
+        <b>Лишаєте заявку</b>
+        <p>Пишете довжину човна й&nbsp;бажаний тип місця. Передзвонюємо того&nbsp;ж дня.</p>
       </div>
       <div class="step">
         <div class="no">2</div>
-        <b>Оглядаємо місце</b>
-        <p>Приїздите, дивитесь причал і&nbsp;ангар, обираєте, де стоятиме судно.</p>
+        <b>Дивитесь місце</b>
+        <p>Приїздите, оглядаєте причал і&nbsp;ангар, обираєте, де стоятиме судно.</p>
       </div>
       <div class="step">
         <div class="no">3</div>
         <b>Ставимо човен</b>
-        <p>Допомагаємо завести й&nbsp;закріпити. Записуємо човен і&nbsp;ваші контакти.</p>
+        <p>Допомагаємо завести й&nbsp;закріпити. Записуємо судно та&nbsp;ваші контакти.</p>
       </div>
       <div class="step">
         <div class="no">4</div>
         <b>Рахунок у&nbsp;Telegram</b>
-        <p>Раз на&nbsp;місяць приходить рахунок із QR&nbsp;— оплата з&nbsp;банку в&nbsp;два дотики.</p>
+        <p>Раз на&nbsp;місяць приходить рахунок із QR — оплата з&nbsp;банку в&nbsp;два дотики.</p>
       </div>
     </div>
   </div>
@@ -246,7 +324,7 @@
         <h2>Оберіть дату — і&nbsp;ми тримаємо місце</h2>
         <p class="lead" style="font-size:15.5px">
           Підсвічені дні — ті, коли є&nbsp;вільні місця обраного типу.
-          Натисніть день, і&nbsp;заповніть коротку форму поруч.
+          Натисніть день і&nbsp;заповніть коротку форму поруч.
         </p>
 
         <div class="cal">
@@ -321,25 +399,45 @@
 <section id="faq">
   <div class="wrap">
     <p class="eyebrow">Питання</p>
-    <h2>Що зазвичай питають</h2>
+    <h2>Що питають найчастіше</h2>
 
     <div class="faq">
       <details class="qa">
-        <summary>Скільки коштує стоянка?</summary>
+        <summary>Скільки коштує стоянка човна?</summary>
         <div class="ans">
-          Вартість залежить від розміру судна й&nbsp;типу місця: на&nbsp;воді,
+          Вартість залежить від довжини судна й&nbsp;типу місця: на&nbsp;воді,
           на&nbsp;суші чи в&nbsp;ангарі. Зателефонуйте або лишіть заявку —
           назвемо точну суму під ваш човен.
         </div>
       </details>
 
       <details class="qa">
-        <summary>Чи можна залишити човен на&nbsp;зиму?</summary>
+        <summary>Де саме ви знаходитесь?</summary>
+        <div class="ans">
+          На&nbsp;Дніпрі під Вишгородом, поруч із базою відпочинку.
+          Від Києва дорога займає близько години. Точну адресу
+          й&nbsp;орієнтири надсилаємо перед візитом.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Чи можна лишити човен на&nbsp;зиму?</summary>
         <div class="ans">
           Так. Для зимівлі найкраще підходить критий ангар: там сухо
-          й&nbsp;немає ультрафіолету, тож корпус і&nbsp;оббивка
-          не&nbsp;вигорають. Місць в&nbsp;ангарі небагато, тому
-          на&nbsp;зиму бронюють заздалегідь.
+          й&nbsp;немає ультрафіолету, тож гелькоут і&nbsp;оббивка
+          не&nbsp;вигорають, а&nbsp;конденсат не&nbsp;псує електрику.
+          Місць в&nbsp;ангарі десять, тому на&nbsp;зиму бронюють заздалегідь.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Човен якого розміру ви приймаєте?</summary>
+        <div class="ans">
+          Судна завдовжки до&nbsp;12&nbsp;метрів: гідроцикли, надувні човни
+          та&nbsp;РІБи, моторні човни, катери з&nbsp;рубкою й&nbsp;каютні катери.
+          Великі каютні судна стоять на&nbsp;воді біля пірса — на&nbsp;суші
+          їх не&nbsp;піднімаємо. Якщо човен більший або незвичайної форми,
+          зателефонуйте: подивимось окремо.
         </div>
       </details>
 
@@ -363,14 +461,14 @@
       <details class="qa">
         <summary>Як відбувається оплата?</summary>
         <div class="ans">
-          Раз на&nbsp;місяць вам приходить рахунок у&nbsp;Telegram — із&nbsp;QR-кодом,
+          Раз на&nbsp;місяць вам приходить рахунок у&nbsp;Telegram — із QR-кодом,
           у&nbsp;якому сума вже вписана. Натискаєте код, відкривається ваш банк,
-          підтверджуєте переказ. Нічого вводити руками не&nbsp;треба.
+          підтверджуєте переказ. Вводити реквізити руками не&nbsp;треба.
         </div>
       </details>
 
       <details class="qa">
-        <summary>Чи безпечно там лишати судно?</summary>
+        <summary>Чи безпечно лишати там судно?</summary>
         <div class="ans">
           Територія закрита й&nbsp;під&nbsp;охороною, сторонніх немає.
           Приїздіть подивитись — покажемо все на&nbsp;місці.
@@ -388,7 +486,7 @@
         <p class="eyebrow">Контакти</p>
         <h2>Приїздіть подивитись</h2>
         <p class="lead" style="font-size:15.5px">
-          Найкраще один раз побачити причал і&nbsp;ангар на&nbsp;власні очі.
+          Причал і&nbsp;ангар найкраще один раз побачити на&nbsp;власні очі.
           Зателефонуйте — домовимось про час.
         </p>
 
@@ -403,8 +501,8 @@
           <div class="crow">
             <span class="ic-tile"><svg class="icon"><use href="#i-pin"/></svg></span>
             <div>
-              <b>Поруч із базою відпочинку, Вишгородський район</b>
-              <span>точну адресу й&nbsp;орієнтири надішлемо перед візитом</span>
+              <b>Дніпро, Вишгородський район</b>
+              <span>поруч із базою відпочинку; точну адресу надішлемо перед візитом</span>
             </div>
           </div>
           <div class="crow">
@@ -423,8 +521,8 @@
       </div>
 
       <div class="contact-photo">
-        <img src="img/aerial.webp" width="1600" height="900"
-             alt="Човнова станція з висоти: ангар, двір і причал">
+        <img src="img/aerial.webp" width="1600" height="900" loading="lazy"
+             alt="Човнова станція з висоти: ангар, двір із човнами та причал на Дніпрі">
       </div>
     </div>
   </div>
@@ -434,10 +532,74 @@
 
 <footer>
   <div class="wrap foot-in">
-    <span>Skipper — зберігання й&nbsp;обслуговування човнів</span>
+    <span>Skipper — зберігання й&nbsp;обслуговування човнів на&nbsp;Дніпрі</span>
     <span>Демонстраційна сторінка, не&nbsp;комерційна пропозиція</span>
   </div>
 </footer>
+
+<!-- Структуровані дані. Їх читають і пошуковики, і нейромережі, коли
+     відповідають на питання «де зберігати човен під Києвом». Цін тут
+     теж немає: вигадана ціна в розмітці потрапила б у видачу як факт. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://fominadesigns.github.io/Skipper/site/#business",
+      "name": "Skipper — човнова станція",
+      "description": "Стоянка та зберігання човнів і катерів на Дніпрі під Вишгородом: критий сухий ангар, місця на пірсі та понтоні, зберігання на суші під брезентом, спуск на воду.",
+      "telephone": "+380977550959",
+      "url": "https://fominadesigns.github.io/Skipper/site/",
+      "image": "https://fominadesigns.github.io/Skipper/site/img/hangar-real.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Київська область",
+        "addressLocality": "Вишгородський район",
+        "addressCountry": "UA"
+      },
+      "areaServed": ["Вишгород", "Київ", "Київська область"],
+      "knowsLanguage": ["uk"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Види зберігання човнів",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service",
+            "name": "Стоянка на воді: пірс і понтон",
+            "description": "Місце біля стаціонарного пірса або плавучого понтона для суден до 12 метрів." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service",
+            "name": "Зберігання на суші під брезентом",
+            "description": "Човен на кільблоці або причепі під щільним чохлом, для суден до 8 метрів." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service",
+            "name": "Критий сухий ангар",
+            "description": "Закрите сухе приміщення без ультрафіолету, для зимівлі суден до 10 метрів." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service",
+            "name": "Спуск човна на воду та підйом",
+            "description": "Піднімаємо й спускаємо судно на прохання власника." } }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://fominadesigns.github.io/Skipper/site/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Скільки коштує стоянка човна?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Вартість залежить від довжини судна й типу місця: на воді, на суші чи в ангарі. Точну суму називаємо після дзвінка або заявки." } },
+        { "@type": "Question", "name": "Де знаходиться човнова станція?",
+          "acceptedAnswer": { "@type": "Answer", "text": "На Дніпрі під Вишгородом у Київській області, поруч із базою відпочинку. Від Києва дорога займає близько години." } },
+        { "@type": "Question", "name": "Чи можна лишити човен на зиму?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Для зимівлі підходить критий ангар: там сухо й немає ультрафіолету, тож гелькоут і оббивка не вигорають, а конденсат не псує електрику." } },
+        { "@type": "Question", "name": "Човен якого розміру ви приймаєте?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Судна завдовжки до 12 метрів: гідроцикли, надувні човни та РІБи, моторні човни, катери з рубкою й каютні катери." } },
+        { "@type": "Question", "name": "Як спустити човен на воду?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Попередьте станцію — судно піднімуть і спустять. Човни на пірсі та понтоні вже стоять на воді, спускати їх не треба." } },
+        { "@type": "Question", "name": "Як відбувається оплата за стоянку?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Раз на місяць у Telegram приходить рахунок із QR-кодом, у якому сума вже вписана. Клієнт натискає код, відкривається його банк і підтверджує переказ." } }
+      ]
+    }
+  ]
+}
+</script>
 
 <script>
 /* ── календар вільних місць ──────────────────────────────────────────────
