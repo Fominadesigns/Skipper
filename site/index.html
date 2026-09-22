@@ -121,7 +121,7 @@
   <div class="wrap">
     <h1 class="rise hero-title"><span class="ln fit">Стоянка човнів</span><span class="ln fit"><span class="hl">під Вишгородом</span></span></h1>
     <p class="lead rise d1">
-      Критий сухий ангар і&nbsp;40&nbsp;місць надворі.
+      Критий сухий ангар і&nbsp;40&nbsp;місць надворі.<br>
       Від&nbsp;2500&nbsp;₴ на&nbsp;місяць.
     </p>
     <div class="hero-cta rise d2">
@@ -721,8 +721,12 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
 (function () {
   var top = document.querySelector('.top');
   var hero = document.querySelector('.bleed-hero');
+  // --app-h — справжня видима висота вікна. У браузері Telegram 100svh
+  // менша за видиму область, і знизу проступала синя смуга.
   function setTop() {
-    if (top) document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
+    var r = document.documentElement.style;
+    if (top) r.setProperty('--top-h', top.offsetHeight + 'px');
+    r.setProperty('--app-h', window.innerHeight + 'px');
   }
   // Перераховуємо лише коли змінилась ширина: у Telegram і мобільних
   // браузерах висота «стрибає» від панелей при прокрутці — це й смикало.

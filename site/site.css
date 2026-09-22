@@ -909,3 +909,14 @@ footer{background:var(--deep)}
    Трохи світліший за блок питань (#141d42), щоб межа між ними читалась. */
 .bleed-end{background:#1b2758;min-height:auto;align-items:center}
 .bleed-end::after{display:none}
+
+/* ── перший екран: рівно на видиму висоту (--app-h ставить скрипт) ── */
+.bleed-hero{min-height:calc(var(--app-h,100svh) - var(--top-h,72px))}
+@media (max-width:760px){
+  /* Затемнення зверху сильніше й довше — щоб дрібний текст читався. */
+  .bleed-hero::after{
+    background:linear-gradient(180deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.78) 22%,rgba(0,0,0,.45) 38%,
+                               rgba(0,0,0,0) 54%,rgba(0,0,0,0) 66%,rgba(9,17,31,.8) 88%,rgba(9,17,31,.92) 100%);
+  }
+  .bleed-hero .lead{text-shadow:0 1px 10px rgba(0,0,0,.8)}
+}
