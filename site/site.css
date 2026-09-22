@@ -341,7 +341,11 @@ h2{font-size:clamp(30px,4.2vw,52px);font-weight:600;line-height:1.08}
 }
 .bleed .wrap{position:relative;z-index:2;width:100%}
 
-.bleed-hero{min-height:min(88vh,760px);padding:120px 0 58px;color:#fff}
+.bleed-hero{min-height:min(84vh,720px);padding:110px 0 56px;color:#fff}
+.bleed-hero::after{
+  background:linear-gradient(100deg,rgba(9,17,31,.88) 0%,rgba(9,17,31,.66) 38%,
+                             rgba(9,17,31,.18) 62%,rgba(9,17,31,.34) 100%);
+}
 .bleed-hero h1{
   font-size:clamp(38px,8.2vw,104px);line-height:.98;letter-spacing:-.04em;
   color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.45);max-width:15ch;
@@ -693,8 +697,11 @@ span.ic-tile,
   .hero-cta .btn{flex:1 1 100%}
   .hero-media{border-radius:20px;aspect-ratio:3/2}
 
-  .facts{grid-template-columns:1fr;gap:11px;margin-top:32px}
-  .fact{padding:17px 18px}
+  .facts{grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+  .fact{padding:15px 14px}
+  .fact .ic-tile{width:34px;height:34px;border-radius:10px;font-size:18px;margin-bottom:10px}
+  .fact b{font-size:14px;line-height:1.25}
+  .fact span:not(.ic-tile){font-size:12px;margin-top:4px;line-height:1.4}
 
   .fleet{grid-template-columns:1fr;gap:12px}
   .unit{padding:18px 18px}
@@ -716,7 +723,11 @@ span.ic-tile,
   .proto{margin:14px 15px 0;font-size:12.5px;padding:12px 15px}
   .route{display:none}   /* на телефоні лінія тіснить макет */
 
-  .bleed-hero{padding:64px 0 40px}
+  .bleed-hero{
+    min-height:100svh;padding:64px 0 46px;
+    justify-content:flex-end;
+  }
+  @supports not (height:100svh){ .bleed-hero{min-height:100vh} }
   .bleed-hero .lead{font-size:15.5px}
   .bleed-mid{padding:56px 0 44px}
   .bleed-end{padding:60px 0 44px}

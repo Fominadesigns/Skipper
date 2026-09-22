@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="uk">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Skipper — міні-додаток</title>
+<title>Skipper — Приложение владельца</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -219,135 +219,21 @@ body{padding:30px 16px 64px}
 </svg>
 
 
-<div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Усі матеріали</a></div>
+<div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Все материалы</a></div>
 
 <div class="page-head">
-  <h1>Міні-додаток Skipper</h1>
-  <p>Що бачить човняр і що бачить адміністратор</p>
+  <h1>Приложение владельца</h1>
+  <p>Что видят Катя и Влад с телефона</p>
   <div class="disclaimer">
-    Усі цифри, імена й номери на&nbsp;екранах — заглушки для показу дизайну.
-    Справжні тарифи й дані вписуємо після брифу.
+    Имена клиентов и номера лодок вымышленные. Суммы показаны для примера.
   </div>
 </div>
 
 <div class="rail">
 
-  <!-- 1. Мій човен -->
-  <div class="phone">
-    <div class="phone-cap">Човняр · Мій човен</div>
-    <div class="screen">
-      <div class="card">
-        <div class="top">
-          <div>
-            <div class="h">Ваш човен</div>
-            <div class="sub">«Чайка» · UA-0000-KV</div>
-          </div>
-          <div class="berth">A-12</div>
-        </div>
-        <div class="rows" style="margin-top:16px">
-          <div class="row"><span class="k">Місце</span><span class="v">A-12, на&nbsp;воді</span></div>
-          <div class="row"><span class="k">Стоїть із</span><span class="v">14 квітня</span></div>
-          <div class="row"><span class="k">Тариф</span><span class="v">0&nbsp;000&nbsp;₴ / місяць</span></div>
-        </div>
-      </div>
-
-      <div style="margin-top:14px">
-        <div class="due">
-          <span>
-            <span class="due-l">До&nbsp;оплати за вересень</span>
-            <span class="due-v">0&nbsp;000&nbsp;₴</span>
-          </span>
-          <span class="due-go">Оплатити&nbsp;→</span>
-        </div>
-      </div>
-
-      <div class="sect">Що зробити</div>
-      <div class="quick">
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-boat"/></svg></span>Спустити<br>на&nbsp;воду</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>Мій<br>рахунок</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-key"/></svg></span>Як&nbsp;потрапити<br>на&nbsp;причал</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chat"/></svg></span>Написати<br>Владу</div>
-      </div>
-
-      <div class="tabs">
-        <div class="tab on">Човен</div>
-        <div class="tab">Рахунок</div>
-        <div class="tab">Заявки</div>
-        <div class="tab">Причал</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. Рахунок -->
-  <div class="phone">
-    <div class="phone-cap">Човняр · Рахунок</div>
-    <div class="screen">
-      <div class="sect">Рахунок №0000-00</div>
-      <div class="card">
-        <div class="bill">
-          <div class="bill-row"><span class="t">Стоянка, вересень</span><span class="a">0&nbsp;000&nbsp;₴</span></div>
-          <div class="bill-row"><span class="t">Спуск на&nbsp;воду, 2&nbsp;шт</span><span class="a">000&nbsp;₴</span></div>
-          <div class="bill-row"><span class="t">Електрика</span><span class="a">000&nbsp;₴</span></div>
-        </div>
-        <div class="bill-sum"><span>До&nbsp;оплати</span><span>0&nbsp;000&nbsp;₴</span></div>
-      </div>
-
-      <div class="sect">Як оплатити</div>
-      <div class="card">
-        <div class="qr-wrap">
-          <div class="qr">
-            <svg viewBox="0 0 29 29" width="100%" height="100%" shape-rendering="crispEdges" aria-label="Приклад QR-коду">
-              <rect width="29" height="29" fill="#fff"/>
-              <g fill="#141a26">
-                <path d="M0 0h7v7H0zM22 0h7v7h-7zM0 22h7v7H0z"/>
-                <path d="M1 1h5v5H1zM23 1h5v5h-5zM1 23h5v5H1z" fill="#fff"/>
-                <path d="M2 2h3v3H2zM24 2h3v3h-3zM2 24h3v3H2z"/>
-                <path d="M9 0h2v2H9zM13 1h2v2h-2zM17 0h2v3h-2zM11 3h2v2h-2zM9 5h3v2H9zM15 4h2v3h-2zM19 5h2v2h-2z"/>
-                <path d="M0 9h2v2H0zM4 9h3v2H4zM1 13h2v2H1zM0 17h3v2H0zM5 15h2v3H5zM3 19h2v2H3z"/>
-                <path d="M22 9h2v2h-2zM26 10h3v2h-3zM23 13h3v2h-3zM27 15h2v3h-2zM22 17h2v2h-2zM25 19h2v2h-2z"/>
-                <path d="M9 22h2v3H9zM13 23h3v2h-3zM10 26h3v2h-3zM17 22h2v2h-2zM19 25h2v3h-2zM15 27h2v2h-2z"/>
-                <path d="M9 9h3v3H9zM14 10h2v2h-2zM18 9h2v3h-2zM10 14h2v2h-2zM13 13h3v3h-3zM17 15h3v2h-3zM9 18h2v2H9zM12 17h2v3h-2zM15 19h2v2h-2zM18 18h3v2h-3z"/>
-              </g>
-            </svg>
-          </div>
-          <p class="qr-cap">
-            Натисніть код — відкриється ваш банк.<br>
-            З&nbsp;іншого телефона його можна відсканувати камерою.<br>
-            <b>Сума вже вписана всередині</b>
-          </p>
-        </div>
-        <button class="btn solid" style="margin-top:15px">Оплатити в&nbsp;застосунку банку</button>
-      </div>
-
-      <div class="sect">Або переказом</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Отримувач</span><span class="v">ФОП&nbsp;•••••</span></div>
-          <div class="row"><span class="k">IBAN</span><span class="v mono">UA00 0000 0000 0000</span></div>
-        </div>
-        <button class="btn" style="margin-top:14px">Скопіювати IBAN</button>
-      </div>
-
-      <div style="margin-top:14px">
-        <button class="btn solid">Я&nbsp;оплатив</button>
-        <p class="qr-cap" style="margin-top:10px;text-align:left">
-          Це повідомлення для господарів, а&nbsp;не списання коштів.
-          Вони звірять надходження з&nbsp;банком і&nbsp;підтвердять.
-        </p>
-      </div>
-
-      <div class="tabs">
-        <div class="tab">Човен</div>
-        <div class="tab on">Рахунок</div>
-        <div class="tab">Заявки</div>
-        <div class="tab">Причал</div>
-      </div>
-    </div>
-  </div>
-
   <!-- 3. Човни -->
   <div class="phone">
-    <div class="phone-cap">Адмін · Човни</div>
+    <div class="phone-cap">Владелец · Лодки</div>
     <div class="screen">
       <div class="top" style="margin-bottom:14px">
         <div>
@@ -409,7 +295,7 @@ body{padding:30px 16px 64px}
 
   <!-- 4. Картка човна -->
   <div class="phone">
-    <div class="phone-cap">Адмін · Картка човна</div>
+    <div class="phone-cap">Владелец · Карточка лодки</div>
     <div class="screen">
       <div class="card">
         <div class="top">
@@ -469,7 +355,7 @@ body{padding:30px 16px 64px}
 
   <!-- 5. Каса -->
   <div class="phone">
-    <div class="phone-cap">Адмін · Каса</div>
+    <div class="phone-cap">Владелец · Касса</div>
     <div class="screen">
       <div class="top" style="margin-bottom:13px">
         <div>
@@ -546,7 +432,7 @@ body{padding:30px 16px 64px}
 
   <!-- 6. Запис у касі -->
   <div class="phone">
-    <div class="phone-cap">Адмін · Запис у касі</div>
+    <div class="phone-cap">Владелец · Запись в кассе</div>
     <div class="screen">
       <div class="card">
         <div class="top">
@@ -603,7 +489,7 @@ body{padding:30px 16px 64px}
 
   <!-- 7. Нова витрата -->
   <div class="phone">
-    <div class="phone-cap">Адмін · Нова витрата</div>
+    <div class="phone-cap">Владелец · Новый расход</div>
     <div class="screen">
       <div class="top" style="margin-bottom:16px">
         <div>

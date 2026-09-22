@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="uk">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Skipper — матеріали проєкту</title>
+<title>Skipper — материалы проекта</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -21,7 +21,7 @@ body{padding:60px 20px 80px}
 .hero h1{font-size:38px;font-weight:800;letter-spacing:-.028em}
 .hero .lead{
   color:var(--muted);font-size:16px;margin-top:10px;
-  max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6;
+  max-width:540px;margin-left:auto;margin-right:auto;line-height:1.6;
 }
 
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
@@ -38,7 +38,12 @@ body{padding:60px 20px 80px}
   box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);margin-bottom:16px;
 }
 .tile h2{font-size:18px;font-weight:800;letter-spacing:-.014em}
-.tile p{color:var(--muted);font-size:13.5px;margin-top:7px;line-height:1.5}
+.tile .who{
+  display:inline-block;margin-top:8px;padding:4px 11px;border-radius:999px;
+  background:var(--sunk);box-shadow:var(--in);
+  font-size:11.5px;font-weight:700;color:var(--muted);
+}
+.tile p{color:var(--muted);font-size:13.5px;margin-top:10px;line-height:1.5}
 .tile .go{
   display:inline-block;margin-top:14px;font-size:13px;font-weight:700;color:var(--blue);
 }
@@ -54,14 +59,6 @@ body{padding:60px 20px 80px}
   margin-top:40px;line-height:1.6;
 }
 
-.crm-links{display:flex;gap:10px;flex-wrap:wrap}
-.crm-links a{
-  padding:11px 18px;border-radius:var(--r-md);text-decoration:none;
-  background:var(--card);box-shadow:var(--out-sm);
-  color:var(--ink);font-size:14px;font-weight:700;
-}
-.crm-links a:active{box-shadow:var(--in)}
-
 @media (max-width:760px){
   body{padding:34px 14px 52px}
   .hero{margin-bottom:32px}
@@ -76,18 +73,13 @@ body{padding:60px 20px 80px}
 </head>
 <body>
 
-<!-- Набір іконок. Вставляється копією в кожну сторінку, а не окремим файлом:
-     зовнішній <use href="file.svg#id"> не працює, коли сторінку відкривають
-     подвійним кліком із диска, а саме так її відкриватиме Влад. -->
+<!-- Набор иконок. Вставляется копией в каждую страницу, а не отдельным
+     файлом: внешний <use href="file.svg#id"> не работает, когда страницу
+     открывают двойным кликом с диска. -->
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-anchor" viewBox="0 0 24 24">
     <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
     <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
-  </symbol>
-  <symbol id="i-list" viewBox="0 0 24 24">
-    <rect x="5" y="5" width="14" height="16" rx="2.5"/>
-    <path d="M9.2 5V4.2A2.2 2.2 0 0 1 11.4 2h1.2A2.2 2.2 0 0 1 14.8 4.2V5"/>
-    <path d="M9 11h6M9 15h4"/>
   </symbol>
   <symbol id="i-phone" viewBox="0 0 24 24">
     <rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/>
@@ -97,20 +89,10 @@ body{padding:60px 20px 80px}
     <rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/>
     <path d="M3.5 10.2h17"/><path d="M8 3.2v4M16 3.2v4"/>
   </symbol>
-  <symbol id="i-receipt" viewBox="0 0 24 24">
-    <path d="M6.2 3h11.6v18l-1.94-1.4-1.93 1.4-1.93-1.4-1.94 1.4-1.93-1.4L6.2 21z"/>
-    <path d="M9.4 8.4h5.2M9.4 12.4h5.2"/>
-  </symbol>
-  <symbol id="i-key" viewBox="0 0 24 24">
-    <circle cx="7.8" cy="12" r="3.6"/><path d="M11.4 12H21"/>
-    <path d="M18.2 12v3.1M15.2 12v2.3"/>
-  </symbol>
-  <symbol id="i-chat" viewBox="0 0 24 24">
-    <path d="M20.4 12.3c0 3.8-3.75 6.9-8.4 6.9-1.16 0-2.27-.2-3.28-.55L4.2 20.2l1.36-3.55C4.42 15.5 3.6 14 3.6 12.3c0-3.8 3.76-6.9 8.4-6.9s8.4 3.1 8.4 6.9z"/>
-  </symbol>
-  <symbol id="i-boat" viewBox="0 0 24 24">
-    <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
-    <path d="M6.6 14.6V8.4h10.8l-2.6 6.2"/><path d="M12 8.4V4.2"/>
+  <symbol id="i-wallet" viewBox="0 0 24 24">
+    <path d="M3.6 8.4a2.4 2.4 0 0 1 2.4-2.4h12a2.4 2.4 0 0 1 2.4 2.4v9.2a2.4 2.4 0 0 1-2.4 2.4H6a2.4 2.4 0 0 1-2.4-2.4z"/>
+    <path d="M3.6 10.6h4.2a2 2 0 0 1 0 4H3.6"/>
+    <path d="M6.4 6V4.6a1.6 1.6 0 0 1 2.06-1.53l8.1 2.4"/>
   </symbol>
 </svg>
 
@@ -120,77 +102,70 @@ body{padding:60px 20px 80px}
     <div class="mark"><svg class="icon" viewBox="0 0 24 24"><use href="#i-anchor"/></svg></div>
     <h1>Skipper</h1>
     <p class="lead">
-      Облік стоянки човнів і&nbsp;щомісячна оплата.
-      Клієнт бачить своє місце й&nbsp;рахунок, платить за&nbsp;QR прямо
-      зі&nbsp;свого банку. Ви бачите, хто де&nbsp;стоїть і&nbsp;хто скільки винен.
+      Учёт стоянки лодок и&nbsp;ежемесячная оплата.
+      Клиент видит своё место и&nbsp;счёт, платит по&nbsp;QR прямо
+      из&nbsp;своего банка. Вы видите, кто где стоит и&nbsp;кто сколько должен.
     </p>
   </div>
 
   <div class="tiles">
-    <a class="tile" href="brief.html">
-      <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-list"/></svg></div>
-      <h2>Вопросы</h2>
-      <p>Десять питань, без яких не&nbsp;почати. Тарифи, спуск на&nbsp;воду, місця.</p>
-      <span class="go">Відкрити&nbsp;→</span>
-    </a>
-
-    <a class="tile" href="app.html">
-      <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-phone"/></svg></div>
-      <h2>Додаток</h2>
-      <p>Що бачить човняр у&nbsp;Telegram і&nbsp;що бачить адміністратор.</p>
-      <span class="go">Подивитись&nbsp;→</span>
-    </a>
-
     <a class="tile" href="../site/">
       <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-anchor"/></svg></div>
       <h2>Сайт</h2>
-      <p>Сторінка для клієнтів: види стоянки, календар, бронювання.</p>
-      <span class="go">Подивитись&nbsp;→</span>
+      <span class="who">для новых клиентов</span>
+      <p>Цены, виды стоянки, календарь свободных мест и&nbsp;заявка.</p>
+      <span class="go">Посмотреть&nbsp;→</span>
+    </a>
+
+    <a class="tile" href="app-client.html">
+      <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-phone"/></svg></div>
+      <h2>Приложение клиента</h2>
+      <span class="who">для владельца лодки</span>
+      <p>Своя лодка, место, счёт за&nbsp;месяц и&nbsp;оплата по&nbsp;QR прямо в&nbsp;Telegram.</p>
+      <span class="go">Посмотреть&nbsp;→</span>
+    </a>
+
+    <a class="tile" href="app-owner.html">
+      <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-wallet"/></svg></div>
+      <h2>Приложение владельца</h2>
+      <span class="who">для администратора · Катя, Влад</span>
+      <p>Лодки, карточки клиентов, касса и&nbsp;выставление счетов — с&nbsp;телефона.</p>
+      <span class="go">Посмотреть&nbsp;→</span>
     </a>
 
     <a class="tile" href="crm.html">
       <div class="ic"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg></div>
       <h2>CRM</h2>
-      <p>Календар, човни, рахунки, каса, місця — усе, що бачить адміністратор.</p>
-      <span class="go">Подивитись&nbsp;→</span>
+      <span class="who">для администратора · Катя, Влад</span>
+      <p>То&nbsp;же самое на&nbsp;большом экране: календарь, лодки, счета, касса, места.</p>
+      <span class="go">Посмотреть&nbsp;→</span>
     </a>
   </div>
 
   <div class="what">
-    <h3>Розділи CRM</h3>
-    <div class="crm-links">
-      <a href="crm.html">Календар</a>
-      <a href="boats.html">Човни</a>
-      <a href="invoices.html">Рахунки</a>
-      <a href="kassa.html">Каса</a>
-      <a href="berths.html">Місця</a>
-    </div>
-  </div>
-
-  <div class="what">
-    <h3>Як це працює</h3>
+    <h3>Как это работает</h3>
     <div class="card">
       <p>
-        <b>Клієнт.</b> Відкриває бота в&nbsp;Telegram — бачить свій човен, місце
-        й&nbsp;суму за&nbsp;місяць. Натискає QR — відкривається його банк
-        із&nbsp;уже вписаною сумою. Після оплати тисне «Я&nbsp;оплатив».
+        <b>Клиент.</b> Открывает бота в&nbsp;Telegram — видит свою лодку, место
+        и&nbsp;сумму за&nbsp;месяц. Нажимает QR — открывается его банк
+        с&nbsp;уже вписанной суммой. После оплаты жмёт «Я&nbsp;оплатил».
       </p>
       <p>
-        <b>Ви.</b> Бачите повідомлення про оплату, звіряєте з&nbsp;банком
-        і&nbsp;підтверджуєте. Система сама ніколи не&nbsp;позначає гроші
-        отриманими — вона не&nbsp;бачить банківського рахунку.
+        <b>Вы.</b> Видите сообщение об&nbsp;оплате, сверяете с&nbsp;банком
+        и&nbsp;подтверждаете. Система сама никогда не&nbsp;отмечает деньги
+        полученными — она не&nbsp;видит банковский счёт.
       </p>
       <p>
-        <b>Раз на&nbsp;місяць.</b> У&nbsp;визначений день кожному клієнту
-        автоматично йде рахунок. Перед відправкою ви бачите список
-        і&nbsp;підтверджуєте — наосліп нічого не&nbsp;летить.
+        <b>Раз в&nbsp;месяц.</b> С&nbsp;1&nbsp;по&nbsp;7&nbsp;число каждому клиенту
+        уходит счёт. Перед отправкой вы видите список и&nbsp;подтверждаете —
+        вслепую ничего не&nbsp;улетает.
       </p>
     </div>
   </div>
 
   <p class="foot">
-    Це демонстрація вигляду, а&nbsp;не працюючий сервіс.<br>
-    Усі цифри, імена й&nbsp;номери — заглушки.
+    Это демонстрация внешнего вида, а&nbsp;не работающий сервис.<br>
+    Имена клиентов и&nbsp;номера лодок — вымышленные.
   </p>
 
 </div>

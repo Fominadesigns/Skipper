@@ -7,21 +7,19 @@
 <!-- ═══ Пошук ═══════════════════════════════════════════════════════════
      Заголовок побудований так, як людина питає: що, де і почім.
      Ціна винесена в опис — «скільки коштує стоянка човна» шукають
-     найчастіше, і сторінка має відповідати на це просто у видачі.
-
-     Розмітка Schema.org унизу потрібна і Google, і відповідям
-     нейромереж: вони читають структуровані дані, а не здогадуються
-     з тексту. Тарифи там справжні — ті, що назвав власник станції.
+     найчастіше, і сторінка має відповідати просто у видачі.
+     Розмітка Schema.org унизу — для Google і для нейромереж:
+     вони читають структуровані дані, а не здогадуються з тексту.
      ══════════════════════════════════════════════════════════════════ -->
 <title>Стоянка човнів під Вишгородом — від 2500 ₴ на місяць | Skipper</title>
-<meta name="description" content="Зберігання човнів і катерів на Дніпрі під Вишгородом: критий ангар на 10 суден і 50 місць надворі. Від 2500 ₴ на місяць за човен 4–6 м. Спуск на воду, охорона, заїзд із причепом. Поруч база відпочинку з чанами. +380 97 755 09 59.">
+<meta name="description" content="Зберігання човнів і катерів на Дніпрі під Вишгородом: критий ангар на 10 суден і 50 місць надворі. Від 2500 ₴ на місяць за човен 4–6 м. Спуск на воду, охорона, заїзд із причепом. +380 97 755 09 59.">
 <link rel="canonical" href="https://fominadesigns.github.io/Skipper/site/">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uk_UA">
 <meta property="og:site_name" content="Skipper">
 <meta property="og:title" content="Стоянка човнів під Вишгородом — від 2500 ₴ на місяць">
-<meta property="og:description" content="Критий ангар на 10 суден і 50 місць надворі. Спуск на воду, охорона, заїзд із причепом. Поруч база відпочинку з чанами.">
+<meta property="og:description" content="Критий ангар на 10 суден і 50 місць надворі. Спуск на воду, охорона, заїзд із причепом.">
 <meta property="og:image" content="https://fominadesigns.github.io/Skipper/site/img/hangar-real.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0f1c33">
@@ -29,6 +27,7 @@
 <link rel="stylesheet" href="site.css">
 <link rel="preload" href="fonts/FixelDisplay-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/FixelText-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/hangar-real.webp" as="image" fetchpriority="high">
 </head>
 <body>
 
@@ -62,10 +61,6 @@
     <rect x="2.6" y="8.4" width="18.8" height="7.2" rx="1.8"/>
     <path d="M6.6 8.4v3M10.2 8.4v4.4M13.8 8.4v3M17.4 8.4v4.4"/>
   </symbol>
-  <symbol id="i-card" viewBox="0 0 24 24">
-    <rect x="2.8" y="5.2" width="18.4" height="13.6" rx="2.6"/>
-    <path d="M2.8 9.8h18.4M6.4 14.6h3.4"/>
-  </symbol>
   <symbol id="i-calendar" viewBox="0 0 24 24">
     <rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/>
     <path d="M3.5 10.2h17"/><path d="M8 3.2v4M16 3.2v4"/>
@@ -74,7 +69,6 @@
     <rect x="2.6" y="6.4" width="18.8" height="11.2" rx="2.2"/>
     <circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>
   </symbol>
-  <!-- кораблик для лінії маршруту -->
   <symbol id="i-ship" viewBox="0 0 24 16">
     <path d="M2.6 10.2h18.8l-2 4.2H4.6z"/>
     <path d="M6.4 10.2V5.4h11l-2.4 4.8"/><path d="M12 5.4V1.8"/>
@@ -92,9 +86,8 @@
     </a>
 
     <nav class="menu" aria-label="Розділи сторінки">
-      <a href="#places">Де стоятиме</a>
       <a href="#prices">Ціни</a>
-      <a href="#fleet">Кого приймаємо</a>
+      <a href="#places">Де стоятиме</a>
       <a href="#book">Бронювання</a>
       <a href="#faq">Питання</a>
     </nav>
@@ -108,65 +101,55 @@
 
 <main id="top">
 
-<!-- ── перший екран: відео на всю ширину ─────────────────────────────── -->
+<!-- ── перший екран ──────────────────────────────────────────────────── -->
 <section class="bleed bleed-hero">
-  <video src="video/marina.mp4" poster="img/pier.webp" autoplay muted loop playsinline
-         preload="metadata" aria-hidden="true"></video>
-  <span class="media-note">відео згенероване для макета</span>
+  <img src="img/hangar-real.webp" alt="" aria-hidden="true" fetchpriority="high">
   <div class="wrap">
-    <h1 class="rise">Човен зимує <span class="hl">в&nbsp;сухому</span> ангарі,
-      а&nbsp;влітку чекає біля&nbsp;води</h1>
+    <h1 class="rise">Стоянка човнів <span class="hl">під Вишгородом</span></h1>
     <p class="lead rise d1">
-      Стоянка човнів і&nbsp;катерів на&nbsp;Дніпрі під Вишгородом.
-      Критий ангар на&nbsp;10&nbsp;суден і&nbsp;50&nbsp;місць надворі.
-      Від&nbsp;2500&nbsp;₴ на&nbsp;місяць. Спускаємо на&nbsp;воду за&nbsp;дзвінком,
-      територія під охороною.
+      Критий сухий ангар і&nbsp;50&nbsp;місць надворі.
+      Від&nbsp;2500&nbsp;₴ на&nbsp;місяць.
     </p>
     <div class="hero-cta rise d2">
-      <a class="btn sand big" href="#book">Забронювати місце</a>
-      <a class="btn ghost-deep big" href="#prices">Подивитись ціни</a>
+      <a class="btn sand big" href="tel:+380977550959">Зателефонувати</a>
+      <a class="btn ghost-deep big" href="#prices">Ціни й&nbsp;місця</a>
     </div>
   </div>
 </section>
 
 <!-- ── чотири факти ──────────────────────────────────────────────────── -->
-<section style="padding-top:62px">
+<section style="padding-top:56px;padding-bottom:20px">
   <div class="wrap">
     <div class="facts" style="margin-top:0">
       <div class="fact rise">
         <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-anchor"/></svg></span>
         <b>60 місць</b>
-        <span>10&nbsp;у&nbsp;критому ангарі, 50&nbsp;надворі</span>
+        <span>10&nbsp;в&nbsp;ангарі, 50&nbsp;надворі</span>
       </div>
       <div class="fact rise d1">
         <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-shield"/></svg></span>
         <b>Під охороною</b>
-        <span>закритий периметр, сторонніх немає</span>
+        <span>закритий периметр</span>
       </div>
       <div class="fact rise d2">
         <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-boat"/></svg></span>
-        <b>Спуск за&nbsp;дзвінком</b>
-        <span>піднімемо й&nbsp;спустимо, коли скажете</span>
+        <b>Спуск на&nbsp;воду</b>
+        <span>за&nbsp;вашим дзвінком</span>
       </div>
       <div class="fact rise d3">
         <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-ruler"/></svg></span>
-        <b>Судна до&nbsp;10&nbsp;метрів</b>
-        <span>від невеликого човна до&nbsp;катера</span>
+        <b>До 10&nbsp;метрів</b>
+        <span>човни й&nbsp;катери</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── ціни ──────────────────────────────────────────────────────────── -->
-<section id="prices">
+<section id="prices" style="padding-top:44px">
   <div class="wrap">
-    <span class="side-label">тарифи</span>
     <p class="eyebrow rise">Ціни</p>
-    <h2 class="rise">Платите за&nbsp;довжину човна — і&nbsp;більше ні&nbsp;за&nbsp;що</h2>
-    <p class="lead rise d1">
-      Одна сума на&nbsp;місяць, без прихованих доплат за&nbsp;заїзд
-      чи&nbsp;прохід на&nbsp;територію.
-    </p>
+    <h2 class="rise">Платите за&nbsp;довжину човна</h2>
 
     <div class="tariffs">
       <div class="tariff rise">
@@ -190,14 +173,14 @@
       <div class="term rise">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg></span>
         <div>
-          <b>Місяць, 3&nbsp;або 6&nbsp;місяців</b>
-          <span>оберіть зручний період</span>
+          <b>Місяць, 3&nbsp;або 6</b>
+          <span>період на&nbsp;вибір</span>
         </div>
       </div>
       <div class="term rise d1">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-clock"/></svg></span>
         <div>
-          <b>Оплата з&nbsp;1&nbsp;по&nbsp;7&nbsp;число</b>
+          <b>З 1&nbsp;по&nbsp;7&nbsp;число</b>
           <span>рахунок приходить сам</span>
         </div>
       </div>
@@ -211,31 +194,24 @@
     </div>
 
     <p class="price-foot rise">
-      <b>Човни коротші за&nbsp;4&nbsp;метри або довші за&nbsp;10</b> —
-      за&nbsp;домовленістю, зателефонуйте. Рахунок щомісяця приходить
-      у&nbsp;Telegram із QR-кодом: сума вже вписана, вводити реквізити
-      руками не&nbsp;треба.
+      Приймаємо надувні човни, РІБи, моторні човни й&nbsp;катери.
+      <b>Гідроцикли та&nbsp;судна довші за&nbsp;10&nbsp;метрів</b> —
+      за&nbsp;домовленістю, зателефонуйте.
     </p>
   </div>
 </section>
 
-<!-- ── три види стоянки: темний екран ────────────────────────────────── -->
+<!-- ── три види стоянки ──────────────────────────────────────────────── -->
 <section id="places" class="band deep">
-  <div class="route" style="top:-30px;height:180px" aria-hidden="true">
-    <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
-      <path class="path" id="route1"
-            d="M-40 130 C 180 40, 380 170, 600 96 S 1020 30, 1240 104"/>
+  <div class="route" style="top:-28px;height:150px" aria-hidden="true">
+    <svg viewBox="0 0 1200 150" preserveAspectRatio="none">
+      <path class="path" d="M-40 110 C 200 34, 400 140, 620 80 S 1020 26, 1240 88"/>
     </svg>
   </div>
 
   <div class="wrap">
-    <span class="side-label">три варіанти</span>
     <p class="eyebrow rise">Де стоятиме човен</p>
-    <h2 class="rise">Від понтона до&nbsp;сухого ангара</h2>
-    <p class="lead rise d1">
-      Вибір залежить від двох речей: наскільки цінний човен
-      і&nbsp;як часто ви виходите на&nbsp;воду.
-    </p>
+    <h2 class="rise">Три місця на&nbsp;вибір</h2>
 
     <div class="places">
 
@@ -245,13 +221,8 @@
                alt="Пірс і плавучий понтон із пришвартованими катерами на Дніпрі">
         </div>
         <div class="place-body">
-          <h3>На&nbsp;воді: пірс і&nbsp;понтон</h3>
-          <p>Човен уже на&nbsp;воді. Приїхали, відв'язали, пішли.</p>
-          <ul>
-            <li>Два причали: стаціонарний пірс і&nbsp;плавучий понтон</li>
-            <li>Підхід до&nbsp;судна з&nbsp;обох боків</li>
-            <li>Для тих, хто виходить на&nbsp;воду щотижня</li>
-          </ul>
+          <h3>На&nbsp;воді</h3>
+          <p>Пірс і&nbsp;понтон. Човен завжди готовий — приїхали, відв'язали, пішли.</p>
           <div class="price-row">
             <span class="pl">Від</span>
             <span class="pv">2500&nbsp;₴ / місяць</span>
@@ -265,13 +236,8 @@
                alt="Моторні човни на суші під брезентовими чохлами, на кільблоках і причепах">
         </div>
         <div class="place-body">
-          <h3>На&nbsp;суші під&nbsp;брезентом</h3>
-          <p>Човен на&nbsp;кільблоці або причепі, вкритий щільним чохлом.</p>
-          <ul>
-            <li>Захист від сонця, дощу й&nbsp;снігу</li>
-            <li>Місце для причепа поруч</li>
-            <li>Спустимо на&nbsp;воду на&nbsp;ваше прохання</li>
-          </ul>
+          <h3>На&nbsp;суші</h3>
+          <p>Під щільним брезентом, на&nbsp;кільблоці або причепі. Місце для причепа поруч.</p>
           <div class="price-row">
             <span class="pl">Від</span>
             <span class="pv">2500&nbsp;₴ / місяць</span>
@@ -285,13 +251,8 @@
                alt="Катери на кільблоках усередині критого ангара для сухого зберігання">
         </div>
         <div class="place-body">
-          <h3>Критий сухий ангар</h3>
-          <p>Закрите приміщення без вологи й&nbsp;ультрафіолету. Десять місць.</p>
-          <ul>
-            <li>Сухо цілий рік, без конденсату</li>
-            <li>Гелькоут і&nbsp;оббивка не&nbsp;вигорають</li>
-            <li>Місць лише&nbsp;10 — бронюйте заздалегідь</li>
-          </ul>
+          <h3>У&nbsp;критому ангарі</h3>
+          <p>Сухо цілий рік, без ультрафіолету. Лише 10&nbsp;місць — бронюйте заздалегідь.</p>
           <div class="price-row">
             <span class="pl">Від</span>
             <span class="pv">2500&nbsp;₴ / місяць</span>
@@ -303,141 +264,27 @@
   </div>
 </section>
 
-<!-- ── відео на всю ширину: ангар ────────────────────────────────────── -->
-<section class="bleed bleed-mid">
-  <video src="video/hangar.mp4" poster="img/hangar.webp" autoplay muted loop playsinline
-         preload="none" aria-hidden="true"></video>
-  <span class="media-note">відео згенероване для макета</span>
-  <div class="wrap">
-    <p class="eyebrow rise" style="color:rgba(255,255,255,.72)">Критий ангар</p>
-    <h2 class="rise">Десять місць, де взимку сухо</h2>
-    <p class="lead rise d1">
-      Ультрафіолет вигорює гелькоут, а&nbsp;конденсат псує електрику.
-      В&nbsp;ангарі немає ні&nbsp;того, ні&nbsp;іншого — і&nbsp;навесні човен
-      виходить таким, яким зайшов.
-    </p>
-    <div class="hero-cta rise d2">
-      <a class="btn sand" href="#book">Зайняти місце в&nbsp;ангарі</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── кого приймаємо: піщаний екран ─────────────────────────────────── -->
-<section id="fleet" class="band sand">
-  <div class="wrap">
-    <span class="side-label">судна</span>
-    <p class="eyebrow rise">Кого приймаємо</p>
-    <h2 class="rise">Від невеликого човна до&nbsp;катера</h2>
-    <p class="lead rise d1" style="color:#6b5c3f">
-      Беремо судна завдовжки до&nbsp;10&nbsp;метрів. Якщо ваш човен більший
-      або незвичайної форми — зателефонуйте, подивимось окремо.
-    </p>
-
-    <div class="fleet">
-      <div class="unit rise">
-        <b>Надувні човни та&nbsp;РІБи</b>
-        <span>4–6 м · 2500 ₴</span>
-        <p>Жорсткий транець, підвісний мотор. Зберігаємо накачаними.</p>
-      </div>
-      <div class="unit rise d1">
-        <b>Моторні човни</b>
-        <span>4–6 м · 2500 ₴</span>
-        <p>Алюміній або склопластик, відкритий кокпіт.</p>
-      </div>
-      <div class="unit rise d2">
-        <b>Катери з&nbsp;рубкою</b>
-        <span>6–8 м · 3000 ₴</span>
-        <p>Напівкаютні. Найчастіший гість ангара.</p>
-      </div>
-      <div class="unit rise">
-        <b>Каютні катери</b>
-        <span>8–10 м · 4000 ₴</span>
-        <p>Найбільші судна, які ми беремо.</p>
-      </div>
-      <div class="unit rise d1">
-        <b>Вітрильні швертботи</b>
-        <span>до 8 м</span>
-        <p>Щогла знімається й&nbsp;зберігається окремо.</p>
-      </div>
-      <div class="unit rise d2">
-        <b>Гідроцикли</b>
-        <span>за домовленістю</span>
-        <p>Коротші за&nbsp;4&nbsp;метри — ціну називаємо окремо.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── як це працює ──────────────────────────────────────────────────── -->
 <section id="how" class="band light">
-  <div class="route" style="top:-24px;height:170px" aria-hidden="true">
-    <svg viewBox="0 0 1200 170" preserveAspectRatio="none">
-      <path class="path" d="M1240 60 C 1000 150, 780 30, 560 110 S 180 160, -40 74"/>
-    </svg>
-  </div>
-
   <div class="wrap">
-    <span class="side-label">порядок</span>
     <p class="eyebrow rise">Як це працює</p>
-    <h2 class="rise">Чотири кроки — і&nbsp;човен на&nbsp;місці</h2>
+    <h2 class="rise">Три кроки</h2>
 
-    <div class="steps">
+    <div class="steps" style="grid-template-columns:repeat(3,1fr)">
       <div class="step rise">
         <div class="no">1</div>
-        <b>Лишаєте заявку</b>
-        <p>Пишете довжину човна й&nbsp;бажаний тип місця. Передзвонюємо того&nbsp;ж дня.</p>
+        <b>Дзвоните</b>
+        <p>Кажете довжину човна. Підбираємо місце й&nbsp;називаємо суму.</p>
       </div>
       <div class="step rise d1">
         <div class="no">2</div>
-        <b>Дивитесь місце</b>
-        <p>Приїздите, оглядаєте причал і&nbsp;ангар, обираєте, де стоятиме судно.</p>
+        <b>Ставите човен</b>
+        <p>Приїздите, дивитесь, лишаєте судно. Допомагаємо завести й&nbsp;закріпити.</p>
       </div>
       <div class="step rise d2">
         <div class="no">3</div>
-        <b>Ставимо човен</b>
-        <p>Допомагаємо завести й&nbsp;закріпити. Записуємо судно та&nbsp;ваші контакти.</p>
-      </div>
-      <div class="step rise d3">
-        <div class="no">4</div>
-        <b>Рахунок у&nbsp;Telegram</b>
-        <p>З&nbsp;1&nbsp;по&nbsp;7&nbsp;число приходить рахунок із QR — оплата з&nbsp;банку в&nbsp;два дотики.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── база відпочинку ───────────────────────────────────────────────── -->
-<section id="rest">
-  <div class="wrap">
-    <div class="base rise">
-      <div class="base-text">
-        <p class="eyebrow">Поруч</p>
-        <h2>Залишили човен — і&nbsp;лишилися самі</h2>
-        <p>
-          Станція стоїть поряд із базою відпочинку «Темп&nbsp;Дніпра».
-          Шість будиночків із терасою й&nbsp;мангалом, басейн просто неба
-          й&nbsp;чани з&nbsp;гідромасажем біля води. Можна приїхати
-          за&nbsp;човном і&nbsp;лишитись на&nbsp;вихідні.
-        </p>
-        <ul class="base-list">
-          <li>6&nbsp;будиночків на&nbsp;2&nbsp;гостей</li>
-          <li>Басейн 10×5&nbsp;м із лежаками</li>
-          <li>Чани з&nbsp;підсвіткою біля води</li>
-          <li>Риболовля на&nbsp;Дніпрі, вудки в&nbsp;оренду</li>
-          <li>SUP-дошки та&nbsp;каяк у&nbsp;прокат</li>
-          <li>10&nbsp;хвилин від Києва</li>
-        </ul>
-        <div class="hero-cta" style="margin-top:24px">
-          <a class="btn" href="https://tempdnipra.pp.ua" target="_blank" rel="noopener">
-            Подивитись базу відпочинку
-          </a>
-        </div>
-      </div>
-      <div class="base-photos">
-        <div><img src="img/base-chan.webp" loading="lazy"
-                  alt="Будиночок «Темп Дніпра» з чаном і мангалом на подвір'ї"></div>
-        <div><img src="img/base-pool.webp" loading="lazy"
-                  alt="Відкритий басейн 10×5 метрів із шезлонгами на території бази"></div>
+        <b>Платите раз на&nbsp;місяць</b>
+        <p>Рахунок приходить у&nbsp;Telegram із QR — сума вже вписана.</p>
       </div>
     </div>
   </div>
@@ -449,10 +296,9 @@
     <div class="book rise" style="background:rgba(255,255,255,.05);box-shadow:0 18px 40px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.14)">
       <div>
         <p class="eyebrow" style="color:var(--on-deep-mute)">Бронювання</p>
-        <h2 style="color:#fff">Оберіть дату — і&nbsp;ми тримаємо місце</h2>
+        <h2 style="color:#fff">Оберіть дату</h2>
         <p class="lead" style="font-size:15.5px;color:var(--on-deep-mute)">
-          Підсвічені дні — ті, коли є&nbsp;вільні місця обраного типу.
-          Натисніть день і&nbsp;заповніть коротку форму поруч.
+          Підсвічені дні — ті, коли є&nbsp;вільні місця.
         </p>
 
         <div class="cal">
@@ -464,10 +310,6 @@
             </div>
           </div>
           <div class="cal-grid" id="calGrid"></div>
-          <div class="cal-legend" style="color:var(--on-deep-mute)">
-            <span><i class="a"></i>є&nbsp;вільні місця</span>
-            <span><i class="b"></i>немає вільних</span>
-          </div>
         </div>
       </div>
 
@@ -475,9 +317,9 @@
         <div>
           <div class="lbl" style="color:var(--on-deep-mute)">Де поставити човен</div>
           <div class="choice" id="kind">
-            <button type="button" class="on" data-k="water">На&nbsp;воді<br>пірс&nbsp;/&nbsp;понтон</button>
-            <button type="button" data-k="land">На&nbsp;суші<br>під&nbsp;брезентом</button>
-            <button type="button" data-k="hangar">Критий<br>ангар</button>
+            <button type="button" class="on" data-k="water">На&nbsp;воді</button>
+            <button type="button" data-k="land">На&nbsp;суші</button>
+            <button type="button" data-k="hangar">Ангар</button>
           </div>
         </div>
 
@@ -492,21 +334,9 @@
           </div>
         </div>
 
-        <div class="two">
-          <div>
-            <div class="lbl" style="color:var(--on-deep-mute)">Ваше ім'я</div>
-            <input class="field" id="fName" placeholder="Як до вас звертатись">
-          </div>
-          <div>
-            <div class="lbl" style="color:var(--on-deep-mute)">Телефон</div>
-            <input class="field" id="fTel" inputmode="tel" placeholder="+380 __ ___ __ __">
-          </div>
-        </div>
-
         <div>
-          <div class="lbl" style="color:var(--on-deep-mute)">Коментар</div>
-          <textarea class="field" id="fNote" rows="3"
-                    placeholder="Модель човна, причеп, побажання…"></textarea>
+          <div class="lbl" style="color:var(--on-deep-mute)">Телефон</div>
+          <input class="field" id="fTel" inputmode="tel" placeholder="+380 __ ___ __ __">
         </div>
 
         <button class="btn sand big" type="submit">
@@ -515,10 +345,43 @@
         </button>
 
         <p class="form-note" id="formNote">
-          Заявка — це не&nbsp;оплата й&nbsp;не&nbsp;підтверджене місце.
-          Ми передзвонимо, уточнимо розмір судна й&nbsp;підтвердимо вручну.
+          Ми передзвонимо, уточнимо розмір судна й&nbsp;підтвердимо місце.
         </p>
       </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── база відпочинку ───────────────────────────────────────────────── -->
+<section id="rest">
+  <div class="wrap">
+    <div class="base rise">
+      <div class="base-text">
+        <p class="eyebrow">Поруч</p>
+        <h2>Залишили човен — і&nbsp;лишились самі</h2>
+        <p>
+          Станція стоїть поряд із базою відпочинку «Темп&nbsp;Дніпра»:
+          будиночки з&nbsp;терасою, басейн і&nbsp;чани біля води.
+          Можна приїхати за&nbsp;човном і&nbsp;лишитись на&nbsp;вихідні.
+        </p>
+        <ul class="base-list">
+          <li>Будиночки з&nbsp;мангалом</li>
+          <li>Басейн і&nbsp;чани</li>
+          <li>Риболовля на&nbsp;Дніпрі</li>
+          <li>10&nbsp;хвилин від Києва</li>
+        </ul>
+        <div class="hero-cta" style="margin-top:24px">
+          <a class="btn" href="https://tempdnipra.pp.ua" target="_blank" rel="noopener">
+            Подивитись базу
+          </a>
+        </div>
+      </div>
+      <div class="base-photos">
+        <div><img src="img/base-chan.webp" loading="lazy"
+                  alt="Будиночок «Темп Дніпра» з чаном і мангалом на подвір'ї"></div>
+        <div><img src="img/base-pool.webp" loading="lazy"
+                  alt="Відкритий басейн 10×5 метрів із шезлонгами на території бази"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -526,46 +389,34 @@
 <!-- ── питання ───────────────────────────────────────────────────────── -->
 <section id="faq" class="band light">
   <div class="wrap">
-    <span class="side-label">відповіді</span>
     <p class="eyebrow rise">Питання</p>
-    <h2 class="rise">Що питають найчастіше</h2>
+    <h2 class="rise">Коротко про головне</h2>
 
     <div class="faq">
       <details class="qa rise">
-        <summary>Скільки коштує стоянка човна?</summary>
+        <summary>Скільки коштує стоянка?</summary>
         <div class="ans">
-          Ціна залежить від довжини судна: 4–6&nbsp;метрів — 2500&nbsp;₴
-          на&nbsp;місяць, 6–8&nbsp;метрів — 3000&nbsp;₴, 8–10&nbsp;метрів —
-          4000&nbsp;₴. Платити можна за&nbsp;місяць, за&nbsp;3&nbsp;або
-          за&nbsp;6&nbsp;місяців наперед.
+          За довжиною судна: 4–6&nbsp;метрів — 2500&nbsp;₴ на&nbsp;місяць,
+          6–8&nbsp;метрів — 3000&nbsp;₴, 8–10&nbsp;метрів — 4000&nbsp;₴.
+          Платити можна за&nbsp;місяць, за&nbsp;3&nbsp;або за&nbsp;6&nbsp;місяців.
         </div>
       </details>
 
       <details class="qa rise">
         <summary>Коли й&nbsp;як платити?</summary>
         <div class="ans">
-          Оплата за&nbsp;місце — з&nbsp;1&nbsp;по&nbsp;7&nbsp;число місяця.
-          Рахунок приходить у&nbsp;Telegram із QR-кодом, у&nbsp;якому сума вже
-          вписана: натискаєте код, відкривається ваш банк, підтверджуєте
-          переказ. Готівкою теж можна.
+          З&nbsp;1&nbsp;по&nbsp;7&nbsp;число місяця. Рахунок приходить
+          у&nbsp;Telegram із QR-кодом: натискаєте код, відкривається ваш банк,
+          сума вже вписана. Готівкою теж можна.
         </div>
       </details>
 
       <details class="qa rise">
-        <summary>Де саме ви знаходитесь?</summary>
+        <summary>Де ви знаходитесь?</summary>
         <div class="ans">
           На&nbsp;Дніпрі під Вишгородом, поруч із базою відпочинку
-          «Темп&nbsp;Дніпра». Від Києва близько 10&nbsp;хвилин їзди.
-          Точну адресу й&nbsp;орієнтири надсилаємо перед візитом.
-        </div>
-      </details>
-
-      <details class="qa rise">
-        <summary>Скільки у&nbsp;вас місць?</summary>
-        <div class="ans">
-          Шістдесят: десять у&nbsp;критому ангарі та&nbsp;пʼятдесят надворі —
-          на&nbsp;пірсі, понтоні й&nbsp;на&nbsp;суші. Місць в&nbsp;ангарі
-          найменше, тому на&nbsp;зиму їх бронюють заздалегідь.
+          «Темп&nbsp;Дніпра». Від Києва близько 10&nbsp;хвилин.
+          Точну адресу надсилаємо перед візитом.
         </div>
       </details>
 
@@ -574,69 +425,49 @@
         <div class="ans">
           Так. Для зимівлі найкраще підходить критий ангар: там сухо
           й&nbsp;немає ультрафіолету, тож гелькоут і&nbsp;оббивка
-          не&nbsp;вигорають, а&nbsp;конденсат не&nbsp;псує електрику.
-        </div>
-      </details>
-
-      <details class="qa rise">
-        <summary>Човен якого розміру ви приймаєте?</summary>
-        <div class="ans">
-          Судна завдовжки до&nbsp;10&nbsp;метрів. Човни коротші
-          за&nbsp;4&nbsp;метри, зокрема гідроцикли, і&nbsp;судна довші
-          за&nbsp;10&nbsp;метрів — за&nbsp;домовленістю, зателефонуйте.
-        </div>
-      </details>
-
-      <details class="qa rise">
-        <summary>Як спустити човен на&nbsp;воду?</summary>
-        <div class="ans">
-          Попередьте нас — піднімемо й&nbsp;спустимо. Якщо човен стоїть
-          на&nbsp;пірсі або понтоні, спускати нічого не&nbsp;треба:
-          він уже на&nbsp;воді.
+          не&nbsp;вигорають. Місць в&nbsp;ангарі десять.
         </div>
       </details>
 
       <details class="qa rise">
         <summary>Чи можна приїхати з&nbsp;причепом?</summary>
         <div class="ans">
-          Так, заїзд зручний — під'їхати можна просто до&nbsp;місця.
-          Причіп теж можна лишити на&nbsp;території.
+          Так. Під'їхати можна просто до&nbsp;місця, причіп теж
+          лишається на&nbsp;території.
         </div>
       </details>
     </div>
   </div>
 </section>
 
-<!-- ── контакти: фото на всю ширину ──────────────────────────────────── -->
+<!-- ── контакти ──────────────────────────────────────────────────────── -->
 <section id="contacts" class="bleed bleed-end">
-  <img src="img/aerial.webp" alt="" aria-hidden="true">
+  <img src="img/aerial.webp" alt="" aria-hidden="true" loading="lazy">
   <span class="media-note">фото згенероване для макета</span>
   <div class="wrap">
-    <p class="eyebrow rise" style="color:rgba(255,255,255,.72)">Контакти</p>
-    <h2 class="rise" style="font-size:clamp(30px,5.4vw,64px)">Приїздіть подивитись</h2>
+    <h2 class="rise" style="font-size:clamp(30px,5.4vw,60px)">Приїздіть подивитись</h2>
     <p class="lead rise d1" style="color:rgba(255,255,255,.9);text-shadow:0 2px 14px rgba(0,0,0,.5)">
-      Причал і&nbsp;ангар найкраще один раз побачити на&nbsp;власні очі.
       Зателефонуйте — домовимось про час.
     </p>
 
-    <div class="rows rise d2" style="margin-top:28px;display:flex;gap:26px;flex-wrap:wrap">
+    <div class="rows rise d2" style="margin-top:26px;display:flex;gap:26px;flex-wrap:wrap">
       <div class="crow">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-phone"/></svg></span>
         <div>
           <b style="color:#fff"><a href="tel:+380977550959" style="text-decoration:none">+380&nbsp;97&nbsp;755&nbsp;09&nbsp;59</a></b>
-          <span style="color:rgba(255,255,255,.8)">дзвінки за&nbsp;тарифом вашого оператора</span>
+          <span style="color:rgba(255,255,255,.8)">дзвінки за&nbsp;тарифом оператора</span>
         </div>
       </div>
       <div class="crow">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-pin"/></svg></span>
         <div>
           <b style="color:#fff">Вишгород, Київська область</b>
-          <span style="color:rgba(255,255,255,.8)">10&nbsp;хвилин від Києва, адресу надішлемо</span>
+          <span style="color:rgba(255,255,255,.8)">10&nbsp;хвилин від Києва</span>
         </div>
       </div>
     </div>
 
-    <div class="hero-cta rise d3" style="margin-top:28px">
+    <div class="hero-cta rise d3" style="margin-top:26px">
       <a class="btn sand big" href="tel:+380977550959">Зателефонувати</a>
       <a class="btn ghost-deep big" href="#book">Лишити заявку</a>
     </div>
@@ -652,9 +483,6 @@
   </div>
 </footer>
 
-<!-- Структуровані дані. Їх читають і пошуковики, і нейромережі, коли
-     відповідають на «де зберігати човен під Києвом і скільки це коштує».
-     Тарифи тут справжні — ті, що назвав власник станції 22.09.2026. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -682,18 +510,15 @@
         "@type": "OfferCatalog",
         "name": "Стоянка човна за довжиною судна",
         "itemListElement": [
-          { "@type": "Offer",
-            "price": "2500", "priceCurrency": "UAH",
+          { "@type": "Offer", "price": "2500", "priceCurrency": "UAH",
             "eligibleDuration": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" },
             "itemOffered": { "@type": "Service", "name": "Стоянка човна 4–6 метрів",
               "description": "Місце для судна завдовжки від 4 до 6 метрів: на воді, на суші або в критому ангарі." } },
-          { "@type": "Offer",
-            "price": "3000", "priceCurrency": "UAH",
+          { "@type": "Offer", "price": "3000", "priceCurrency": "UAH",
             "eligibleDuration": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" },
             "itemOffered": { "@type": "Service", "name": "Стоянка човна 6–8 метрів",
               "description": "Місце для судна завдовжки від 6 до 8 метрів." } },
-          { "@type": "Offer",
-            "price": "4000", "priceCurrency": "UAH",
+          { "@type": "Offer", "price": "4000", "priceCurrency": "UAH",
             "eligibleDuration": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" },
             "itemOffered": { "@type": "Service", "name": "Стоянка човна 8–10 метрів",
               "description": "Місце для судна завдовжки від 8 до 10 метрів." } },
@@ -708,17 +533,15 @@
       "@id": "https://fominadesigns.github.io/Skipper/site/#faq",
       "mainEntity": [
         { "@type": "Question", "name": "Скільки коштує стоянка човна?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Ціна залежить від довжини судна: 4–6 метрів — 2500 ₴ на місяць, 6–8 метрів — 3000 ₴, 8–10 метрів — 4000 ₴. Платити можна за місяць, за 3 або за 6 місяців наперед." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "За довжиною судна: 4–6 метрів — 2500 ₴ на місяць, 6–8 метрів — 3000 ₴, 8–10 метрів — 4000 ₴. Платити можна за місяць, за 3 або за 6 місяців." } },
         { "@type": "Question", "name": "Коли й як платити за стоянку?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Оплата за місце — з 1 по 7 число місяця. Рахунок приходить у Telegram із QR-кодом, у якому сума вже вписана. Готівкою теж можна." } },
-        { "@type": "Question", "name": "Скільки місць на станції?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Шістдесят: десять у критому ангарі та пʼятдесят надворі — на пірсі, понтоні й на суші." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "З 1 по 7 число місяця. Рахунок приходить у Telegram із QR-кодом, у якому сума вже вписана. Готівкою теж можна." } },
         { "@type": "Question", "name": "Де знаходиться човнова станція?",
           "acceptedAnswer": { "@type": "Answer", "text": "На Дніпрі під Вишгородом у Київській області, поруч із базою відпочинку «Темп Дніпра». Від Києва близько 10 хвилин їзди." } },
         { "@type": "Question", "name": "Чи можна лишити човен на зиму?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Так. Для зимівлі підходить критий ангар: там сухо й немає ультрафіолету, тож гелькоут і оббивка не вигорають, а конденсат не псує електрику." } },
-        { "@type": "Question", "name": "Човен якого розміру приймає станція?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Судна завдовжки до 10 метрів. Човни коротші за 4 метри, зокрема гідроцикли, і судна довші за 10 метрів — за домовленістю." } }
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Для зимівлі підходить критий ангар: там сухо й немає ультрафіолету, тож гелькоут і оббивка не вигорають. Місць в ангарі десять." } },
+        { "@type": "Question", "name": "Скільки місць на станції?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Шістдесят: десять у критому ангарі та пʼятдесят надворі — на пірсі, понтоні й на суші." } }
       ]
     }
   ]
@@ -727,9 +550,8 @@
 
 <script>
 /* ── поява блоків під час прокрутки ──────────────────────────────────────
-   Спостерігач дешевший за обробник scroll і не гальмує сторінку.
-   Блок зʼявляється один раз і більше не ховається: повторна анімація
-   при кожному проході дратує. */
+   Спостерігач дешевший за обробник scroll. Блок зʼявляється один раз
+   і більше не ховається: повторна анімація при кожному проході дратує. */
 const io = new IntersectionObserver((entries) => {
   for (const e of entries) {
     if (!e.isIntersecting) continue;
@@ -739,20 +561,16 @@ const io = new IntersectionObserver((entries) => {
 }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
 
 document.querySelectorAll('.rise').forEach(el => io.observe(el));
-
-/* Перший екран показуємо одразу: чекати прокрутки там нема сенсу. */
 document.querySelectorAll('.bleed-hero .rise').forEach(el => {
   el.classList.add('in'); io.unobserve(el);
 });
 
 /* ── кораблик, що пливе лінією маршруту ────────────────────────────────
-   Малюється поверх пунктиру й рухається по тій самій кривій.
    Якщо браузер не вміє offset-path — кораблика просто не буде,
    а пунктир лишиться. Прикраса не має ламати сторінку. */
 if (CSS.supports('offset-path', 'path("M0 0 L1 1")')) {
   document.querySelectorAll('.route svg').forEach((svg, i) => {
-    const path = svg.querySelector('.path');
-    const d = path.getAttribute('d');
+    const d = svg.querySelector('.path').getAttribute('d');
     const ns = 'http://www.w3.org/2000/svg';
 
     const g = document.createElementNS(ns, 'g');
