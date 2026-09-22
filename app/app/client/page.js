@@ -148,6 +148,86 @@ function Bill({ bookings, payee, busy, onPaid }) {
   ));
 }
 
+/* ── вікно заявки ─────────────────────────────────────────────────────────
+   Як форма на сайті: тип місця, з якого місяця, на скільки, довжина
+   й назва човна. Телефон не питаємо — він уже є в картці клієнта.
+   Це ЗАЯВКА: вона падає на дашборд CRM, бронь оформлює станція. */
+const monthsWord = (n) => (n === 1 ? 'місяць' : n < 5 ? 'місяці' : 'місяців');
+
+function RequestSheet({ ask, free, busy, onClose, onSend }) {
+  const [f, setF] = useState(null);
+  useEffect(() => {
+    if (ask) setF({ kind: ask.kind, month: ask.month, months: '3', length: '', boat: '' });
+  }, [ask]);
+  if (!ask || !f) return null;
+  const keys = Object.keys(free || {});
+  const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
+  const n = free?.[f.month]?.[f.kind]?.free || 0;
+
+  return (
+    <div className="veil" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}><h2>Заявка на місце</h2>
+            <div className="sub">станція передзвонить і&nbsp;підтвердить</div></div>
+          <button className="btn sm" onClick={onClose}>×</button>
+        </div>
+
+        <div className="lbl" style={{ marginTop: 16 }}>Де поставити човен</div>
+        <div className="two" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
+          {[['water', 'На воді'], ['land', 'На суші'], ['hangar', 'Ангар']].map(([k, l]) => (
+            <button key={k} className={'btn sm' + (f.kind === k ? ' blue' : '')}
+                    onClick={() => setF({ ...f, kind: k })}>{l}</button>
+          ))}
+        </div>
+
+        <div className="two" style={{ marginTop: 12 }}>
+          <div>
+            <div className="lbl">З якого місяця</div>
+            <select className="field" value={f.month} onChange={set('month')}>
+              {keys.map((k) => { const [y, m] = k.split('-').map(Number);
+                return <option key={k} value={k}>{MONTHS_NOM[m - 1]} {y}</option>; })}
+            </select>
+          </div>
+          <div>
+            <div className="lbl">На скільки</div>
+            <select className="field" value={f.months} onChange={set('months')}>
+              {[1,2,3,4,5,6,7,8,9,10,11,12].map((m) => <option key={m} value={String(m)}>{m} {monthsWord(m)}</option>)}
+              <option value="open">без кінцевої дати</option>
+            </select>
+          </div>
+        </div>
+        <div className="note" style={{ marginTop: 10 }}>
+          {n ? <>У&nbsp;цьому місяці вільно <b>{n}&nbsp;{places(n)}</b> {KIND[f.kind]}.</>
+             : <>У&nbsp;цьому місяці вільних місць {KIND[f.kind]} немає — заявку все одно можна залишити.</>}
+        </div>
+
+        <div className="two" style={{ marginTop: 12 }}>
+          <div>
+            <div className="lbl">Довжина човна, м</div>
+            <input className="field" value={f.length} onChange={set('length')} inputMode="decimal" placeholder="6,5" />
+          </div>
+          <div>
+            <div className="lbl">Назва човна</div>
+            <input className="field" value={f.boat} onChange={set('boat')} placeholder="необовʼязково" />
+          </div>
+        </div>
+
+        <button className="btn solid" style={{ width: '100%', marginTop: 16 }} disabled={busy}
+                onClick={() => onSend({ kind: f.kind, month: f.month,
+                  months: f.months === 'open' ? null : Number(f.months),
+                  length: f.length, boatName: f.boat })}>
+          Надіслати заявку
+        </button>
+        <div className="note">
+          Це заявка, а&nbsp;не&nbsp;бронь. Станція передзвонить на&nbsp;ваш номер
+          і&nbsp;підтвердить місце.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── вкладка «Вільні місця» ───────────────────────────────────────────── */
 function Free({ free, busy, onAsk }) {
   const keys = Object.keys(free || {}).slice(0, 6);
@@ -174,7 +254,8 @@ function Free({ free, busy, onAsk }) {
         );
       })}
       <div className="note">
-        «Хочу» — це заявка, а&nbsp;не&nbsp;бронь. Станція передзвонить і&nbsp;підтвердить місце.
+        «Хочу» відкриє заявку: оберете, на&nbsp;скільки місяців і&nbsp;який човен.
+        Станція передзвонить і&nbsp;підтвердить місце.
       </div>
     </>
   );
@@ -186,6 +267,7 @@ export default function Client() {
   const [tab, setTab] = useState('boat');
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState('');
+  const [ask, setAsk] = useState(null);      // { kind, month } — відкрите вікно заявки
   const say = (t) => { setToast(t); setTimeout(() => setToast(''), 3000); };
 
   const now = new Date();
@@ -220,9 +302,9 @@ export default function Client() {
     catch (e) { say(e.message); }
     setBusy(false);
   };
-  const onAsk = async (kind, month) => {
+  const onSend = async (body) => {
     setBusy(true);
-    try { await call('request', { kind, month }); say('Заявку надіслано — ми передзвонимо'); }
+    try { await call('request', body); setAsk(null); say('Заявку надіслано — ми передзвонимо'); }
     catch (e) { say(e.message); }
     setBusy(false);
   };
@@ -263,7 +345,8 @@ export default function Client() {
                 Броні за вашим номером поки немає. Залиште заявку у вкладці «Вільні місця».
               </div>)}
           {tab === 'bill' && <Bill bookings={data.bookings} payee={data.payee} busy={busy} onPaid={onPaid} />}
-          {tab === 'free' && <Free free={data.free} busy={busy} onAsk={onAsk} />}
+          {tab === 'free' && <Free free={data.free} busy={busy} onAsk={(kind, month) => setAsk({ kind, month })} />}
+          <RequestSheet ask={ask} free={data.free} busy={busy} onClose={() => setAsk(null)} onSend={onSend} />
 
           <div className="nav">
             <button className={tab === 'boat' ? 'on' : ''} onClick={() => setTab('boat')}>Човен</button>

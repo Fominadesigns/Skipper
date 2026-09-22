@@ -27,6 +27,8 @@ export async function POST(req) {
   const date = /^\d{4}-\d{2}-\d{2}$/.test(d.date || '') ? d.date : null;
   const len = parseFloat(String(d.length || '').replace(',', '.'));
   const lengthCm = Number.isFinite(len) && len > 0 && len < 40 ? Math.round(len * 100) : null;
+  // На скільки місяців: 1–12, або порожньо — «без кінцевої дати».
+  const months = Number.isInteger(Number(d.months)) && d.months >= 1 && d.months <= 12 ? Number(d.months) : null;
 
   if (!kind || !date) {
     return NextResponse.json({ error: 'Оберіть тип місця й дату' }, { status: 400, headers });
@@ -43,8 +45,8 @@ export async function POST(req) {
        WHERE right(regexp_replace(phone, '[^0-9]', '', 'g'), 9) = ${tail}
          AND created_at > now() - interval '10 minutes'`).rows[0];
     if (!recent) {
-      await sql`INSERT INTO requests (kind, starts_on, length_cm, phone)
-                VALUES (${kind}, ${date}, ${lengthCm}, ${phone})`;
+      await sql`INSERT INTO requests (kind, starts_on, length_cm, phone, months, source)
+                VALUES (${kind}, ${date}, ${lengthCm}, ${phone}, ${months}, 'site')`;
     }
     return NextResponse.json({ ok: true, bot }, { headers });
   } catch {

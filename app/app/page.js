@@ -577,8 +577,8 @@ function NewModal({ slot, monthKey, prefill, onClose, onSave, busy }) {
 
   useEffect(() => {
     if (slot) {
-      setF({ clientName: '', phone: prefill?.phone || '', boatName: '', reg: '',
-             lengthM: prefill?.lengthM || '', fromKey: monthKey, months: '3' });
+      setF({ clientName: '', phone: prefill?.phone || '', boatName: prefill?.boatName || '', reg: '',
+             lengthM: prefill?.lengthM || '', fromKey: monthKey, months: prefill?.months || '3' });
     }
   }, [slot, monthKey, prefill]);
 
@@ -868,11 +868,16 @@ function Inbox({ data, busy, act, onRequest, onPay }) {
   const byId = Object.fromEntries(bookings.map((b) => [b.id, b]));
   return (
     <>
-      {requests.length > 0 && <div className="sect">Заявки з сайту · {requests.length}</div>}
+      {requests.length > 0 && <div className="sect">Заявки · {requests.length}</div>}
       {requests.map((r) => (
         <div className="card" key={'r' + r.id} style={{ marginBottom: 12 }}>
           <div className="rows">
+            <div className="row"><span className="k">Звідки</span>
+              <span className="v">{r.source === 'app' ? 'з кабінету в Telegram' : 'з сайту'}</span></div>
             <div className="row"><span className="k">Телефон</span><span className="v">{r.phone}</span></div>
+            {r.boat_name && <div className="row"><span className="k">Човен</span><span className="v">{r.boat_name}</span></div>}
+            <div className="row"><span className="k">На скільки</span>
+              <span className="v">{r.months ? r.months + ' ' + (r.months === 1 ? 'місяць' : r.months < 5 ? 'місяці' : 'місяців') : 'без кінцевої дати'}</span></div>
             <div className="row"><span className="k">Де</span><span className="v">{KIND[r.kind] || r.kind}</span></div>
             <div className="row"><span className="k">З дати</span>
               <span className="v">{new Date(r.starts_on).getUTCDate()} {MONTHS_GEN[new Date(r.starts_on).getUTCMonth()]}</span></div>
@@ -1086,7 +1091,8 @@ export default function Page() {
                    const slot = freeSlotFor(slots, bookings, r.kind, mk);
                    if (!slot) { say('Вільних місць «' + (KIND[r.kind] || r.kind) + '» на цей місяць немає'); return; }
                    setNewAt({ slot, monthKey: mk, prefill: {
-                     phone: r.phone, requestId: r.id,
+                     phone: r.phone, requestId: r.id, boatName: r.boat_name || '',
+                     months: r.months ? String(r.months) : 'open',
                      lengthM: r.length_cm ? String(r.length_cm / 100).replace('.', ',') : '' } });
                  }} />
           <div className="kpi" style={{ marginTop: 16 }}>

@@ -69,7 +69,7 @@ export async function GET() {
   });
 
   const requests = (await sql`
-    SELECT id, kind, starts_on, length_cm, phone, created_at
+    SELECT id, kind, starts_on, length_cm, phone, months, boat_name, source, created_at
       FROM requests WHERE status = 'new' ORDER BY created_at DESC`).rows;
   const claims = (await sql`
     SELECT id, booking_id, created_at FROM payment_claims

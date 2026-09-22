@@ -158,6 +158,12 @@ export async function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
 
+    /* months — на скільки місяців (NULL — без кінцевої дати);
+       source — site | app (кабінет у Telegram). */
+    await sql`ALTER TABLE requests ADD COLUMN IF NOT EXISTS months INT`;
+    await sql`ALTER TABLE requests ADD COLUMN IF NOT EXISTS boat_name TEXT`;
+    await sql`ALTER TABLE requests ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'site'`;
+
     /* Клієнт натиснув «Я оплатив». Це лише сигнал: оплату в касу
        вносить людина, звіривши з банком. seen — прибрано з дашборда. */
     await sql`CREATE TABLE IF NOT EXISTS payment_claims (
