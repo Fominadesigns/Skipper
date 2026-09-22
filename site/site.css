@@ -840,19 +840,20 @@ footer{background:var(--deep)}
    на екрані — ховається. */
 .fab{
   position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));
-  z-index:50;height:64px;min-width:64px;border-radius:999px;padding:0 20px;
-  display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;
+  z-index:50;height:64px;min-width:64px;border-radius:999px;padding:0;
+  display:flex;align-items:center;justify-content:center;gap:0;text-decoration:none;
   background:linear-gradient(145deg,#ffd84d 0%,#f5c21b 100%);color:#141d42;
   box-shadow:0 10px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.5);
-  transition:transform .25s var(--ease), opacity .25s, box-shadow .25s;
+  transition:transform .25s var(--ease), opacity .25s, box-shadow .25s, padding .35s var(--ease), gap .35s var(--ease);
 }
 .fab .icon{width:26px;height:26px;stroke:#141d42;stroke-width:1.8}
 .fab-l{font-weight:700;font-size:15px;white-space:nowrap;max-width:0;overflow:hidden;
        transition:max-width .35s var(--ease)}
 @media (hover:hover){
   .fab:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+  .fab:hover{padding:0 22px 0 19px;gap:10px}   /* відступи — лише коли висувається напис */
   .fab:hover .fab-l{max-width:200px}
 }
 .fab:active{transform:scale(.96)}
 .fab.away{opacity:0;transform:translateY(20px) scale(.9);pointer-events:none}
-@media (max-width:620px){ .fab{height:58px;min-width:58px;padding:0 16px} }
+@media (max-width:620px){ .fab{height:58px;min-width:58px} }
