@@ -983,7 +983,6 @@ export default function Page() {
     if (what === 'expense') say(`Витрату ${money(j.amountKop)} записано`);
     if (method === 'DELETE' && (what.startsWith('payment') || what.startsWith('expense'))) say('Запис видалено');
     if (what === 'requests') say('Заявку відхилено');
-    if (what === 'reset') say('Готово: база чиста, місця лишились');
     if (what === 'claims') say('Прибрано');
     if (what === 'tg-setup') say('Бота під\'єднано' + (j.bot ? ': @' + j.bot : ''));
     if (what.startsWith("seed")) {
@@ -1136,22 +1135,6 @@ export default function Page() {
             </button>
           </div>
 
-          <div className="sect">Для перевірок</div>
-          <div className="card">
-            <div style={{ fontSize: 14, lineHeight: 1.6 }}>
-              Видаляє всіх клієнтів, броні, оплати, рахунки, заявки й&nbsp;витрати.
-              Місця станції лишаються. Лише перед справжніми клієнтами — це не&nbsp;відкотити.
-            </div>
-            <button className="btn" style={{ width: '100%', marginTop: 12, color: 'var(--warn)' }} disabled={busy}
-                    onClick={() => {
-                      const w = prompt('Щоб очистити все, впишіть слово ОЧИСТИТИ');
-                      if (w === null) return;
-                      if (w.trim().toUpperCase() !== 'ОЧИСТИТИ') { say('Слово не збіглося — нічого не видалено'); return; }
-                      act('reset', { confirm: 'ОЧИСТИТИ' });
-                    }}>
-              Почати з&nbsp;чистого аркуша
-            </button>
-          </div>
         </div>
       )}
 
