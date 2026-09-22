@@ -877,3 +877,30 @@ footer{background:var(--deep)}
   .bleed-hero > picture{transform:none}
   .bleed-hero > picture > img{animation:none}
 }
+
+/* ── шапка: відступи з боків як у решти сторінки ─────────────────────
+   Раніше padding:10px 0 затирав бічні 15 px від .wrap. */
+.top-in{padding:12px 22px}
+@media (max-width:620px){ .top-in{padding:10px 15px} }
+
+/* ── перший екран на телефоні ────────────────────────────────────────
+   Зверху заголовок і текст на чорному градієнті, посередині — ангар
+   із човном, унизу — кнопки. Фото без паралаксу: у Telegram зсув
+   під час прокрутки давав смикання. */
+@media (max-width:760px){
+  .bleed-hero{align-items:stretch;padding:28px 0 30px}
+  .bleed-hero .wrap{display:flex;flex-direction:column}
+  .bleed-hero .hero-cta{margin-top:auto;padding-top:24px}
+  .bleed-hero::after{
+    background:linear-gradient(180deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.55) 24%,rgba(0,0,0,0) 44%,
+                               rgba(0,0,0,0) 66%,rgba(9,17,31,.8) 88%,rgba(9,17,31,.92) 100%);
+  }
+  .bleed-hero > picture{top:0;transform:none;will-change:auto}
+  /* Двері ангара — на ~60% ширини кадру: зсуваємо, щоб були посередині. */
+  .bleed-hero > picture > img{object-position:62% 50%}
+}
+
+/* ── кругла кнопка «Забронювати» — трохи більша ─────────────────────── */
+.fab{height:72px;min-width:72px}
+.fab .icon{width:30px;height:30px}
+@media (max-width:620px){ .fab{height:66px;min-width:66px} .fab .icon{width:28px;height:28px} }

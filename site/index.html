@@ -718,8 +718,16 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
   function setTop() {
     if (top) document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
   }
-  setTop(); window.addEventListener('resize', setTop);
-  if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Перераховуємо лише коли змінилась ширина: у Telegram і мобільних
+  // браузерах висота «стрибає» від панелей при прокрутці — це й смикало.
+  var lastW = window.innerWidth;
+  setTop();
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth; setTop();
+  });
+  // Паралакс — лише для миші на широкому екрані.
+  if (!hero || window.matchMedia('(prefers-reduced-motion: reduce), (hover: none), (max-width: 760px)').matches) return;
   var pic = hero.querySelector('picture'), ticking = false;
   function move() {
     ticking = false;
@@ -782,7 +790,11 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
   function all() { fit(); }
   all();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
-  window.addEventListener('resize', all);
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) return;   // лише зміна ширини
+    lastW = window.innerWidth; all();
+  });
 })();
 </script>
 </body>
