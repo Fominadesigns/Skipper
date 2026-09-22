@@ -111,7 +111,7 @@
     <img src="img/hangar-real.webp" alt="" fetchpriority="high">
   </picture>
   <div class="wrap">
-    <h1 class="rise">Стоянка човнів <span class="hl">під Вишгородом</span></h1>
+    <h1 class="rise hero-title"><span class="ln fit">Стоянка човнів</span><span class="ln fit"><span class="hl">під Вишгородом</span></span></h1>
     <p class="lead rise d1">
       Критий сухий ангар і&nbsp;50&nbsp;місць надворі.
       Від&nbsp;2500&nbsp;₴ на&nbsp;місяць.
@@ -177,24 +177,24 @@
 
     <div class="terms">
       <div class="term rise">
+        <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-ruler"/></svg></span>
+        <div>
+          <b>Кажете довжину човна</b>
+          <span>підбираємо місце й&nbsp;називаємо суму</span>
+        </div>
+      </div>
+      <div class="term rise d1">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"/></svg></span>
         <div>
           <b>Місяць, 3&nbsp;або 6</b>
           <span>період на&nbsp;вибір</span>
         </div>
       </div>
-      <div class="term rise d1">
+      <div class="term rise d2">
         <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-clock"/></svg></span>
         <div>
           <b>З 1&nbsp;по&nbsp;7&nbsp;число</b>
           <span>рахунок приходить сам</span>
-        </div>
-      </div>
-      <div class="term rise d2">
-        <span class="ic-tile sand"><svg class="icon" viewBox="0 0 24 24"><use href="#i-cash"/></svg></span>
-        <div>
-          <b>Картка або готівка</b>
-          <span>як вам зручніше</span>
         </div>
       </div>
     </div>
@@ -271,28 +271,11 @@
 </section>
 
 <!-- ── як це працює ──────────────────────────────────────────────────── -->
-<section id="how" class="band light">
+<section id="how" class="statement">
   <div class="wrap">
-    <p class="eyebrow rise">Як це працює</p>
-    <h2 class="rise">Три кроки</h2>
-
-    <div class="steps" style="grid-template-columns:repeat(3,1fr)">
-      <div class="step rise">
-        <div class="no">1</div>
-        <b>Дзвоните</b>
-        <p>Кажете довжину човна. Підбираємо місце й&nbsp;називаємо суму.</p>
-      </div>
-      <div class="step rise d1">
-        <div class="no">2</div>
-        <b>Ставите човен</b>
-        <p>Приїздите, дивитесь, лишаєте судно. Допомагаємо завести й&nbsp;закріпити.</p>
-      </div>
-      <div class="step rise d2">
-        <div class="no">3</div>
-        <b>Платите раз на&nbsp;місяць</b>
-        <p>Рахунок приходить у&nbsp;Telegram із QR — сума вже вписана.</p>
-      </div>
-    </div>
+    <p class="big rise fit-block"><span class="ln">Приїхали.</span><span class="ln">Подивились.</span><span class="ln">Залишили&nbsp;човен.</span></p>
+    <p class="big-note rise d1">Решту беремо на&nbsp;себе: допоможемо завести човен
+      і&nbsp;надійно його закріпити.</p>
   </div>
 </section>
 
@@ -484,7 +467,7 @@
       "image": "https://fominadesigns.github.io/Skipper/site/img/hangar-real.webp",
       "priceRange": "2500–4000 ₴ на місяць",
       "currenciesAccepted": "UAH",
-      "paymentAccepted": "Переказ на рахунок, готівка",
+      "paymentAccepted": "Переказ на рахунок",
       "address": {
         "@type": "PostalAddress",
         "addressRegion": "Київська область",
@@ -724,6 +707,49 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
     note.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 });
+</script>
+<script>
+/* Заголовок: два рядки однакової ширини — рівно ліва половина екрана.
+   Шрифт кожного рядка підбирається під ширину, тож «під Вишгородом»
+   виходить меншим за «Стоянка човнів», а краї збігаються. */
+(function () {
+  var title = document.querySelector('.hero-title');
+  if (!title) return;
+  function fit() {
+    var w = title.clientWidth;
+    title.querySelectorAll('.fit').forEach(function (ln) {
+      // Два проходи: після першого відступи між літерами трохи зсувають ширину.
+      var size = 100;
+      for (var i = 0; i < 2; i++) {
+        ln.style.fontSize = size + 'px';
+        var natural = ln.getBoundingClientRect().width;
+        if (!natural) return;
+        size = size * w / natural;
+      }
+      ln.style.fontSize = size.toFixed(2) + 'px';
+    });
+  }
+  /* Великий текст: найдовший рядок — рівно на всю ширину вмісту. */
+  function fitBlocks() {
+    document.querySelectorAll('.fit-block').forEach(function (el) {
+      var w = el.clientWidth, size = 100;
+      for (var i = 0; i < 2; i++) {
+        el.style.fontSize = size + 'px';
+        var widest = 0;
+        el.querySelectorAll('.ln').forEach(function (ln) {
+          widest = Math.max(widest, ln.getBoundingClientRect().width);
+        });
+        if (!widest) return;
+        size = size * w / widest;
+      }
+      el.style.fontSize = size.toFixed(2) + 'px';
+    });
+  }
+  function all() { fit(); fitBlocks(); }
+  all();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+  window.addEventListener('resize', all);
+})();
 </script>
 </body>
 </html>

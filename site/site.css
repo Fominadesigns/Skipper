@@ -805,3 +805,29 @@ footer{background:var(--deep)}
 #book .field::placeholder{color:#8c93ab}
 #book .icon,#prices .icon{stroke:#fff}
 #book .ic-tile.sand .icon,#prices .ic-tile.sand .icon{stroke:#141d42}
+
+/* ── головний заголовок: два рядки на ліву половину екрана ─────────────
+   Ширина — від лівого краю вмісту до середини екрана. Розмір шрифту
+   кожного рядка підбирає скрипт унизу index.html. */
+.bleed-hero h1.hero-title{
+  width:calc(50vw - max(22px, (100vw - 1180px) / 2 + 22px));
+  max-width:none;font-size:80px;line-height:1;
+}
+.hero-title .ln{display:block;width:max-content;white-space:nowrap;line-height:1.02}
+.bleed-hero h1.hero-title + .lead{margin-top:22px}
+.bleed-hero h1 .hl{background:linear-gradient(180deg,transparent 60%,#f5c21b 60%)}   /* повністю непрозора */
+@media (max-width:760px){
+  .bleed-hero h1.hero-title{width:100%}
+}
+
+/* ── великий текст замість «Трьох кроків» ─────────────────────────────
+   Жовта смуга — для динаміки між темними «Місцями» і світлим бронюванням. */
+.statement{background:#f5c21b;color:#141d42;padding:110px 0 100px}
+.statement .big .ln{display:block;width:max-content;white-space:nowrap}
+.statement .big{
+  font-family:"Fixel Display",Fixel,sans-serif;font-weight:700;
+  font-size:clamp(48px,10.5vw,176px);line-height:.92;letter-spacing:-.05em;
+}
+.statement .big-note{font-size:clamp(17px,1.6vw,22px);font-weight:600;max-width:640px;
+                     margin-top:32px;line-height:1.5;color:#141d42}
+@media (max-width:620px){ .statement{padding:72px 0 64px} }
