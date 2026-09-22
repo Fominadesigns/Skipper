@@ -1,14 +1,15 @@
 /* Та сама система, що в макетах Skipper: світла поверхня, різкі чорні тіні.
-   Палітра «Ocean Breeze» (вибір Каті 22.09.2026):
-   042E7B · 004EE0 · 1883FF · 99CAFF · E3F2FF. Фон — ніжно-блакитний. */
+   Палітра Каті від 22.09.2026: синій 2F31F5 · лайм DBF059 · сірий 797979 ·
+   платина EBEBE9 · чорний 131314 · білий. Фон — платина. */
 
 :root{
-  --bg:#e3f2ff; --card:#e8f4ff; --sunk:#d4e8fb; --lift:#ffffff;
+  --bg:#ebebe9; --card:#efefed; --sunk:#e0e0dd; --lift:#ffffff;
   --drop:rgba(0,0,0,.20); --drop-soft:rgba(0,0,0,.14);
-  --blue:#004ee0; --blue-hi:#1883ff; --blue-lo:#042e7b; --blue-pale:#99caff;
-  --grad:linear-gradient(145deg,#1883ff 0%,#004ee0 55%,#042e7b 100%);
-  --sand:#e9a63b; --sand-grad:linear-gradient(145deg,#f3bb58 0%,#c6801c 100%);
-  --ink:#0a1a3a; --muted:#4a5d7c; --ok:#15887c; --warn:#9e3412;
+  --blue:#2f31f5; --blue-hi:#5557ff; --blue-lo:#1c1db8; --blue-pale:#d9d9fd;
+  --lime:#dbf059;
+  --grad:linear-gradient(145deg,#4a4cff 0%,#2f31f5 50%,#1c1db8 100%);
+  --sand:#dbf059; --sand-grad:linear-gradient(145deg,#e6f57f 0%,#c9e03a 100%);
+  --ink:#131314; --muted:#5f5f60; --ok:#15887c; --warn:#9e3412;
   --r-lg:20px; --r-md:14px; --r-sm:10px;
   --out:7px 7px 12px var(--drop), -6px -6px 11px var(--lift);
   --out-sm:4px 4px 8px var(--drop-soft), -4px -4px 8px var(--lift);
@@ -68,7 +69,7 @@ a{color:inherit}
 .btn.solid{background:var(--grad);color:#fff;
            box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.22);
            text-shadow:0 1px 2px rgba(0,0,0,.28)}
-.btn.sand{background:var(--sand-grad);color:#2a1a02;
+.btn.sand{background:var(--sand-grad);color:var(--ink);
           box-shadow:0 7px 16px rgba(198,128,28,.42), inset 0 1px 0 rgba(255,255,255,.4);
           text-shadow:none}
 .btn.sm{padding:9px 14px;font-size:13px}
@@ -77,8 +78,8 @@ a{color:inherit}
   width:100%;background:var(--sunk);border:0;border-radius:var(--r-md);
   box-shadow:var(--in);padding:12px 15px;font-size:14.5px;color:var(--ink);
 }
-.field::placeholder{color:#7f97b8}
-.field:focus{outline:2px solid var(--sand);outline-offset:2px}
+.field::placeholder{color:#8f8f8f}
+.field:focus{outline:2px solid var(--blue);outline-offset:2px}
 .lbl{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
      color:var(--muted);margin-bottom:6px}
 
@@ -98,7 +99,8 @@ a{color:inherit}
 /* ── календар по місяцях ─────────────────────────────────────────────── */
 .cal{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
      padding:14px;overflow-x:auto}
-.mgrid{border-collapse:separate;border-spacing:0 7px;width:100%;min-width:720px}
+.mgrid{border-collapse:separate;border-spacing:0 7px;width:100%;min-width:720px;
+       table-layout:fixed}  /* інакше місяць із назвою човна розтягується на пів таблиці */
 .mgrid th{padding:0 0 10px;font-size:10px;font-weight:700;letter-spacing:.05em;
           text-transform:uppercase;color:var(--muted);text-align:center}
 .mgrid th.c{text-align:left;width:64px;padding-right:9px}
@@ -116,7 +118,7 @@ a{color:inherit}
          text-shadow:0 1px 2px rgba(0,0,0,.3)}
 .cell.on.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
 .cell.on.future{
-  background:linear-gradient(145deg,#b8dbff,#99caff);color:var(--blue-lo);text-shadow:none;
+  background:linear-gradient(145deg,#e6f57f,#dbf059);color:var(--ink);text-shadow:none;
   box-shadow:0 2px 5px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.22);
 }
 .cell.now{outline:2px solid var(--blue-hi);outline-offset:1px}
@@ -128,7 +130,7 @@ a{color:inherit}
 .legend i.p{background:var(--grad)}
 .legend i.d{background:linear-gradient(145deg,#c06a42,#8a3a15)}
 .legend i.f{background:var(--sunk);box-shadow:var(--in)}
-.legend i.u{background:linear-gradient(145deg,#b8dbff,#99caff)}
+.legend i.u{background:linear-gradient(145deg,#e6f57f,#dbf059)}
 
 /* ── список ──────────────────────────────────────────────────────────── */
 .row-card{background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
@@ -168,7 +170,7 @@ a{color:inherit}
 .note.warn{color:var(--warn)}
 
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
-       background:#042e7b;color:#fff;padding:13px 22px;border-radius:14px;
+       background:#131314;color:#fff;padding:13px 22px;border-radius:14px;
        font-size:14px;font-weight:700;box-shadow:0 12px 28px rgba(0,0,0,.4);
        opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw;
        text-align:center}
