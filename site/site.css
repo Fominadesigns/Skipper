@@ -745,3 +745,60 @@ span.ic-tile,
   .tariff{padding:22px 20px}
   .media-note{font-size:10px;right:14px;bottom:10px}
 }
+
+/* ══ ПАЛІТРА КАТІ (22.09.2026) ═══════════════════════════════════════════
+   Та сама, що в CRM: темно-синій неоморфізм, білий і жовтий.
+   Більшість екранів — темні. Блок бронювання з календарем (#book)
+   свідомо лишається світлим: у ньому людина вибирає дату й вписує
+   телефон, і на світлому це читається найлегше.
+
+   Зроблено перевизначенням змінних, а не переписуванням правил:
+   темні значення — для всієї сторінки, світлі — лише всередині #book.
+   --on — колір тексту на білих і жовтих плашках.                      */
+:root{
+  --bg:#141d42; --card:#172248; --sunk:#101838;
+  --lift:#22306a; --drop:rgba(3,6,20,.70); --drop-soft:rgba(3,6,20,.55);
+  --blue:#f5c21b; --blue-lo:#d9a600; --blue-hi:#ffd84d;
+  --grad:linear-gradient(145deg,#ffffff 0%,#e2e7f7 100%);
+  --on:#141d42;
+  --deep:#0e1533; --on-deep:#ffffff; --on-deep-mute:#a9b2d6;
+  --sand:#f5c21b; --sand-lo:#d9a600;
+  --sand-grad:linear-gradient(145deg,#ffd84d 0%,#f5c21b 100%);
+  --teal:#ffffff;
+  --ink:#ffffff; --muted:#a9b2d6; --ok:#ffffff; --warn:#f5c21b;
+  --cast:0 7px 16px rgba(0,0,0,.45); --cast-sm:0 4px 10px rgba(0,0,0,.40);
+}
+html{background:#141d42;color-scheme:dark}
+.top{background:rgba(20,29,66,.88);border-bottom-color:rgba(255,255,255,.06)}
+.band.light{background:var(--bg);box-shadow:0 -14px 34px rgba(0,0,0,.35)}
+.tel,.btn.solid,.choice button.on{color:var(--on);text-shadow:none}
+.btn.sand,.step .no,.qa[open] summary::after,.day.on{color:var(--on)}
+.btn::before{background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.12) 50%,transparent 65%)}
+.icon{stroke:var(--on)}
+.ic-tile.sand .icon{stroke:var(--on)}
+.bleed-hero h1 .hl{background:linear-gradient(180deg,transparent 60%,rgba(245,194,27,.85) 60%)}
+.hero h1 .hl{background:linear-gradient(180deg,transparent 62%,rgba(245,194,27,.55) 62%)}
+.field::placeholder{color:#7d87b3}
+footer{background:var(--deep)}
+
+/* ── бронювання — світла тема ────────────────────────────────────────── */
+#book{
+  --bg:#eceef3; --card:#f2f3f7; --sunk:#e2e5ed;
+  --lift:#ffffff; --drop:rgba(120,128,150,.45); --drop-soft:rgba(120,128,150,.32);
+  --grad:linear-gradient(145deg,#26357a 0%,#141d42 100%);   /* вибране — темно-синє */
+  --on:#ffffff;
+  --blue:#141d42; --teal:#1f7a55;
+  --ink:#141d42; --muted:#5d6480; --warn:#8a6400;
+  --cast:0 7px 16px rgba(20,29,66,.30); --cast-sm:0 4px 10px rgba(20,29,66,.26);
+  /* Тіні — заново: змінна з тінню обчислюється там, де оголошена,
+     і без цього #book успадкував би темні тіні сторінки. */
+  --out:7px 7px 14px var(--drop), -6px -6px 12px var(--lift);
+  --out-sm:4px 4px 9px var(--drop-soft), -4px -4px 8px var(--lift);
+  --out-lg:12px 12px 24px var(--drop), -9px -9px 18px var(--lift);
+  --in:inset 5px 5px 9px var(--drop-soft), inset -4px -4px 8px var(--lift);
+  background:var(--bg);color:var(--ink);
+}
+#book .btn.sand{color:#141d42}
+#book .day.on{color:#141d42}          /* вибраний день — жовтий, текст темний */
+#book .field::placeholder{color:#8c93ab}
+#book .icon{stroke:#fff}
