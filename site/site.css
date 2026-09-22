@@ -781,8 +781,10 @@ html{background:#141d42;color-scheme:dark}
 .field::placeholder{color:#7d87b3}
 footer{background:var(--deep)}
 
-/* ── бронювання — світла тема ────────────────────────────────────────── */
-#book{
+/* ── світлі блоки: бронювання й ціни ─────────────────────────────────────
+   Бронювання — бо там вибирають дату й вписують телефон. Ціни — для ритму:
+   одразу після темного головного екрана, щоб сторінка чергувалась. */
+#book,#prices{
   --bg:#eceef3; --card:#f2f3f7; --sunk:#e2e5ed;
   --lift:#ffffff; --drop:rgba(120,128,150,.45); --drop-soft:rgba(120,128,150,.32);
   --grad:linear-gradient(145deg,#26357a 0%,#141d42 100%);   /* вибране — темно-синє */
@@ -798,7 +800,8 @@ footer{background:var(--deep)}
   --in:inset 5px 5px 9px var(--drop-soft), inset -4px -4px 8px var(--lift);
   background:var(--bg);color:var(--ink);
 }
-#book .btn.sand{color:#141d42}
+#book .btn.sand,#prices .btn.sand{color:#141d42}
 #book .day.on{color:#141d42}          /* вибраний день — жовтий, текст темний */
 #book .field::placeholder{color:#8c93ab}
-#book .icon{stroke:#fff}
+#book .icon,#prices .icon{stroke:#fff}
+#book .ic-tile.sand .icon,#prices .ic-tile.sand .icon{stroke:#141d42}
