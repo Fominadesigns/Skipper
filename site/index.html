@@ -291,19 +291,19 @@
 </section>
 
 <!-- ── бронювання ────────────────────────────────────────────────────── -->
-<section id="book" class="band deep">
+<section id="book" class="band light">
   <div class="wrap">
-    <div class="book rise" style="background:rgba(255,255,255,.05);box-shadow:0 18px 40px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.14)">
+    <div class="book rise">
       <div>
-        <p class="eyebrow" style="color:var(--on-deep-mute)">Бронювання</p>
-        <h2 style="color:#fff">Оберіть дату</h2>
-        <p class="lead" style="font-size:15.5px;color:var(--on-deep-mute)">
+        <p class="eyebrow">Бронювання</p>
+        <h2>Оберіть дату</h2>
+        <p class="lead" style="font-size:15.5px">
           Підсвічені дні — ті, коли є&nbsp;вільні місця.
         </p>
 
         <div class="cal">
           <div class="cal-head">
-            <div class="m" id="calMonth" style="color:#fff">Жовтень 2026</div>
+            <div class="m" id="calMonth">Жовтень 2026</div>
             <div class="cal-nav">
               <button type="button" id="prevM" aria-label="Попередній місяць">‹</button>
               <button type="button" id="nextM" aria-label="Наступний місяць">›</button>
@@ -315,7 +315,7 @@
 
       <form class="form" id="bookForm" novalidate>
         <div>
-          <div class="lbl" style="color:var(--on-deep-mute)">Де поставити човен</div>
+          <div class="lbl">Де поставити човен</div>
           <div class="choice" id="kind">
             <button type="button" class="on" data-k="water">На&nbsp;воді</button>
             <button type="button" data-k="land">На&nbsp;суші</button>
@@ -325,17 +325,17 @@
 
         <div class="two">
           <div>
-            <div class="lbl" style="color:var(--on-deep-mute)">З якої дати</div>
+            <div class="lbl">З якої дати</div>
             <input class="field" id="fDate" placeholder="оберіть у календарі" readonly>
           </div>
           <div>
-            <div class="lbl" style="color:var(--on-deep-mute)">Довжина човна</div>
+            <div class="lbl">Довжина човна</div>
             <input class="field" id="fLen" inputmode="decimal" placeholder="напр. 6,5 м">
           </div>
         </div>
 
         <div>
-          <div class="lbl" style="color:var(--on-deep-mute)">Телефон</div>
+          <div class="lbl">Телефон</div>
           <input class="field" id="fTel" inputmode="tel" placeholder="+380 __ ___ __ __">
         </div>
 
@@ -348,40 +348,6 @@
           Ми передзвонимо, уточнимо розмір судна й&nbsp;підтвердимо місце.
         </p>
       </form>
-    </div>
-  </div>
-</section>
-
-<!-- ── база відпочинку ───────────────────────────────────────────────── -->
-<section id="rest">
-  <div class="wrap">
-    <div class="base rise">
-      <div class="base-text">
-        <p class="eyebrow">Поруч</p>
-        <h2>Залишили човен — і&nbsp;лишились самі</h2>
-        <p>
-          Станція стоїть поряд із базою відпочинку «Темп&nbsp;Дніпра»:
-          будиночки з&nbsp;терасою, басейн і&nbsp;чани біля води.
-          Можна приїхати за&nbsp;човном і&nbsp;лишитись на&nbsp;вихідні.
-        </p>
-        <ul class="base-list">
-          <li>Будиночки з&nbsp;мангалом</li>
-          <li>Басейн і&nbsp;чани</li>
-          <li>Риболовля на&nbsp;Дніпрі</li>
-          <li>10&nbsp;хвилин від Києва</li>
-        </ul>
-        <div class="hero-cta" style="margin-top:24px">
-          <a class="btn" href="https://tempdnipra.pp.ua" target="_blank" rel="noopener">
-            Подивитись базу
-          </a>
-        </div>
-      </div>
-      <div class="base-photos">
-        <div><img src="img/base-chan.webp" loading="lazy"
-                  alt="Будиночок «Темп Дніпра» з чаном і мангалом на подвір'ї"></div>
-        <div><img src="img/base-pool.webp" loading="lazy"
-                  alt="Відкритий басейн 10×5 метрів із шезлонгами на території бази"></div>
-      </div>
     </div>
   </div>
 </section>
@@ -414,8 +380,7 @@
       <details class="qa rise">
         <summary>Де ви знаходитесь?</summary>
         <div class="ans">
-          На&nbsp;Дніпрі під Вишгородом, поруч із базою відпочинку
-          «Темп&nbsp;Дніпра». Від Києва близько 10&nbsp;хвилин.
+          На&nbsp;Дніпрі під Вишгородом. Від Києва близько 10&nbsp;хвилин.
           Точну адресу надсилаємо перед візитом.
         </div>
       </details>
@@ -537,7 +502,7 @@
         { "@type": "Question", "name": "Коли й як платити за стоянку?",
           "acceptedAnswer": { "@type": "Answer", "text": "З 1 по 7 число місяця. Рахунок приходить у Telegram із QR-кодом, у якому сума вже вписана. Готівкою теж можна." } },
         { "@type": "Question", "name": "Де знаходиться човнова станція?",
-          "acceptedAnswer": { "@type": "Answer", "text": "На Дніпрі під Вишгородом у Київській області, поруч із базою відпочинку «Темп Дніпра». Від Києва близько 10 хвилин їзди." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "На Дніпрі під Вишгородом у Київській області. Від Києва близько 10 хвилин їзди." } },
         { "@type": "Question", "name": "Чи можна лишити човен на зиму?",
           "acceptedAnswer": { "@type": "Answer", "text": "Так. Для зимівлі підходить критий ангар: там сухо й немає ультрафіолету, тож гелькоут і оббивка не вигорають. Місць в ангарі десять." } },
         { "@type": "Question", "name": "Скільки місць на станції?",
