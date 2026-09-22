@@ -139,6 +139,25 @@ body{
   font-family:inherit;
 }
 
+/* ── іконки ──────────────────────────────────────────────────────────────
+   Один набір на весь проєкт: тонка біла лінія, без заливки, без кольору.
+   Розмір задає батьківський елемент через font-size — іконка йде за ним.
+   Малюються лише на темно-синьому: на світлому тлі біла лінія зникає.     */
+.icon{
+  width:1em;height:1em;display:block;
+  fill:none;stroke:#fff;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.sprite{display:none}
+
+/* синій квадрат-підкладка під іконку */
+.ic-tile{
+  border-radius:14px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  flex:none;
+}
+
 /* ── номер місця ─────────────────────────────────────────────────────── */
 .berth{
   min-width:44px;height:44px;border-radius:12px;

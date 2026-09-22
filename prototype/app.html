@@ -43,7 +43,10 @@ body{padding:30px 16px 64px}
   background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
   padding:14px 12px;text-align:center;font-size:13px;font-weight:700;line-height:1.35;
 }
-.q span{display:block;font-size:19px;margin-bottom:5px}
+.q .ic-tile{
+  width:38px;height:38px;margin:0 auto 9px;
+  border-radius:12px;font-size:20px;
+}
 
 .bill{display:flex;flex-direction:column;gap:12px}
 .bill-row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
@@ -112,6 +115,45 @@ body{padding:30px 16px 64px}
 </head>
 <body>
 
+<!-- Набір іконок. Вставляється копією в кожну сторінку, а не окремим файлом:
+     зовнішній <use href="file.svg#id"> не працює, коли сторінку відкривають
+     подвійним кліком із диска, а саме так її відкриватиме Влад. -->
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-anchor" viewBox="0 0 24 24">
+    <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
+    <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24">
+    <rect x="5" y="5" width="14" height="16" rx="2.5"/>
+    <path d="M9.2 5V4.2A2.2 2.2 0 0 1 11.4 2h1.2A2.2 2.2 0 0 1 14.8 4.2V5"/>
+    <path d="M9 11h6M9 15h4"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/>
+    <path d="M10.6 5.6h2.8"/><path d="M11.2 18.4h1.6"/>
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/>
+    <path d="M3.5 10.2h17"/><path d="M8 3.2v4M16 3.2v4"/>
+  </symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24">
+    <path d="M6.2 3h11.6v18l-1.94-1.4-1.93 1.4-1.93-1.4-1.94 1.4-1.93-1.4L6.2 21z"/>
+    <path d="M9.4 8.4h5.2M9.4 12.4h5.2"/>
+  </symbol>
+  <symbol id="i-key" viewBox="0 0 24 24">
+    <circle cx="7.8" cy="12" r="3.6"/><path d="M11.4 12H21"/>
+    <path d="M18.2 12v3.1M15.2 12v2.3"/>
+  </symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24">
+    <path d="M20.4 12.3c0 3.8-3.75 6.9-8.4 6.9-1.16 0-2.27-.2-3.28-.55L4.2 20.2l1.36-3.55C4.42 15.5 3.6 14 3.6 12.3c0-3.8 3.76-6.9 8.4-6.9s8.4 3.1 8.4 6.9z"/>
+  </symbol>
+  <symbol id="i-boat" viewBox="0 0 24 24">
+    <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
+    <path d="M6.6 14.6V8.4h10.8l-2.6 6.2"/><path d="M12 8.4V4.2"/>
+  </symbol>
+</svg>
+
+
 <div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Усі матеріали</a></div>
 
 <div class="page-head">
@@ -156,10 +198,10 @@ body{padding:30px 16px 64px}
 
       <div class="sect">Що зробити</div>
       <div class="quick">
-        <div class="q"><span>⚓</span>Спустити<br>на&nbsp;воду</div>
-        <div class="q"><span>🧾</span>Мій<br>рахунок</div>
-        <div class="q"><span>🔑</span>Як&nbsp;потрапити<br>на&nbsp;причал</div>
-        <div class="q"><span>💬</span>Написати<br>Владу</div>
+        <div class="q"><span class="ic-tile"><svg class="icon"><use href="#i-boat"/></svg></span>Спустити<br>на&nbsp;воду</div>
+        <div class="q"><span class="ic-tile"><svg class="icon"><use href="#i-receipt"/></svg></span>Мій<br>рахунок</div>
+        <div class="q"><span class="ic-tile"><svg class="icon"><use href="#i-key"/></svg></span>Як&nbsp;потрапити<br>на&nbsp;причал</div>
+        <div class="q"><span class="ic-tile"><svg class="icon"><use href="#i-chat"/></svg></span>Написати<br>Владу</div>
       </div>
 
       <div class="tabs">
@@ -215,7 +257,7 @@ body{padding:30px 16px 64px}
       <div class="sect">Або переказом</div>
       <div class="card">
         <div class="rows">
-          <div class="row"><span class="k">Отримувач</span><span class="v">ФОП Задирко&nbsp;К.&nbsp;С.</span></div>
+          <div class="row"><span class="k">Отримувач</span><span class="v">ФОП&nbsp;•••••</span></div>
           <div class="row"><span class="k">IBAN</span><span class="v mono">UA00 0000 0000 0000</span></div>
         </div>
         <button class="btn" style="margin-top:14px">Скопіювати IBAN</button>
