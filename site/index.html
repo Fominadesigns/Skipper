@@ -708,6 +708,31 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
   }
 });
 </script>
+<script>
+/* Перший екран: висота шапки — у CSS-змінну, щоб фото займало рівно
+   решту вікна. Паралакс: фото зсувається на 15% швидкості прокрутки,
+   лише поки перший екран видно. Без анімацій, якщо людина їх вимкнула. */
+(function () {
+  var top = document.querySelector('.top');
+  var hero = document.querySelector('.bleed-hero');
+  function setTop() {
+    if (top) document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
+  }
+  setTop(); window.addEventListener('resize', setTop);
+  if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var pic = hero.querySelector('picture'), ticking = false;
+  function move() {
+    ticking = false;
+    var y = window.scrollY;
+    if (y > hero.offsetHeight + 200) return;
+    pic.style.setProperty('--py', (y * 0.15).toFixed(1) + 'px');
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(move); }
+  }, { passive: true });
+})();
+</script>
+
 <!-- Кнопка «Забронювати»: завжди в правому нижньому куті, веде до календаря. -->
 <a class="fab" id="fab" href="#book" aria-label="Забронювати місце">
   <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
@@ -715,13 +740,21 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
 </a>
 
 <script>
-/* Ховаємо кнопку, коли календар уже на екрані — вона там не потрібна. */
+/* Кнопку ховаємо на першому екрані (там свої кнопки, а на телефоні вона
+   їх перекривала) і коли календар уже на екрані — там вона не потрібна. */
 (function () {
-  var fab = document.getElementById('fab'), book = document.getElementById('book');
+  var fab = document.getElementById('fab'), book = document.getElementById('book'),
+      hero = document.querySelector('.bleed-hero');
   if (!fab || !book || !('IntersectionObserver' in window)) return;
-  new IntersectionObserver(function (e) {
-    fab.classList.toggle('away', e[0].isIntersecting);
-  }, { threshold: 0.25 }).observe(book);
+  var onBook = false, onHero = true;
+  function upd() { fab.classList.toggle('away', onBook || onHero); }
+  // Календар «на екрані», коли він займає середину вікна — працює й тоді,
+  // коли блок вищий за екран телефона.
+  new IntersectionObserver(function (e) { onBook = e[0].isIntersecting; upd(); },
+                           { rootMargin: '-40% 0px -40% 0px' }).observe(book);
+  if (hero) new IntersectionObserver(function (e) { onHero = e[0].intersectionRatio > 0.5; upd(); },
+                                     { threshold: [0, 0.5, 1] }).observe(hero);
+  upd();
 })();
 </script>
 

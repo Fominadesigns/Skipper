@@ -857,3 +857,19 @@ footer{background:var(--deep)}
 .fab:active{transform:scale(.96)}
 .fab.away{opacity:0;transform:translateY(20px) scale(.9);pointer-events:none}
 @media (max-width:620px){ .fab{height:58px;min-width:58px} }
+
+/* ── перший екран: рівно на всю висоту вікна ──────────────────────────
+   Вікно мінус шапка (її висоту ставить скрипт у --top-h). Раніше було
+   84% висоти, і знизу проступала смуга наступного блоку. */
+.bleed-hero{min-height:calc(100vh - var(--top-h,72px));min-height:calc(100svh - var(--top-h,72px))}
+
+/* Ненавʼязлива анімація: фото повільно «наближається» при відкритті
+   (img) і трохи відстає від тексту при прокрутці — паралакс (picture).
+   Картинка виступає на 15% вгору, щоб при зсуві не відкривався край. */
+.bleed-hero > picture{top:-15%;transform:translate3d(0,var(--py,0px),0);will-change:transform}
+.bleed-hero > picture > img{animation:heroZoom 2.6s cubic-bezier(.22,.61,.36,1) both}
+@keyframes heroZoom{from{transform:scale(1.12)}to{transform:scale(1.02)}}
+@media (prefers-reduced-motion:reduce){
+  .bleed-hero > picture{transform:none}
+  .bleed-hero > picture > img{animation:none}
+}
