@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { passwordOk, AUTH_COOKIE } from '@/lib/auth';
+import { passwordOk, authToken, AUTH_COOKIE } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +10,7 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Невірний пароль' }, { status: 401 });
   }
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(AUTH_COOKIE, 'ok', {
+  res.cookies.set(AUTH_COOKIE, authToken(), {
     httpOnly: true, sameSite: 'lax', secure: true,
     path: '/', maxAge: 60 * 60 * 24 * 30,
   });

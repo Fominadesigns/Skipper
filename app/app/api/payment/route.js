@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
 import { accruedKop, feeForLength } from '@/lib/money';
+import { resettle } from '@/lib/settle';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,4 +76,18 @@ export async function POST(req) {
   return NextResponse.json({
     ok: true, amountKop: amount, paidKop: paidAfter, debtKop: debtAfter,
   });
+}
+
+/* Видалення помилкової оплати. Рахунки броні перераховуються з нуля,
+   тож закритий цією оплатою рахунок знову стає відкритим. */
+export async function DELETE(req) {
+  if (!isSignedIn()) return NextResponse.json({ error: 'Потрібен вхід' }, { status: 401 });
+  await ensureSchema();
+  const id = Number(new URL(req.url).searchParams.get('id'));
+  if (!id) return NextResponse.json({ error: 'Немає запису' }, { status: 400 });
+
+  const p = (await sql`DELETE FROM payments WHERE id = ${id} RETURNING booking_id`).rows[0];
+  if (!p) return NextResponse.json({ error: 'Запис не знайдено' }, { status: 404 });
+  await resettle(p.booking_id);
+  return NextResponse.json({ ok: true });
 }

@@ -107,6 +107,20 @@ export async function ensureSchema() {
     await sql`CREATE INDEX IF NOT EXISTS payments_by_booking
               ON payments (booking_id)`;
 
+    /* Витрати каси. Приходи окремо не зберігаємо — це рядки payments,
+       інакше одна сума жила б у двох місцях і розходилась.
+       source: crm | bot. tg_id — хто з персоналу надіслав через бот,
+       щоб «скасувати» прибирало лише його власний запис. */
+    await sql`CREATE TABLE IF NOT EXISTS expenses (
+      id         SERIAL PRIMARY KEY,
+      amount_kop INT  NOT NULL,
+      what       TEXT NOT NULL,
+      method     TEXT NOT NULL DEFAULT 'cash',
+      source     TEXT NOT NULL DEFAULT 'crm',
+      tg_id      TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+
     /* Журнал розсилок — проти дублів. Ключ у БАЗІ, а не в памʼяті процесу:
        на Vercel кожен запит може виконуватись іншим екземпляром. */
     await sql`CREATE TABLE IF NOT EXISTS message_log (

@@ -585,6 +585,203 @@ function NewModal({ slot, monthKey, onClose, onSave, busy }) {
   );
 }
 
+/* ── каса ─────────────────────────────────────────────────────────────────
+   Усі рухи грошей по місяцях: приходи (оплати стоянок, готівкою
+   й переказом) і витрати. Прихід можна внести, не відкриваючи
+   календар: знайти клієнта за ім'ям чи телефоном — і та сама оплата
+   одразу закриває борг у броні й на дашборді. */
+const HOW = { cash: 'готівка', bank: 'переказ' };
+const dayLabel = (d) => { const x = new Date(d); return x.getDate() + ' ' + MONTHS_GEN[x.getMonth()]; };
+const localKey = (d) => { const x = new Date(d); return x.getFullYear() * 12 + x.getMonth(); };
+
+function Kassa({ kassa, nowKey, busy, act, onIncome, onExpense }) {
+  const [monthKey, setMonthKey] = useState(nowKey);
+  const [filter, setFilter] = useState('all');
+  if (!kassa) return <div className="note">Завантажуємо касу…</div>;
+
+  const all = [
+    ...kassa.incomes.map((p) => ({ ...p, kind: 'in' })),
+    ...kassa.expenses.map((e) => ({ ...e, kind: 'out' })),
+  ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  const month = all.filter((e) => localKey(e.created_at) === monthKey);
+  const sum = (arr) => arr.reduce((s, e) => s + e.amount_kop, 0);
+  const ins = month.filter((e) => e.kind === 'in');
+  const outs = month.filter((e) => e.kind === 'out');
+  const cash = sum(all.filter((e) => e.kind === 'in' && e.method === 'cash'))
+             - sum(all.filter((e) => e.kind === 'out' && e.method === 'cash'));
+  const shown = month.filter((e) => filter === 'all' || e.kind === filter);
+
+  const remove = (e) => {
+    const what = e.kind === 'in'
+      ? `оплату ${money(e.amount_kop)} від ${e.client_name}? Борг у броні повернеться.`
+      : `витрату ${money(e.amount_kop)} · ${e.what}?`;
+    if (!confirm('Видалити ' + what)) return;
+    act((e.kind === 'in' ? 'payment' : 'expense') + '?id=' + e.id, {}, 'DELETE');
+  };
+
+  return (
+    <div>
+      <div className="top" style={{ marginBottom: 12 }}>
+        <button className="btn sm" onClick={() => setMonthKey(monthKey - 1)}>‹</button>
+        <div style={{ fontWeight: 800, fontSize: 15 }}>{keyToLabel(monthKey)}</div>
+        <button className="btn sm" onClick={() => setMonthKey(monthKey + 1)}
+                disabled={monthKey >= nowKey}>›</button>
+      </div>
+
+      <div className="kpi">
+        <div className="k"><div className="l">Прийшло</div><div className="v ok">{money(sum(ins))}</div></div>
+        <div className="k"><div className="l">з них готівкою</div>
+          <div className="v">{money(sum(ins.filter((e) => e.method === 'cash')))}</div></div>
+        <div className="k"><div className="l">з них переказом</div>
+          <div className="v">{money(sum(ins.filter((e) => e.method === 'bank')))}</div></div>
+        <div className="k"><div className="l">Витрати</div><div className="v debt">{money(sum(outs))}</div></div>
+        <div className="k"><div className="l">Готівка на&nbsp;руках</div><div className="v">{money(cash)}</div></div>
+      </div>
+
+      <div className="two" style={{ marginTop: 16 }}>
+        <button className="btn solid" disabled={busy} onClick={onIncome}>+ Прихід</button>
+        <button className="btn" disabled={busy} onClick={onExpense}>+ Витрата</button>
+      </div>
+
+      <div className="sect">Записи</div>
+      <div className="two" style={{ gridTemplateColumns: 'repeat(3,1fr)', marginBottom: 12 }}>
+        {[['all', 'Усе'], ['in', 'Приходи'], ['out', 'Витрати']].map(([k, l]) => (
+          <button key={k} className={'btn sm' + (filter === k ? ' solid' : '')}
+                  onClick={() => setFilter(k)}>{l}</button>
+        ))}
+      </div>
+
+      {shown.length === 0 && <div className="note">За {keyToLabel(monthKey).toLowerCase()} записів немає.</div>}
+      {shown.map((e) => (
+        <div className="row-card" key={e.kind + e.id} onClick={() => remove(e)}
+             title="Натисніть, щоб видалити помилковий запис">
+          <div className={'bchip' + (e.kind === 'out' ? ' debt' : '')}>
+            {e.kind === 'in' ? e.slot_name : '−'}
+          </div>
+          <div className="body">
+            <div className="n">{e.kind === 'in' ? e.client_name : e.what}</div>
+            <div className="m">
+              {e.kind === 'in' ? (e.boat_name || 'стоянка') + ' · ' : (e.source === 'bot' ? 'з бота · ' : '')}
+              {HOW[e.method] || e.method} · {dayLabel(e.created_at)}
+            </div>
+          </div>
+          <div className={'v ' + (e.kind === 'in' ? 'ok' : 'debt')}>
+            {e.kind === 'in' ? '+' : '−'}{money(e.amount_kop)}
+          </div>
+        </div>
+      ))}
+
+      <div className="sect">Бот для витрат</div>
+      <div className="card">
+        <div style={{ fontSize: 14, lineHeight: 1.6 }}>
+          Влад пише боту одним рядком: <b>450 пальне</b> або <b>1200 фарба картка</b> —
+          і витрата одразу з&apos;являється тут. «скасувати» прибирає останню.
+        </div>
+        <div className="note">
+          Щоб запрацювало: 1) у Vercel додати змінну <b>SKIPPER_STAFF_IDS</b> —
+          Telegram ID тих, хто вносить витрати, через кому (бот скаже ID
+          на&nbsp;команду <b>/id</b>); 2) задеплоїти; 3) натиснути кнопку нижче один раз.
+        </div>
+        <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={busy}
+                onClick={() => act('tg-setup', {})}>
+          Під&apos;єднати бота
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* Прихід без календаря: пошук клієнта за ім'ям, човном або телефоном. */
+function IncomeModal({ open, bookings, onClose, onPick }) {
+  const [q, setQ] = useState('');
+  useEffect(() => { if (open) setQ(''); }, [open]);
+  if (!open) return null;
+
+  const t = q.trim().toLowerCase();
+  const digits = t.replace(/\D/g, '');
+  const found = !t ? [] : bookings.filter((b) =>
+    (b.client_name || '').toLowerCase().includes(t)
+    || (b.boat_name || '').toLowerCase().includes(t)
+    || (digits.length >= 3 && (b.phone || '').replace(/\D/g, '').includes(digits)));
+
+  return (
+    <div className="veil" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}>
+            <h2>Новий прихід</h2>
+            <div className="sub">оплата за стоянку</div>
+          </div>
+          <button className="btn sm" onClick={onClose}>×</button>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <div className="lbl">Ім&apos;я, човен або телефон</div>
+          <input className="field" value={q} autoFocus onChange={(e) => setQ(e.target.value)}
+                 placeholder="Коваль або 067…" />
+        </div>
+        <div style={{ marginTop: 12 }}>
+          {t && found.length === 0 && <div className="note">Нікого не знайдено.</div>}
+          {found.map((b) => (
+            <div className="row-card" key={b.id} onClick={() => onPick(b)}>
+              <div className={'bchip' + (b.debt_kop ? ' debt' : '')}>{b.slot_name}</div>
+              <div className="body">
+                <div className="n">{b.client_name}</div>
+                <div className="m">{b.boat_name || 'човен'} · {b.phone || 'без телефону'}</div>
+              </div>
+              <div className={'v ' + (b.debt_kop ? 'debt' : 'ok')}>
+                {b.debt_kop ? money(b.debt_kop) : '✓'}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExpenseModal({ open, onClose, onSave, busy }) {
+  const [uah, setUah] = useState('');
+  const [what, setWhat] = useState('');
+  const [how, setHow] = useState('cash');
+  useEffect(() => { if (open) { setUah(''); setWhat(''); setHow('cash'); } }, [open]);
+  if (!open) return null;
+
+  const kop = Math.round((parseFloat(String(uah).replace(/\s/g, '').replace(',', '.')) || 0) * 100);
+  return (
+    <div className="veil" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}><h2>Нова витрата</h2></div>
+          <button className="btn sm" onClick={onClose}>×</button>
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <div className="lbl">Сума, грн</div>
+          <input className="field" value={uah} inputMode="decimal" autoFocus
+                 onChange={(e) => setUah(e.target.value)} placeholder="450" />
+        </div>
+        <div style={{ marginTop: 12 }}>
+          <div className="lbl">На що</div>
+          <input className="field" value={what} onChange={(e) => setWhat(e.target.value)}
+                 placeholder="пальне" />
+        </div>
+        <div style={{ marginTop: 12 }}>
+          <div className="lbl">Чим платили</div>
+          <div className="two">
+            <button className={'btn' + (how === 'cash' ? ' solid' : '')} onClick={() => setHow('cash')}>Готівкою</button>
+            <button className={'btn' + (how === 'bank' ? ' solid' : '')} onClick={() => setHow('bank')}>Карткою / переказом</button>
+          </div>
+        </div>
+        <button className="btn solid" style={{ width: '100%', marginTop: 16 }}
+                disabled={busy || kop <= 0 || !what.trim()}
+                onClick={() => onSave({ amountKop: kop, what: what.trim(), how })}>
+          Записати {kop > 0 ? money(kop) : ''}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ── головний екран ───────────────────────────────────────────────────── */
 export default function Page() {
   const [st, setSt] = useState(null);      // що налаштовано
@@ -597,6 +794,9 @@ export default function Page() {
   const [newAt, setNewAt] = useState(null);    // { slot, monthKey }
   const [payFor, setPayFor] = useState(null); // бронь, якій вносимо оплату
   const [editFor, setEditFor] = useState(null); // бронь, яку правимо
+  const [kassa, setKassa] = useState(null);
+  const [incomeOpen, setIncomeOpen] = useState(false);
+  const [expenseOpen, setExpenseOpen] = useState(false);
 
   const now = new Date();
   const nowKey = now.getFullYear() * 12 + now.getMonth();
@@ -609,6 +809,10 @@ export default function Page() {
     if (r.status === 401) { setAuthed(false); return; }
     setAuthed(true);
     setData(await r.json());
+    // Каса — окремим запитом: календарю вона не потрібна, і збій каси
+    // не має ховати календар.
+    const k = await fetch('/api/kassa').catch(() => null);
+    if (k && k.ok) setKassa(await k.json());
   }, []);
 
   useEffect(() => { load(); }, [load]);
@@ -635,6 +839,9 @@ export default function Page() {
         : 'Рахунок збережено. ' + (j.note || ''));
     }
     if (what === 'booking') say('Стоянку додано');
+    if (what === 'expense') say(`Витрату ${money(j.amountKop)} записано`);
+    if (method === 'DELETE' && (what.startsWith('payment') || what.startsWith('expense'))) say('Запис видалено');
+    if (what === 'tg-setup') say(j.staff ? 'Бота під\'єднано' : 'Бота під\'єднано. Додайте SKIPPER_STAFF_IDS, щоб він приймав витрати');
     if (what.startsWith("seed")) {
       say(method === "DELETE"
         ? `Прибрано тестових клієнтів: ${j.removed}`
@@ -642,6 +849,7 @@ export default function Page() {
     }
 
     setOpen(null); setNewAt(null); setPayFor(null); setEditFor(null);
+    setIncomeOpen(false); setExpenseOpen(false);
     await load();
   };
 
@@ -663,12 +871,12 @@ export default function Page() {
         <div className="logo"><Anchor /></div>
         <div>
           <h1>Skipper · CRM</h1>
-          <div className="sub">човнова станція · {MONTHS_GEN[now.getMonth()]} {now.getFullYear()}</div>
+          <div className="sub">човнова станція · {MONTHS_NOM[now.getMonth()].toLowerCase()} {now.getFullYear()}</div>
         </div>
         <div className="spacer" />
         <div className="nav">
           <button className={tab === 'cal' ? 'on' : ''} onClick={() => setTab('cal')}>Календар</button>
-          <button className={tab === 'list' ? 'on' : ''} onClick={() => setTab('list')}>Човни</button>
+          <button className={tab === 'kassa' ? 'on' : ''} onClick={() => setTab('kassa')}>Каса</button>
           <button className={tab === 'dash' ? 'on' : ''} onClick={() => setTab('dash')}>Дашборд</button>
         </div>
       </div>
@@ -719,25 +927,10 @@ export default function Page() {
                   onFree={(slot, monthKey) => setNewAt({ slot, monthKey })} />
       )}
 
-      {tab === 'list' && (
-        <div>
-          <div className="sect">Стоянки · {bookings.length}</div>
-          {bookings.map((b) => (
-            <div className="row-card" key={b.id} onClick={() => setOpen(b)}>
-              <div className={'bchip' + (b.debt_kop ? ' debt' : '')}>{b.slot_name}</div>
-              <div className="body">
-                <div className="n">{b.boat_name || 'Човен без назви'} · {b.client_name}</div>
-                <div className="m">
-                  {b.phone || 'телефон не вказано'} ·{' '}
-                  {b.length_cm ? (b.length_cm / 100).toFixed(2).replace('.', ',') + ' м' : 'довжина не вказана'}
-                </div>
-              </div>
-              <div className={'v ' + (b.debt_kop ? 'debt' : 'ok')}>
-                {b.debt_kop ? money(b.debt_kop) : '✓'}
-              </div>
-            </div>
-          ))}
-        </div>
+      {tab === 'kassa' && (
+        <Kassa kassa={kassa} nowKey={nowKey} busy={busy} act={act}
+               onIncome={() => setIncomeOpen(true)}
+               onExpense={() => setExpenseOpen(true)} />
       )}
 
       {tab === 'dash' && (
@@ -783,6 +976,12 @@ export default function Page() {
       <NewModal slot={newAt?.slot} monthKey={newAt?.monthKey}
                 onClose={() => setNewAt(null)} busy={busy}
                 onSave={(body) => act('booking', body)} />
+
+      <IncomeModal open={incomeOpen} bookings={bookings}
+                   onClose={() => setIncomeOpen(false)}
+                   onPick={(bk) => { setIncomeOpen(false); setPayFor(bk); }} />
+      <ExpenseModal open={expenseOpen} busy={busy} onClose={() => setExpenseOpen(false)}
+                    onSave={(body) => act('expense', body)} />
 
       <div className={'toast' + (toast ? ' on' : '')}>{toast}</div>
     </div>
