@@ -29,5 +29,5 @@ export async function GET(req) {
     bookings,
     payee: p ? { name: p.name, iban: p.iban, taxId: p.taxId } : null,
     free: await freeByMonth(),
-  });
+  }, { headers: { 'cache-control': 'no-store' } });
 }

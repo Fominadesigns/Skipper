@@ -276,6 +276,7 @@ export default function Client() {
   const call = useCallback(async (path, body) => {
     const r = await fetch('/api/client/' + path, {
       method: body ? 'POST' : 'GET',
+      cache: 'no-store',          // завжди свіжі дані з бази, не збережена копія
       headers: { 'x-tg-init-data': tg()?.initData || '', 'content-type': 'application/json' },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -295,6 +296,23 @@ export default function Client() {
     try { setData(await call('me')); setState('ok'); }
     catch { setState('error'); }
   }, [call]);
+
+  /* Telegram (особливо на комп'ютері) тримає кабінет відкритим годинами
+     й сам не оновлює. Тому підтягуємо свіжі дані, щойно людина
+     повертається до вікна: інакше видалена в CRM бронь «висіла» б тут. */
+  useEffect(() => {
+    if (state !== 'ok') return;
+    const refresh = () => { call('me').then(setData).catch(() => {}); };
+    const onVis = () => { if (document.visibilityState === 'visible') refresh(); };
+    document.addEventListener('visibilitychange', onVis);
+    window.addEventListener('focus', refresh);
+    tg()?.onEvent?.('activated', refresh);
+    return () => {
+      document.removeEventListener('visibilitychange', onVis);
+      window.removeEventListener('focus', refresh);
+      tg()?.offEvent?.('activated', refresh);
+    };
+  }, [state, call]);
 
   const onPaid = async (b) => {
     setBusy(true);
@@ -332,11 +350,14 @@ export default function Client() {
 
       {state === 'ok' && (
         <>
-          <div className="top">
-            <div>
+          <div className="top" style={{ flexWrap: 'nowrap' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <h1>{tab === 'boat' ? 'Ваш човен' : tab === 'bill' ? 'Рахунок' : 'Вільні місця'}</h1>
               <div className="sub">{data.name ? data.name + ' · ' : ''}Skipper, човнова станція</div>
             </div>
+            <button className="btn sm" aria-label="Оновити" disabled={busy}
+                    onClick={() => call('me').then((d) => { setData(d); say('Оновлено'); })
+                                             .catch(() => say('Не вдалося оновити'))}>⟳</button>
           </div>
 
           {tab === 'boat' && (data.bookings.length
