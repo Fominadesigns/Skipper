@@ -292,7 +292,7 @@ function initTelegram() {
 }
 
 /* ── картка броні ─────────────────────────────────────────────────────── */
-function BookingModal({ b, onClose, act, busy, onPay, onEdit }) {
+function BookingModal({ b, bot, onClose, act, busy, onPay, onEdit }) {
   if (!b) return null;
   return (
     <div className="veil" onClick={onClose}>
@@ -327,6 +327,15 @@ function BookingModal({ b, onClose, act, busy, onPay, onEdit }) {
                   : b.credit_kop ? money(b.credit_kop) : "немає"}</span></div>
           </div>
         </div>
+
+        {!b.telegram_id && (
+          <div className="note">
+            Щоб рахунки приходили клієнту в&nbsp;Telegram, він має відкрити
+            бота{bot ? <> <b>@{bot}</b> (t.me/{bot})</> : ''}, натиснути «Старт»
+            і&nbsp;«Поділитися номером». Бот знайде бронь за&nbsp;телефоном
+            {b.phone ? <> <b>{b.phone}</b></> : ' — тож телефон у броні має бути вказаний'}.
+          </div>
+        )}
 
         <div className="sect">Оплата</div>
         <button className="btn" style={{ width: "100%" }} disabled={busy}
@@ -924,7 +933,7 @@ export default function Page() {
     if (what === 'booking') say('Стоянку додано');
     if (what === 'expense') say(`Витрату ${money(j.amountKop)} записано`);
     if (method === 'DELETE' && (what.startsWith('payment') || what.startsWith('expense'))) say('Запис видалено');
-    if (what === 'tg-setup') say(j.staff ? 'Бота під\'єднано' : 'Бота під\'єднано. Додайте SKIPPER_STAFF_IDS, щоб він приймав витрати');
+    if (what === 'tg-setup') say('Бота під\'єднано' + (j.bot ? ': @' + j.bot : '') + (j.staff ? '' : '. Для витрат додайте SKIPPER_STAFF_IDS'));
     if (what.startsWith("seed")) {
       say(method === "DELETE"
         ? `Прибрано тестових клієнтів: ${j.removed}`
@@ -1054,7 +1063,7 @@ export default function Page() {
         </div>
       )}
 
-      <BookingModal b={open} onClose={() => setOpen(null)} act={act} busy={busy}
+      <BookingModal b={open} bot={data.bot} onClose={() => setOpen(null)} act={act} busy={busy}
                     onPay={(bk) => { setOpen(null); setPayFor(bk); }}
                     onEdit={(bk) => { setOpen(null); setEditFor(bk); }} />
       <EditModal b={editFor} slots={slots} bookings={bookings} busy={busy}

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { phoneTail } from '@/lib/tg';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
 import { feeForLength } from '@/lib/money';
@@ -25,8 +26,17 @@ export async function POST(req) {
                            WHERE slot_id = ${slotId} AND status <> 'cancelled'`).rows[0];
   if (busy) return NextResponse.json({ error: 'Місце вже зайняте' }, { status: 409 });
 
-  const c = (await sql`INSERT INTO clients (name, phone)
-                       VALUES (${d.clientName}, ${d.phone || null}) RETURNING id`).rows[0];
+  /* Якщо людина з цим телефоном уже підключила бота — нова бронь
+     одразу отримує той самий Telegram, просити вдруге не треба. */
+  const tail = phoneTail(d.phone);
+  const known = tail ? (await sql`
+    SELECT telegram_id FROM clients
+     WHERE telegram_id IS NOT NULL
+       AND right(regexp_replace(coalesce(phone, ''), '[^0-9]', '', 'g'), 9) = ${tail}
+     ORDER BY id DESC LIMIT 1`).rows[0] : null;
+  const c = (await sql`INSERT INTO clients (name, phone, telegram_id)
+                       VALUES (${d.clientName}, ${d.phone || null}, ${known?.telegram_id || null})
+                       RETURNING id`).rows[0];
   const b = (await sql`INSERT INTO boats (client_id, name, reg, length_cm)
                        VALUES (${c.id}, ${d.boatName || null}, ${d.reg || null}, ${lengthCm})
                        RETURNING id`).rows[0];

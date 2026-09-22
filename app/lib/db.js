@@ -49,6 +49,10 @@ export async function ensureSchema() {
       created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
 
+    /* Одна людина може бути кількома рядками clients (окремий рядок на
+       кожну бронь). Telegram у них один, тож унікальність знімаємо. */
+    await sql`ALTER TABLE clients DROP CONSTRAINT IF EXISTS clients_telegram_id_key`;
+
     // Човен. length_cm — ЗАМІРЯНА нами довжина, з неї рахується тариф.
     await sql`CREATE TABLE IF NOT EXISTS boats (
       id         SERIAL PRIMARY KEY,

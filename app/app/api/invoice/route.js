@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
 import { unpaidMonths, isoMonth, monthLabel, formatKop, feeForLength } from '@/lib/money';
+import { tgSend, escapeHtml } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,22 +11,6 @@ export const dynamic = 'force-dynamic';
    Рахунок створюється в базі й — якщо клієнт підключив Telegram —
    надсилається йому повідомленням. Позначити рахунок оплаченим
    може лише людина, окремою дією: сервіс не бачить банку. */
-
-async function tellClient(telegramId, text) {
-  const token = process.env.SKIPPER_BOT_TOKEN;
-  if (!token || !telegramId) return false;
-  try {
-    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ chat_id: telegramId, text, parse_mode: 'HTML' }),
-    });
-    return r.ok;
-  } catch {
-    // Недоставлене повідомлення не має ламати виставлення рахунку.
-    return false;
-  }
-}
 
 export async function POST(req) {
   if (!isSignedIn()) return NextResponse.json({ error: 'Потрібен вхід' }, { status: 401 });
@@ -74,16 +59,22 @@ export async function POST(req) {
   const list = created.map((r) => '• Стоянка, ' + monthLabel(r.period) +
                                   ' — ' + formatKop(r.amount_kop)).join('\n');
 
+  /* Реквізити — лише зі змінної SKIPPER_PAY_DETAILS. Вигадувати їх
+     не можна: це рахунок реальної людини. Немає змінної — пишемо,
+     що реквізити надішле станція. */
+  const pay = (process.env.SKIPPER_PAY_DETAILS || '').trim();
   const text =
     `<b>Рахунок за стоянку</b>\n` +
-    `${b.boat_name || 'Ваш човен'}, місце ${b.slot_name}\n\n` +
+    `${escapeHtml(b.boat_name || 'Ваш човен')}, місце ${escapeHtml(b.slot_name)}\n\n` +
     `${list}\n\n` +
     `<b>Разом: ${formatKop(total)}</b>\n\n` +
-    `Оплатити можна просто в додатку: там QR і реквізити, ` +
-    `сума вже вписана. Після оплати натисніть «Я оплатив» — ` +
-    `ми звіримо з банком і підтвердимо.`;
+    (pay ? `Реквізити для оплати:\n${escapeHtml(pay)}\n\n`
+         : 'Реквізити для оплати надішле станція окремо.\n\n') +
+    'Після оплати натисніть кнопку нижче — ми звіримо з банком і підтвердимо.';
 
-  const sent = await tellClient(b.telegram_id, text);
+  const sent = b.telegram_id ? await tgSend(b.telegram_id, text, {
+    reply_markup: { inline_keyboard: [[{ text: '✅ Я оплатив', callback_data: `paid:${id}` }]] },
+  }) : false;
 
   return NextResponse.json({
     ok: true, months: created.length, totalKop: total, sentToTelegram: sent,

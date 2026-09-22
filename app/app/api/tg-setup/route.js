@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { isSignedIn } from '@/lib/auth';
-import { botToken, webhookSecret } from '@/lib/tg';
+import { botToken, webhookSecret, botUsername } from '@/lib/tg';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +21,7 @@ export async function POST(req) {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         url, secret_token: webhookSecret(),
-        allowed_updates: ['message'], drop_pending_updates: true,
+        allowed_updates: ['message', 'callback_query'], drop_pending_updates: true,
       }),
     });
     const j = await r.json().catch(() => ({}));
@@ -29,5 +29,6 @@ export async function POST(req) {
   } catch {
     return NextResponse.json({ error: 'Telegram не відповідає' }, { status: 502 });
   }
-  return NextResponse.json({ ok: true, staff: Boolean(process.env.SKIPPER_STAFF_IDS) });
+  return NextResponse.json({ ok: true, staff: Boolean(process.env.SKIPPER_STAFF_IDS),
+                            bot: await botUsername() });
 }

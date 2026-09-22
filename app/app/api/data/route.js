@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { sql, ensureSchema } from '@/lib/db';
 import { isSignedIn } from '@/lib/auth';
+import { botUsername } from '@/lib/tg';
 import { debtKop, creditKop, accruedKop, coveredThrough, feeForLength } from '@/lib/money';
 
 export const dynamic = 'force-dynamic';
@@ -67,5 +68,7 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json({ slots, bookings: withDebt, invoices });
+  // Імʼя бота — щоб CRM могла показати клієнту посилання t.me/…
+  const bot = await botUsername().catch(() => null);
+  return NextResponse.json({ slots, bookings: withDebt, invoices, bot });
 }
