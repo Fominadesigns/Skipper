@@ -904,3 +904,8 @@ footer{background:var(--deep)}
 .fab{height:72px;min-width:72px}
 .fab .icon{width:30px;height:30px}
 @media (max-width:620px){ .fab{height:66px;min-width:66px} .fab .icon{width:28px;height:28px} }
+
+/* ── «Приїздіть подивитись»: без фото, синій фон ─────────────────────
+   Трохи світліший за блок питань (#141d42), щоб межа між ними читалась. */
+.bleed-end{background:#1b2758;min-height:auto;align-items:center}
+.bleed-end::after{display:none}
