@@ -10,77 +10,167 @@
 <link rel="stylesheet" href="ui.css">
 <style>
 body{padding:30px 16px 64px}
+.stage{max-width:1000px;margin:0 auto;display:flex;gap:34px;flex-wrap:wrap;
+       justify-content:center;align-items:flex-start}
 
-.rail{
-  max-width:1240px;margin:0 auto;
-  display:flex;gap:30px;flex-wrap:wrap;justify-content:center;align-items:flex-start;
-}
-
-.phone{width:300px}
+.phone{width:330px;flex:none}
 .phone-cap{
   text-align:center;font-size:11.5px;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted);margin-bottom:11px;
 }
 .screen{
-  background:var(--bg);border-radius:30px;padding:20px 16px 12px;
-  box-shadow:var(--out-lg);
-  min-height:608px;display:flex;flex-direction:column;
+  background:var(--bg);border-radius:32px;padding:18px 15px 10px;
+  box-shadow:var(--out-lg);height:660px;display:flex;flex-direction:column;
 }
+.view{flex:1;overflow-y:auto;overflow-x:hidden;margin:0 -3px;padding:0 3px 4px}
+.view::-webkit-scrollbar{width:0}
 
-/* сума до оплати — найконтрастніший елемент екрана */
-.due{
-  background:var(--grad);border-radius:var(--r-lg);padding:17px 18px;
-  box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
-  color:#fff;display:flex;justify-content:space-between;align-items:center;
+.hint{
+  max-width:330px;font-size:13.5px;line-height:1.6;color:var(--muted);
 }
-.due-l{font-size:11.5px;font-weight:600;opacity:.82;letter-spacing:.045em}
-.due-v{font-size:25px;font-weight:800;letter-spacing:-.022em;margin-top:1px;
-       text-shadow:0 1px 3px rgba(0,0,0,.3)}
-.due-go{font-size:13px;font-weight:700;opacity:.9}
+.hint h3{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:9px}
+.hint p + p{margin-top:10px}
+.hint b{color:var(--ink)}
+.hint ol{margin:10px 0 0 18px;display:flex;flex-direction:column;gap:7px}
 
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.q{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:14px 12px;text-align:center;font-size:13px;font-weight:700;line-height:1.35;
-}
-.q .ic-tile{
-  width:38px;height:38px;margin:0 auto 9px;
-  border-radius:12px;font-size:20px;
-}
-
-.bill{display:flex;flex-direction:column;gap:12px}
-.bill-row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
-.bill-row .t{color:var(--muted)}
-.bill-row .a{font-weight:700;white-space:nowrap}
-.bill-sum{
-  display:flex;justify-content:space-between;margin-top:13px;padding-top:13px;
-  border-top:1px solid rgba(20,26,38,.12);font-size:16px;font-weight:800;
-}
-
-.qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
-.qr{
-  width:152px;height:152px;border-radius:var(--r-md);background:#fff;
-  box-shadow:var(--in);padding:13px;
-}
-.qr-cap{font-size:12px;color:var(--muted);text-align:center;line-height:1.45}
-.qr-cap b{color:var(--ink)}
-
-.boat{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:12px 13px;display:flex;justify-content:space-between;align-items:center;gap:10px;
-}
-.boat + .boat{margin-top:10px}
-.boat .n{font-weight:700;font-size:14.5px}
-.boat .m{color:var(--muted);font-size:12.5px;margin-top:2px}
-.amt{font-weight:800;font-size:14px;white-space:nowrap}
-.amt.debt{color:var(--warn)}
-.amt.paid{color:var(--ok)}
-
-.tabs{margin-top:auto;padding-top:16px;display:flex;gap:7px}
-.tab{
-  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
-  font-size:11.5px;font-weight:700;color:var(--muted);
+/* ── шапка екрана ────────────────────────────────────────────────────── */
+.bar{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.bar .t{flex:1;min-width:0}
+.bar h1{font-size:19px;font-weight:800;letter-spacing:-.018em;line-height:1.2}
+.bar .s{color:var(--muted);font-size:12.5px;margin-top:2px}
+.back-btn{
+  width:34px;height:34px;flex:none;border:0;cursor:pointer;border-radius:11px;
   background:var(--card);box-shadow:var(--out-sm);
+  font-size:16px;font-weight:800;color:var(--muted);
+}
+.back-btn:active{box-shadow:var(--in)}
+
+/* ── перемикач року ──────────────────────────────────────────────────── */
+.yr{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.yr .y{font-size:15px;font-weight:800}
+.yr button{
+  width:32px;height:32px;border:0;cursor:pointer;border-radius:10px;
+  background:var(--card);box-shadow:var(--out-sm);
+  font-size:14px;font-weight:800;color:var(--muted);
+}
+.yr button:active{box-shadow:var(--in)}
+
+/* ── календар по місяцях ─────────────────────────────────────────────── */
+.cal-card{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:11px 10px;overflow-x:auto;
+}
+.cal-card::-webkit-scrollbar{height:0}
+.mgrid{border-collapse:separate;border-spacing:0 6px;min-width:430px}
+.mgrid th{
+  position:sticky;top:0;background:var(--card);z-index:2;
+  padding:0 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--muted);text-align:center;width:31px;
+}
+.mgrid th.c{
+  left:0;z-index:3;text-align:left;width:52px;padding-right:7px;
+}
+.mgrid td.slot{
+  position:sticky;left:0;z-index:1;background:var(--card);
+  padding-right:7px;width:52px;
+}
+.mgrid .sn{
+  display:block;font-size:11.5px;font-weight:800;
+  padding:7px 0;color:var(--ink);white-space:nowrap;
+}
+.mgrid td.m{padding:0 1px;width:31px}
+.cell{
+  height:30px;border-radius:6px;background:var(--sunk);
+  box-shadow:inset 2px 2px 4px rgba(0,0,0,.12), inset -2px -2px 4px #fff;
+}
+.cell.on{
+  cursor:pointer;background:var(--grad);
+  box-shadow:0 3px 7px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.cell.on.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.cell.on.mid{border-radius:0}
+.cell.on.st{border-radius:6px 0 0 6px}
+.cell.on.en{border-radius:0 6px 6px 0}
+.cell.on:active{filter:brightness(1.15)}
+.cell.now{outline:2px solid var(--blue-hi);outline-offset:1px}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;
+        font-size:11.5px;color:var(--muted);font-weight:600}
+.legend i{display:inline-block;width:13px;height:11px;border-radius:4px;
+          margin-right:6px;vertical-align:-1px}
+.legend i.p{background:var(--grad)}
+.legend i.d{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.legend i.f{background:var(--sunk);box-shadow:var(--in)}
+
+/* ── список і рядки ──────────────────────────────────────────────────── */
+.row-card{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:12px 13px;display:flex;align-items:center;gap:11px;
+  cursor:pointer;
+}
+.row-card + .row-card{margin-top:9px}
+.row-card:active{box-shadow:var(--in)}
+.row-card .body{flex:1;min-width:0}
+.row-card .n{font-weight:700;font-size:14px}
+.row-card .m{color:var(--muted);font-size:12px;margin-top:2px}
+.row-card .v{font-weight:800;font-size:13.5px;white-space:nowrap}
+.row-card .v.debt{color:var(--warn)}
+.row-card .v.ok{color:var(--ok)}
+
+.bchip{
+  min-width:46px;height:36px;border-radius:10px;background:var(--grad);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:11.5px;font-weight:800;flex:none;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.bchip.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+
+/* ── дашборд ─────────────────────────────────────────────────────────── */
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.k{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out);
+  padding:14px 15px;
+}
+.k .l{font-size:10.5px;font-weight:700;letter-spacing:.07em;
+      text-transform:uppercase;color:var(--muted);line-height:1.3}
+.k .v{font-size:23px;font-weight:800;letter-spacing:-.025em;margin-top:6px}
+.k .v.debt{color:var(--warn)}
+.k .v.ok{color:var(--ok)}
+.k.wide{grid-column:1 / -1}
+
+/* ── дрібниці ────────────────────────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:700;white-space:nowrap;
+  background:var(--sunk);box-shadow:var(--in);color:var(--muted);
+}
+.badge.ok{background:linear-gradient(145deg,#2f9d72,#12674a);color:#fff;
+          box-shadow:var(--cast-sm);text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.badge.debt{background:linear-gradient(145deg,#c06a42,#8a3a15);color:#fff;
+            box-shadow:var(--cast-sm);text-shadow:0 1px 2px rgba(0,0,0,.3)}
+
+.sum-box{
+  background:var(--grad);border-radius:var(--r-lg);padding:15px 17px;color:#fff;
+  box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.sum-box.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.sum-box .l{font-size:11px;font-weight:600;opacity:.85;letter-spacing:.04em}
+.sum-box .v{font-size:25px;font-weight:800;letter-spacing:-.025em;margin-top:2px;
+            text-shadow:0 1px 3px rgba(0,0,0,.3)}
+
+.note{
+  margin-top:12px;padding:11px 14px;border-radius:var(--r-md);
+  background:var(--sunk);box-shadow:var(--in);
+  font-size:12.5px;line-height:1.5;color:var(--muted);
+}
+.note b{color:var(--ink)}
+
+.tabs{margin-top:auto;padding-top:14px;display:flex;gap:7px}
+.tab{
+  flex:1;text-align:center;padding:11px 4px;border-radius:var(--r-sm);
+  font-size:11.5px;font-weight:700;color:var(--muted);
+  background:var(--card);box-shadow:var(--out-sm);cursor:pointer;
 }
 .tab.on{
   background:var(--grad);color:#fff;
@@ -88,504 +178,488 @@ body{padding:30px 16px 64px}
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
-/* ── каса ────────────────────────────────────────────────────────────────
-   За зразком наявної каси «Тераса / База»: приходи й витрати поруч,
-   згруповані по днях, кожен запис розкривається. Різниця одна, але
-   важлива: приходи сюди НЕ вписують руками — вони зʼявляються самі,
-   коли власниця підтвердила оплату. Руками вносять лише витрати.       */
-.sum2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.sum{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:13px 14px;
+/* спливаюче підтвердження */
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
+  background:var(--deep,#0f1c33);color:#fff;
+  padding:13px 20px;border-radius:14px;font-size:13.5px;font-weight:700;
+  box-shadow:0 12px 28px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;
+  max-width:88vw;text-align:center;
 }
-.sum .sl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em}
-.sum .sv{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.02em}
-.sum .sv.in{color:var(--ok)}
-.sum .sv.out{color:var(--warn)}
-
-.daylab{
-  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--muted);margin:16px 0 8px 4px;
-}
-.ent{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:11px 13px;display:flex;align-items:center;gap:11px;
-}
-.ent + .ent{margin-top:9px}
-.ent .ic-tile{width:36px;height:36px;border-radius:11px;font-size:19px}
-.ent .body{flex:1;min-width:0}
-.ent .n{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ent .m{color:var(--muted);font-size:12px;margin-top:2px}
-.ent .v{font-weight:800;font-size:14px;white-space:nowrap}
-.ent .v.in{color:var(--ok)}
-.ent .v.out{color:var(--warn)}
-
-.seg{display:flex;gap:7px;margin-top:9px}
-.seg div{
-  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
-  font-size:12.5px;font-weight:700;color:var(--muted);
-  background:var(--card);box-shadow:var(--out-sm);
-}
-.seg div.on{
-  background:var(--grad);color:#fff;
-  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
-  text-shadow:0 1px 2px rgba(0,0,0,.3);
-}
-
-.lbl{font-size:11.5px;font-weight:700;color:var(--muted);margin:14px 0 6px 4px}
-.lbl:first-child{margin-top:0}
-
-/* набір елементів */
-.kit{max-width:1240px;margin:52px auto 0}
-.kit h2{font-size:19px;font-weight:800;margin-bottom:6px}
-.kit .note{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:700px}
-.kit-grid{display:flex;gap:16px;flex-wrap:wrap}
-.kit-box{
-  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
-  padding:20px;min-width:212px;flex:1;
-}
-.kit-box h3{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
-            color:var(--muted);margin-bottom:14px}
-.sw{display:flex;gap:10px;flex-wrap:wrap}
-.chip{width:46px;height:46px;border-radius:13px;box-shadow:var(--out-sm)}
-.toggle{
-  width:66px;height:34px;border-radius:999px;background:var(--grad);
-  box-shadow:var(--cast-sm);position:relative;
-}
-.toggle::after{
-  content:"";position:absolute;top:4px;right:4px;width:26px;height:26px;
-  border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
-}
-.toggle.off{background:var(--sunk);box-shadow:var(--in)}
-.toggle.off::after{right:auto;left:4px;background:var(--bg);box-shadow:var(--out-sm)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media (max-width:760px){
   body{padding:20px 14px 44px}
-  .rail{gap:20px}
-  .phone{width:100%;max-width:330px}
+  .stage{gap:22px}
+  .phone{width:100%;max-width:340px}
+  .hint{max-width:none}
   .page-head h1{font-size:24px}
-  .kit{margin-top:36px}
-  .kit-grid{gap:12px}
-  .kit-box{min-width:0;flex:1 1 100%}
 }
 </style>
 </head>
 <body>
 
-<!-- Набір іконок. Вставляється копією в кожну сторінку, а не окремим файлом:
-     зовнішній <use href="file.svg#id"> не працює, коли сторінку відкривають
-     подвійним кліком із диска, а саме так її відкриватиме Влад. -->
 <svg class="sprite" aria-hidden="true">
-  <symbol id="i-anchor" viewBox="0 0 24 24">
-    <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
-    <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
-  </symbol>
-  <symbol id="i-list" viewBox="0 0 24 24">
-    <rect x="5" y="5" width="14" height="16" rx="2.5"/>
-    <path d="M9.2 5V4.2A2.2 2.2 0 0 1 11.4 2h1.2A2.2 2.2 0 0 1 14.8 4.2V5"/>
-    <path d="M9 11h6M9 15h4"/>
-  </symbol>
-  <symbol id="i-phone" viewBox="0 0 24 24">
-    <rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/>
-    <path d="M10.6 5.6h2.8"/><path d="M11.2 18.4h1.6"/>
-  </symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/>
-    <path d="M3.5 10.2h17"/><path d="M8 3.2v4M16 3.2v4"/>
-  </symbol>
   <symbol id="i-receipt" viewBox="0 0 24 24">
     <path d="M6.2 3h11.6v18l-1.94-1.4-1.93 1.4-1.93-1.4-1.94 1.4-1.93-1.4L6.2 21z"/>
     <path d="M9.4 8.4h5.2M9.4 12.4h5.2"/>
   </symbol>
-  <symbol id="i-key" viewBox="0 0 24 24">
-    <circle cx="7.8" cy="12" r="3.6"/><path d="M11.4 12H21"/>
-    <path d="M18.2 12v3.1M15.2 12v2.3"/>
+  <symbol id="i-send" viewBox="0 0 24 24">
+    <path d="M21 3.6L10.6 14"/><path d="M21 3.6l-6.6 17.2-3.8-6.8-6.8-3.8z"/>
   </symbol>
-  <symbol id="i-chat" viewBox="0 0 24 24">
-    <path d="M20.4 12.3c0 3.8-3.75 6.9-8.4 6.9-1.16 0-2.27-.2-3.28-.55L4.2 20.2l1.36-3.55C4.42 15.5 3.6 14 3.6 12.3c0-3.8 3.76-6.9 8.4-6.9s8.4 3.1 8.4 6.9z"/>
-  </symbol>
-  <symbol id="i-wallet" viewBox="0 0 24 24">
-    <path d="M3.6 8.4a2.4 2.4 0 0 1 2.4-2.4h12a2.4 2.4 0 0 1 2.4 2.4v9.2a2.4 2.4 0 0 1-2.4 2.4H6a2.4 2.4 0 0 1-2.4-2.4z"/>
-    <path d="M3.6 10.6h4.2a2 2 0 0 1 0 4H3.6"/>
-    <path d="M6.4 6V4.6a1.6 1.6 0 0 1 2.06-1.53l8.1 2.4"/>
-  </symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24">
-    <path d="M12 5.4v13.2M5.4 12h13.2"/>
-  </symbol>
-  <symbol id="i-boat" viewBox="0 0 24 24">
-    <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
-    <path d="M6.6 14.6V8.4h10.8l-2.6 6.2"/><path d="M12 8.4V4.2"/>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M6.4 3.2h3l1.5 3.8-1.9 1.4a11.4 11.4 0 0 0 5.6 5.6l1.4-1.9 3.8 1.5v3a2 2 0 0 1-2.2 2C10.5 18 6 13.5 4.4 5.4a2 2 0 0 1 2-2.2z"/>
   </symbol>
 </svg>
 
-
-<div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Все материалы</a></div>
+<div style="max-width:1000px;margin:0 auto"><a class="back" href="index.html">← Все материалы</a></div>
 
 <div class="page-head">
   <h1>Приложение владельца</h1>
-  <p>Что видят Катя и Влад с телефона</p>
+  <p>Кликабельный прототип — нажимайте прямо на экране</p>
   <div class="disclaimer">
-    Имена клиентов и номера лодок вымышленные. Суммы показаны для примера.
+    Имена клиентов, названия лодок и телефоны вымышленные.
+    Тарифы настоящие: 2500 / 3000 / 4000 ₴ по длине судна.
   </div>
 </div>
 
-<div class="rail">
+<div class="stage">
 
-  <!-- 3. Човни -->
   <div class="phone">
-    <div class="phone-cap">Владелец · Лодки</div>
+    <div class="phone-cap">Владелец · Telegram Mini App</div>
     <div class="screen">
-      <div class="top" style="margin-bottom:14px">
-        <div>
-          <div class="h">Човни</div>
-          <div class="sub">00 місць · 00 зайнято</div>
-        </div>
-        <div class="pill blue">Вересень</div>
-      </div>
-
-      <div class="field">Пошук: номер, човен, прізвище…</div>
-
-      <div class="sect">Борг</div>
-      <div class="boat">
-        <div class="berth">A-12</div>
-        <div style="flex:1">
-          <div class="n">«Чайка»</div>
-          <div class="m">Петро Коваль · 0&nbsp;000</div>
-        </div>
-        <div class="amt debt">0&nbsp;000&nbsp;₴</div>
-      </div>
-      <div class="boat">
-        <div class="berth">B-03</div>
-        <div style="flex:1">
-          <div class="n">«Барракуда»</div>
-          <div class="m">Ірина Лисенко · 0&nbsp;000</div>
-        </div>
-        <div class="amt debt">0&nbsp;000&nbsp;₴</div>
-      </div>
-
-      <div class="sect">Оплачено</div>
-      <div class="boat">
-        <div class="berth">A-04</div>
-        <div style="flex:1">
-          <div class="n">«Стріла»</div>
-          <div class="m">Андрій Мороз · 0&nbsp;000</div>
-        </div>
-        <div class="amt paid">✓</div>
-      </div>
-      <div class="boat">
-        <div class="berth free">B-07</div>
-        <div style="flex:1">
-          <div class="n" style="color:var(--muted)">Вільне місце</div>
-          <div class="m">до&nbsp;0&nbsp;м</div>
-        </div>
-        <div class="amt" style="color:var(--muted)">—</div>
-      </div>
-
-      <div style="margin-top:16px">
-        <button class="btn solid">Виставити рахунки за&nbsp;вересень</button>
-      </div>
-
+      <div class="view" id="view"></div>
       <div class="tabs">
-        <div class="tab on">Човни</div>
-        <div class="tab">Каса</div>
-        <div class="tab">Місця</div>
+        <div class="tab on" data-tab="cal">Бронювання</div>
+        <div class="tab" data-tab="dash">Дашборд</div>
       </div>
     </div>
   </div>
 
-  <!-- 4. Картка човна -->
-  <div class="phone">
-    <div class="phone-cap">Владелец · Карточка лодки</div>
-    <div class="screen">
-      <div class="card">
-        <div class="top">
-          <div>
-            <div class="h">«Чайка»</div>
-            <div class="sub">UA-0000-KV</div>
-          </div>
-          <div class="berth">A-12</div>
-        </div>
-      </div>
-
-      <div class="sect">Власник</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Ім'я</span><span class="v">Петро Коваль</span></div>
-          <div class="row"><span class="k">Телефон</span><span class="v mono">+380 00 000 0000</span></div>
-          <div class="row"><span class="k">Telegram</span><span class="v" style="color:var(--ok)">під'єднано ✓</span></div>
-        </div>
-      </div>
-
-      <div class="sect">Човен</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Довжина (заміряна)</span><span class="v">0,00&nbsp;м</span></div>
-          <div class="row"><span class="k">Ширина</span><span class="v">0,00&nbsp;м</span></div>
-          <div class="row"><span class="k">Мотор</span><span class="v">—</span></div>
-          <div class="row"><span class="k">Трейлер</span><span class="v">—</span></div>
-          <div class="row"><span class="k">Страховка до</span><span class="v">—</span></div>
-        </div>
-      </div>
-
-      <div class="sect">Стоянка</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">З&nbsp;якої дати</span><span class="v">14 квітня</span></div>
-          <div class="row"><span class="k">Тариф</span><span class="v" style="color:var(--muted)">тариф уточнити</span></div>
-          <div class="row"><span class="k">Рахунок числа</span><span class="v">—</span></div>
-        </div>
-      </div>
-
-      <div class="sect">Журнал</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Спуск на&nbsp;воду</span><span class="v">00.09</span></div>
-          <div class="row"><span class="k">Рахунок надіслано</span><span class="v">00.09</span></div>
-          <div class="row"><span class="k">Оплату підтверджено</span><span class="v">00.09</span></div>
-        </div>
-      </div>
-
-      <div class="tabs">
-        <div class="tab on">Човни</div>
-        <div class="tab">Каса</div>
-        <div class="tab">Місця</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5. Каса -->
-  <div class="phone">
-    <div class="phone-cap">Владелец · Касса</div>
-    <div class="screen">
-      <div class="top" style="margin-bottom:13px">
-        <div>
-          <div class="h">Каса</div>
-          <div class="sub">Вересень 2026</div>
-        </div>
-        <div class="pill blue">Місяць</div>
-      </div>
-
-      <div class="sum2">
-        <div class="sum">
-          <div class="sl">ПРИЙШЛО</div>
-          <div class="sv in">0&nbsp;000&nbsp;₴</div>
-        </div>
-        <div class="sum">
-          <div class="sl">ВИТРАТИ</div>
-          <div class="sv out">0&nbsp;000&nbsp;₴</div>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="on">Усе</div>
-        <div>Приходи</div>
-        <div>Витрати</div>
-      </div>
-
-      <div class="daylab">22 вересня</div>
-      <div class="ent">
-        <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>
-        <div class="body">
-          <div class="n">Петро Коваль</div>
-          <div class="m">A-12 · рахунок №0000-00</div>
-        </div>
-        <div class="v in">+0&nbsp;000&nbsp;₴</div>
-      </div>
-      <div class="ent">
-        <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-wallet"/></svg></span>
-        <div class="body">
-          <div class="n">Пальне для катера</div>
-          <div class="m">Влад · готівка</div>
-        </div>
-        <div class="v out">−000&nbsp;₴</div>
-      </div>
-
-      <div class="daylab">19 вересня</div>
-      <div class="ent">
-        <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>
-        <div class="body">
-          <div class="n">Марина Гриценко</div>
-          <div class="m">A-05 · рахунок №0000-00</div>
-        </div>
-        <div class="v in">+0&nbsp;000&nbsp;₴</div>
-      </div>
-      <div class="ent">
-        <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>
-        <div class="body">
-          <div class="n">Дмитро Савчук</div>
-          <div class="m">C-01 · рахунок №0000-00</div>
-        </div>
-        <div class="v in">+0&nbsp;000&nbsp;₴</div>
-      </div>
-
-      <div style="margin-top:15px">
-        <button class="btn solid">Додати витрату</button>
-      </div>
-
-      <div class="tabs">
-        <div class="tab">Човни</div>
-        <div class="tab on">Каса</div>
-        <div class="tab">Місця</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. Запис у касі -->
-  <div class="phone">
-    <div class="phone-cap">Владелец · Запись в кассе</div>
-    <div class="screen">
-      <div class="card">
-        <div class="top">
-          <div>
-            <div class="h">Петро Коваль</div>
-            <div class="sub">22 вересня, 14:30</div>
-          </div>
-          <div class="berth">A-12</div>
-        </div>
-        <div style="margin-top:15px">
-          <div class="due">
-            <span>
-              <span class="due-l">ПРИЙШЛО</span>
-              <span class="due-v">0&nbsp;000&nbsp;₴</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sect">За що</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Рахунок</span><span class="v">№0000-00</span></div>
-          <div class="row"><span class="k">Період</span><span class="v">вересень</span></div>
-          <div class="row"><span class="k">Човен</span><span class="v">«Чайка»</span></div>
-          <div class="row"><span class="k">Місце</span><span class="v">A-12</span></div>
-        </div>
-      </div>
-
-      <div class="sect">Як надійшло</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Спосіб</span><span class="v">переказ на&nbsp;рахунок</span></div>
-          <div class="row"><span class="k">Клієнт заявив</span><span class="v">22.09, 14:02</span></div>
-          <div class="row"><span class="k">Підтвердила</span><span class="v">Катя, 14:30</span></div>
-        </div>
-        <p class="qr-cap" style="margin-top:12px;text-align:left">
-          Запис зʼявився сам, коли оплату підтвердили.
-          Руками в&nbsp;касу вносять лише витрати.
-        </p>
-      </div>
-
-      <div style="margin-top:15px">
-        <button class="btn">Відкрити картку човна</button>
-      </div>
-
-      <div class="tabs">
-        <div class="tab">Човни</div>
-        <div class="tab on">Каса</div>
-        <div class="tab">Місця</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 7. Нова витрата -->
-  <div class="phone">
-    <div class="phone-cap">Владелец · Новый расход</div>
-    <div class="screen">
-      <div class="top" style="margin-bottom:16px">
-        <div>
-          <div class="h">Нова витрата</div>
-          <div class="sub">22 вересня</div>
-        </div>
-      </div>
-
-      <div class="lbl">СУМА</div>
-      <div class="field" style="font-size:19px;font-weight:800;color:var(--ink)">
-        0&nbsp;000&nbsp;₴
-      </div>
-
-      <div class="lbl">НА ЩО</div>
-      <div class="field">Пальне, фарба, ремонт помосту…</div>
-
-      <div class="lbl">ХТО ПЛАТИВ</div>
-      <div class="seg" style="margin-top:0">
-        <div class="on">Влад</div>
-        <div>Катя</div>
-      </div>
-
-      <div class="lbl">ЧИЇ ГРОШІ</div>
-      <div class="seg" style="margin-top:0">
-        <div class="on">Бізнесу</div>
-        <div>Свої</div>
-      </div>
-      <p class="qr-cap" style="margin-top:9px;text-align:left">
-        «Свої» — витрачено з&nbsp;власної кишені, підлягає компенсації.
-        Так само, як у&nbsp;касі «Тераса&nbsp;/&nbsp;База».
-      </p>
-
-      <div class="lbl">СПОСІБ</div>
-      <div class="seg" style="margin-top:0">
-        <div class="on">Готівка</div>
-        <div>Картка</div>
-      </div>
-
-      <div style="margin-top:18px">
-        <button class="btn solid">Зберегти</button>
-      </div>
-
-      <div class="tabs">
-        <div class="tab">Човни</div>
-        <div class="tab on">Каса</div>
-        <div class="tab">Місця</div>
-      </div>
-    </div>
+  <div class="hint">
+    <h3>Что можно нажать</h3>
+    <ol>
+      <li>Полосу в&nbsp;календаре — откроется бронь</li>
+      <li>В&nbsp;брони «Карточка клиента» — данные владельца лодки</li>
+      <li>«Выставить счёт» — счёт уходит клиенту в&nbsp;Telegram</li>
+      <li>Внизу «Дашборд» — долги и&nbsp;поступления</li>
+    </ol>
+    <p>
+      <b>Календарь по&nbsp;месяцам, а&nbsp;не&nbsp;по&nbsp;дням.</b> Лодку ставят
+      минимум на&nbsp;месяц, и&nbsp;дневная сетка только мешала&nbsp;бы:
+      в&nbsp;ней не&nbsp;видно сезон целиком.
+    </p>
+    <p>
+      Оранжевым — те, у&nbsp;кого долг. Синим — оплаченные.
+      Рамка — текущий месяц.
+    </p>
   </div>
 
 </div>
 
-<div class="kit">
-  <h2>З чого це зроблено</h2>
-  <p class="note">
-    Один прийом на весь додаток: картка того&nbsp;ж тону, що&nbsp;й фон,
-    і&nbsp;дві тіні одночасно — чорна знизу-справа, біла згори-зліва.
-    Радіус розмиття короткий, тому край різкий і&nbsp;предмет виглядає
-    справді випуклим. Натиснутий елемент отримує ті&nbsp;самі тіні всередину.
-    Кольорових тіней немає ніде. Синій — тільки там, де треба діяти.
-  </p>
-  <div class="kit-grid">
-    <div class="kit-box">
-      <h3>Кольори</h3>
-      <div class="sw">
-        <div class="chip" style="background:#e6e9ee"></div>
-        <div class="chip" style="background:linear-gradient(145deg,#35699f,#1a3153);box-shadow:var(--cast-sm)"></div>
-        <div class="chip" style="background:#1e3a63"></div>
-        <div class="chip" style="background:#141a26"></div>
-        <div class="chip" style="background:#5d6675"></div>
-      </div>
-    </div>
-    <div class="kit-box">
-      <h3>Кнопки</h3>
-      <button class="btn solid">Головна дія</button>
-      <button class="btn">Звичайна</button>
-    </div>
-    <div class="kit-box">
-      <h3>Втиснуте й перемикачі</h3>
-      <div class="field" style="margin-bottom:14px">Поле вводу</div>
-      <div style="display:flex;gap:12px">
-        <div class="toggle"></div>
-        <div class="toggle off"></div>
-      </div>
-    </div>
-    <div class="kit-box">
-      <h3>Мітки</h3>
-      <div class="sw" style="gap:8px">
-        <span class="pill blue">На&nbsp;воді</span>
-        <span class="pill ok">Оплачено</span>
-        <span class="pill warn">Борг</span>
-        <span class="pill">Вільне</span>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   Кликабельный прототип приложения владельца.
+
+   Вместо CRM на большом экране — то же самое в телефоне: календарь
+   стоянок по месяцам, проваливание в бронь, оттуда в клиента,
+   оттуда выставление счёта. Внизу дашборд.
+
+   Данные вымышленные, но тарифы настоящие: 2500 / 3000 / 4000 ₴
+   по длине судна, как назвал владелец станции.
+   ══════════════════════════════════════════════════════════════════ */
+
+const M  = ['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
+const MF = ['січня','лютого','березня','квітня','травня','червня',
+            'липня','серпня','вересня','жовтня','листопада','грудня'];
+const NOW = 10;          // жовтень 2026 — «сьогодні» для прототипу
+const YEAR = 2026;
+
+/* from / to — місяці стоянки. paidTo — по який місяць оплачено.
+   Тариф береться з довжини судна, як у власника станції. */
+const BOOKINGS = [
+  { id:1,  slot:'A-01', boat:'«Чайка»',     client:'Петро Коваль',    phone:'+380 67 000 00 01',
+    len:6.4, reg:'UA-1042-KV', kind:'на воді',  from:4,  to:11, paidTo:10, since:'14 квітня' },
+  { id:2,  slot:'A-02', boat:'«Барракуда»', client:'Ірина Лисенко',   phone:'+380 67 000 00 02',
+    len:7.2, reg:'UA-2318-KV', kind:'на воді',  from:5,  to:12, paidTo:8,  since:'2 травня' },
+  { id:3,  slot:'A-03', boat:'«Стріла»',    client:'Андрій Мороз',    phone:'+380 67 000 00 03',
+    len:5.1, reg:'UA-7734-KV', kind:'на воді',  from:6,  to:10, paidTo:10, since:'1 червня' },
+  { id:4,  slot:'A-05', boat:'«Дельфін»',   client:'Марина Гриценко', phone:'+380 67 000 00 04',
+    len:8.6, reg:'UA-5521-KV', kind:'на воді',  from:4,  to:12, paidTo:10, since:'20 квітня' },
+  { id:5,  slot:'B-01', boat:'«Сокіл»',     client:'Василь Ткаченко', phone:'+380 67 000 00 05',
+    len:6.0, reg:'UA-8890-KV', kind:'на суші',  from:9,  to:12, paidTo:10, since:'6 вересня' },
+  { id:6,  slot:'B-02', boat:'«Вітер»',     client:'Сергій Бондар',   phone:'+380 67 000 00 06',
+    len:4.8, reg:'UA-3367-KV', kind:'на суші',  from:5,  to:11, paidTo:7,  since:'11 травня' },
+  { id:7,  slot:'C-01', boat:'«Фрегат»',    client:'Дмитро Савчук',   phone:'+380 67 000 00 07',
+    len:9.4, reg:'UA-1199-KV', kind:'ангар',    from:4,  to:12, paidTo:10, since:'3 квітня' },
+  { id:8,  slot:'C-02', boat:'«Лагуна»',    client:'Наталя Кравець',  phone:'+380 67 000 00 08',
+    len:7.8, reg:'UA-6605-KV', kind:'ангар',    from:10, to:12, paidTo:9,  since:'12 жовтня' },
+];
+
+const SLOTS = ['A-01','A-02','A-03','A-04','A-05','B-01','B-02','B-03','C-01','C-02'];
+
+/* Тариф за довжиною судна — цифри власника станції. */
+function feeOf(len) {
+  if (len < 4)  return null;      // гідроцикли — за домовленістю
+  if (len <= 6) return 2500;
+  if (len <= 8) return 3000;
+  if (len <= 10) return 4000;
+  return null;
+}
+const money = n => n.toLocaleString('uk-UA').replace(/ /g,' ') + ' ₴';
+
+/* Борг: скільки місяців від останнього оплаченого до поточного. */
+function debtOf(b) {
+  const months = Math.max(0, Math.min(NOW, b.to) - b.paidTo);
+  return months * (feeOf(b.len) || 0);
+}
+const debtMonths = b => Math.max(0, Math.min(NOW, b.to) - b.paidTo);
+const isDebt = b => debtOf(b) > 0;
+
+const view  = document.getElementById('view');
+const toast = document.getElementById('toast');
+let tab = 'cal';
+
+function say(text) {
+  toast.textContent = text;
+  toast.classList.add('on');
+  clearTimeout(say._t);
+  say._t = setTimeout(() => toast.classList.remove('on'), 2600);
+}
+
+/* ── екран 1: календар стоянок по місяцях ─────────────────────────────── */
+function screenCal() {
+  let head = '<tr><th class="c"></th>' +
+    M.map((m,i) => '<th>' + m + '</th>').join('') + '</tr>';
+
+  let rows = SLOTS.map(slot => {
+    const b = BOOKINGS.find(x => x.slot === slot);
+    let cells = '';
+    for (let m = 1; m <= 12; m++) {
+      if (!b || m < b.from || m > b.to) {
+        cells += '<td class="m"><div class="cell' + (m===NOW?' now':'') + '"></div></td>';
+      } else {
+        const pos = m === b.from ? ' st' : m === b.to ? ' en' : ' mid';
+        const st  = isDebt(b) && m > b.paidTo ? ' debt' : '';
+        cells += '<td class="m"><div class="cell on' + pos + st + (m===NOW?' now':'') +
+                 '" data-b="' + b.id + '"></div></td>';
+      }
+    }
+    return '<tr><td class="slot"><span class="sn">' + slot + '</span></td>' + cells + '</tr>';
+  }).join('');
+
+  view.innerHTML = `
+    <div class="bar">
+      <div class="t">
+        <h1>Стоянки</h1>
+        <div class="s">${BOOKINGS.length} човнів · ${SLOTS.length - BOOKINGS.length} місць вільно</div>
+      </div>
+    </div>
+
+    <div class="yr">
+      <button type="button">‹</button>
+      <div class="y">${YEAR}</div>
+      <button type="button">›</button>
+    </div>
+
+    <div class="cal-card">
+      <table class="mgrid"><thead>${head}</thead><tbody>${rows}</tbody></table>
+    </div>
+
+    <div class="legend">
+      <span><i class="p"></i>оплачено</span>
+      <span><i class="d"></i>борг</span>
+      <span><i class="f"></i>вільно</span>
+    </div>
+
+    <div class="note">
+      Натисніть смугу — відкриється бронь. Рамкою позначений
+      поточний місяць, <b>${MF[NOW-1]}</b>.
+    </div>
+    <div style="height:8px"></div>
+  `;
+
+  view.querySelectorAll('.cell.on').forEach(c => {
+    c.onclick = () => screenBooking(+c.dataset.b);
+  });
+}
+
+/* ── екран 2: бронь ───────────────────────────────────────────────────── */
+function screenBooking(id) {
+  const b = BOOKINGS.find(x => x.id === id);
+  const fee = feeOf(b.len);
+  const debt = debtOf(b);
+
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" data-go="cal">←</button>
+      <div class="t">
+        <h1>${b.boat}</h1>
+        <div class="s">${b.slot} · ${b.kind}</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:13px">
+      ${debt
+        ? `<div class="sum-box debt">
+             <div class="l">БОРГ ЗА ${debtMonths(b)} МІС.</div>
+             <div class="v">${money(debt)}</div>
+           </div>`
+        : `<div class="sum-box">
+             <div class="l">ОПЛАЧЕНО ПО</div>
+             <div class="v">${MF[b.paidTo-1]}</div>
+           </div>`}
+    </div>
+
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Заїзд</span><span class="v">${b.since}</span></div>
+        <div class="row"><span class="k">Стоїть по</span><span class="v">${MF[b.to-1]} ${YEAR}</span></div>
+        <div class="row"><span class="k">Довжина</span><span class="v">${String(b.len).replace('.',',')}&nbsp;м</span></div>
+        <div class="row"><span class="k">Тариф</span><span class="v">${fee ? money(fee) + ' / міс' : 'уточнити'}</span></div>
+        <div class="row"><span class="k">Оплачено по</span><span class="v">${MF[b.paidTo-1]}</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Клієнт</div>
+    <div class="row-card" data-go="client" data-b="${b.id}">
+      <div class="bchip${debt ? ' debt' : ''}">${b.slot}</div>
+      <div class="body">
+        <div class="n">${b.client}</div>
+        <div class="m">${b.phone}</div>
+      </div>
+      <div class="v">›</div>
+    </div>
+
+    <div style="margin-top:16px">
+      ${debt
+        ? `<button class="btn solid" data-go="invoice" data-b="${b.id}">Виставити рахунок</button>`
+        : `<button class="btn" data-go="invoice" data-b="${b.id}">Виставити наперед</button>`}
+    </div>
+
+    <div class="note">
+      Рахунок не&nbsp;йде сам: ви бачите суму, натискаєте —
+      і&nbsp;тільки тоді він потрапляє клієнту в&nbsp;Telegram.
+    </div>
+    <div style="height:8px"></div>
+  `;
+  wire();
+}
+
+/* ── екран 3: картка клієнта ──────────────────────────────────────────── */
+function screenClient(id) {
+  const b = BOOKINGS.find(x => x.id === id);
+  const fee = feeOf(b.len);
+  const debt = debtOf(b);
+
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" data-go="booking" data-b="${b.id}">←</button>
+      <div class="t">
+        <h1>${b.client}</h1>
+        <div class="s">клієнт із ${b.since}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Телефон</span><span class="v mono">${b.phone}</span></div>
+        <div class="row"><span class="k">Telegram</span><span class="v" style="color:var(--ok)">під'єднано ✓</span></div>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:14px">
+        <button class="btn" style="flex:1" data-say="Відкриється телефон і набере номер">Подзвонити</button>
+        <button class="btn" style="flex:1" data-say="Відкриється чат із клієнтом у Telegram">Написати</button>
+      </div>
+    </div>
+
+    <div class="sect">Човен</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Назва</span><span class="v">${b.boat}</span></div>
+        <div class="row"><span class="k">Реєстраційний номер</span><span class="v mono">${b.reg}</span></div>
+        <div class="row"><span class="k">Довжина</span><span class="v">${String(b.len).replace('.',',')}&nbsp;м</span></div>
+        <div class="row"><span class="k">Місце</span><span class="v">${b.slot}, ${b.kind}</span></div>
+        <div class="row"><span class="k">Тариф</span><span class="v">${fee ? money(fee) + ' / міс' : 'уточнити'}</span></div>
+      </div>
+    </div>
+
+    <div class="sect">Оплати</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Оплачено по</span><span class="v">${MF[b.paidTo-1]} ${YEAR}</span></div>
+        <div class="row"><span class="k">Борг</span>
+          <span class="v" style="color:${debt ? 'var(--warn)' : 'var(--ok)'}">
+            ${debt ? money(debt) : 'немає'}</span></div>
+      </div>
+    </div>
+
+    ${debt ? `<div style="margin-top:16px">
+      <button class="btn solid" data-go="invoice" data-b="${b.id}">Виставити рахунок</button>
+    </div>` : ''}
+    <div style="height:10px"></div>
+  `;
+  wire();
+}
+
+/* ── екран 4: виставити рахунок ───────────────────────────────────────── */
+function screenInvoice(id) {
+  const b = BOOKINGS.find(x => x.id === id);
+  const fee = feeOf(b.len);
+  const debt = debtOf(b);
+  const n = debtMonths(b);
+
+  // Рядки рахунку: по місяцю за кожен неоплачений.
+  let lines = '';
+  for (let i = 1; i <= Math.max(n, 1); i++) {
+    const m = Math.min(b.paidTo + i, 12);
+    lines += `<div class="row"><span class="k">Стоянка, ${MF[m-1]}</span>
+              <span class="v">${money(fee)}</span></div>`;
+  }
+  const total = Math.max(n, 1) * fee;
+
+  view.innerHTML = `
+    <div class="bar">
+      <button class="back-btn" data-go="booking" data-b="${b.id}">←</button>
+      <div class="t">
+        <h1>Новий рахунок</h1>
+        <div class="s">${b.boat} · ${b.client}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="rows">${lines}</div>
+      <div class="row" style="margin-top:13px;padding-top:13px;
+           border-top:1px solid rgba(20,26,38,.12)">
+        <span class="k" style="font-weight:800;color:var(--ink)">Разом</span>
+        <span class="v" style="font-size:16px">${money(total)}</span>
+      </div>
+    </div>
+
+    <div class="sect">Куди піде</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row"><span class="k">Кому</span><span class="v">${b.client}</span></div>
+        <div class="row"><span class="k">Telegram</span><span class="v" style="color:var(--ok)">під'єднано ✓</span></div>
+        <div class="row"><span class="k">Оплатити до</span><span class="v">7&nbsp;числа</span></div>
+      </div>
+      <div class="note">
+        Клієнт отримає рахунок із QR: сума вже вписана, вводити
+        реквізити руками не&nbsp;треба. Готівкою теж можна —
+        тоді позначите оплату самі.
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <button class="btn solid" id="sendInv">Надіслати в&nbsp;Telegram</button>
+    </div>
+    <div style="height:10px"></div>
+  `;
+
+  document.getElementById('sendInv').onclick = () => {
+    say('Рахунок надіслано ' + b.client.split(' ')[0]);
+    screenBooking(b.id);
+  };
+  wire();
+}
+
+/* ── екран 5: дашборд ─────────────────────────────────────────────────── */
+function screenDash() {
+  const debtors = BOOKINGS.filter(isDebt);
+  const paid    = BOOKINGS.filter(b => !isDebt(b));
+  const debtSum = debtors.reduce((s,b) => s + debtOf(b), 0);
+  // Отримано за місяць: ті, у кого оплачено включно з поточним.
+  const gotSum  = paid.reduce((s,b) => s + (feeOf(b.len) || 0), 0);
+
+  const list = arr => arr.map(b => {
+    const d = debtOf(b);
+    return `<div class="row-card" data-go="booking" data-b="${b.id}">
+      <div class="bchip${d ? ' debt' : ''}">${b.slot}</div>
+      <div class="body">
+        <div class="n">${b.client}</div>
+        <div class="m">${b.boat} · ${String(b.len).replace('.',',')}&nbsp;м</div>
+      </div>
+      <div class="v ${d ? 'debt' : 'ok'}">${d ? money(d) : '✓'}</div>
+    </div>`;
+  }).join('') || '<div class="note">Порожньо.</div>';
+
+  view.innerHTML = `
+    <div class="bar">
+      <div class="t">
+        <h1>Дашборд</h1>
+        <div class="s">${MF[NOW-1]} ${YEAR}</div>
+      </div>
+    </div>
+
+    <div class="kpi">
+      <div class="k">
+        <div class="l">Не оплатили</div>
+        <div class="v debt">${debtors.length}</div>
+      </div>
+      <div class="k">
+        <div class="l">Оплатили</div>
+        <div class="v ok">${paid.length}</div>
+      </div>
+      <div class="k wide">
+        <div class="l">Борг усього</div>
+        <div class="v debt">${money(debtSum)}</div>
+      </div>
+      <div class="k wide">
+        <div class="l">Отримано за ${MF[NOW-1]}</div>
+        <div class="v ok">${money(gotSum)}</div>
+      </div>
+    </div>
+
+    <div class="sect">Треба виставити рахунок</div>
+    ${list(debtors)}
+
+    <div class="sect">Оплачено</div>
+    ${list(paid)}
+
+    <div class="note">
+      Суми рахуються з тарифів і&nbsp;місяців, а&nbsp;не&nbsp;вписані руками —
+      тому дашборд не&nbsp;розійдеться з&nbsp;бронями.
+    </div>
+    <div style="height:8px"></div>
+  `;
+  wire();
+}
+
+/* ── навігація ────────────────────────────────────────────────────────── */
+function wire() {
+  view.querySelectorAll('[data-go]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const id = +el.dataset.b;
+      const to = el.dataset.go;
+      if (to === 'cal')      { tab = 'cal'; syncTabs(); screenCal(); }
+      if (to === 'booking')  screenBooking(id);
+      if (to === 'client')   screenClient(id);
+      if (to === 'invoice')  screenInvoice(id);
+    };
+  });
+  view.querySelectorAll('[data-say]').forEach(el => {
+    el.onclick = () => say(el.dataset.say);
+  });
+}
+
+function syncTabs() {
+  document.querySelectorAll('.tab').forEach(t =>
+    t.classList.toggle('on', t.dataset.tab === tab));
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    tab = t.dataset.tab;
+    syncTabs();
+    view.scrollTop = 0;
+    tab === 'cal' ? screenCal() : screenDash();
+  };
+});
+
+screenCal();
+</script>
 </body>
 </html>
