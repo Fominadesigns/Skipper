@@ -76,7 +76,8 @@ export async function GET(req) {
      WHERE seen = false ORDER BY created_at DESC`).rows;
 
   // Імʼя бота — щоб CRM могла показати клієнту посилання t.me/…
-  console.log('data', { bookings: bookings.map((b) => b.id) });
+  const all = (await sql`SELECT count(*)::int AS n, max(id) AS max FROM bookings`).rows[0];
+  console.log('data', { bookings: bookings.map((b) => b.id), inDb: all });
   // Бот налаштовується сам: вебхук і кнопка «Мій кабінет» (раз на запуск сервера).
   await ensureBotSetup(req).catch(() => {});
   const bot = await botUsername().catch(() => null);

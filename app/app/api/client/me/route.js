@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ensureSchema } from '@/lib/db';
+import { sql, ensureSchema } from '@/lib/db';
 import { verifyInitData, initDataFrom } from '@/lib/initdata';
 import { clientBookings } from '@/lib/client';
 import { freeByMonth } from '@/lib/free';
@@ -15,7 +15,8 @@ export async function GET(req) {
   await ensureSchema();
   const bookings = await clientBookings(user.id);
   // Службовий запис для перевірки: лише номери броней, без імен і телефонів.
-  console.log('client/me', { bookings: bookings.map((b) => b.id) });
+  const all = (await sql`SELECT count(*)::int AS n, max(id) AS max FROM bookings`).rows[0];
+  console.log('client/me', { bookings: bookings.map((b) => b.id), inDb: all });
   /* QR і посилання в банк — для кожної броні з боргом, на суму боргу.
      Реквізити ті самі, що в Butler (lib/payment-qr.js). */
   for (const b of bookings) {

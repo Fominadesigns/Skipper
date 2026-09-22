@@ -1,4 +1,5 @@
-import { createPool } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
+import { unstable_noStore as noStore } from 'next/cache';
 
 /* Підключення відкривається ліниво — при першому запиті, а не при
    завантаженні модуля. Інакше збірка на Vercel падає, коли POSTGRES_URL
@@ -6,23 +7,28 @@ import { createPool } from '@vercel/postgres';
 
    Рядок беремо з POSTGRES_URL, DATABASE_URL_POOLED або DATABASE_URL.
    Vercel прописує перше імʼя, Neon показує друге, Render — третє.
-   Плутанина в назві не має ламати додаток, коли рядок насправді
-   на місці: це найдурніша з можливих причин зламаного вечора. */
 
-let pool = null;
+   Кожен запит — окремий HTTP-виклик до Neon, без постійного з'єднання
+   й без жодних збережених копій. Раніше було з'єднання, яке сервер тримав
+   відкритим між запитами, і кабінет клієнта годину бачив уже видалену
+   бронь, тоді як CRM її вже не бачила (22.09.2026, бронь №8).
+   noStore() і cache: 'no-store' — щоб Next.js не підставив збережену
+   відповідь замість свіжої. */
+
+let query = null;
 function db() {
-  if (!pool) {
+  if (!query) {
     const connectionString = process.env.POSTGRES_URL
       || process.env.DATABASE_URL_POOLED
       || process.env.DATABASE_URL;
     if (!connectionString) throw new Error('База не підключена');
-    pool = createPool({ connectionString });
+    query = neon(connectionString, { fullResults: true, fetchOptions: { cache: 'no-store' } });
   }
-  return pool;
+  return query;
 }
 
-/** Тег для запитів: sql`SELECT …`. Підключення відкриється при виклику. */
-export const sql = (strings, ...values) => db().sql(strings, ...values);
+/** Тег для запитів: sql`SELECT …` → { rows }. */
+export const sql = (strings, ...values) => { noStore(); return db()(strings, ...values); };
 
 let ready = null;
 
