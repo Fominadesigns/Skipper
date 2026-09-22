@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skipper — зберігання човнів на Дніпрі</title>
+<meta name="description" content="Стоянка човнів біля Вишгорода: критий сухий ангар, місця на пірсі та понтоні, зберігання на суші під брезентом. Спуск на воду, охорона, зручний заїзд.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-anchor" viewBox="0 0 24 24">
+    <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
+    <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
+  </symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24">
+    <path d="M12 2.8l7.2 2.7v6.1c0 4.3-2.95 7.9-7.2 9.6-4.25-1.7-7.2-5.3-7.2-9.6V5.5z"/>
+    <path d="M9 12.2l2.1 2.1 4-4.2"/>
+  </symbol>
+  <symbol id="i-boat" viewBox="0 0 24 24">
+    <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
+    <path d="M6.6 14.6V8.4h10.8l-2.6 6.2"/><path d="M12 8.4V4.2"/>
+  </symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.2s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/>
+    <circle cx="12" cy="10.1" r="2.6"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M6.4 3.2h3l1.5 3.8-1.9 1.4a11.4 11.4 0 0 0 5.6 5.6l1.4-1.9 3.8 1.5v3a2 2 0 0 1-2.2 2C10.5 18 6 13.5 4.4 5.4a2 2 0 0 1 2-2.2z"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2"/>
+  </symbol>
+  <symbol id="i-send" viewBox="0 0 24 24">
+    <path d="M21 3.6L10.6 14"/><path d="M21 3.6l-6.6 17.2-3.8-6.8-6.8-3.8z"/>
+  </symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top">
+      <span class="mk"><svg class="icon"><use href="#i-anchor"/></svg></span>
+      <span>
+        <b>Skipper</b>
+        <span>човнова станція</span>
+      </span>
+    </a>
+
+    <nav class="menu">
+      <a href="#places">Де стоятиме човен</a>
+      <a href="#how">Як це працює</a>
+      <a href="#book">Бронювання</a>
+      <a href="#faq">Питання</a>
+    </nav>
+
+    <a class="tel" href="tel:+380977550959">
+      <svg class="icon" style="font-size:16px"><use href="#i-phone"/></svg>
+      +380&nbsp;97&nbsp;755&nbsp;09&nbsp;59
+    </a>
+  </div>
+</header>
+
+<p class="proto">
+  Демонстраційна сторінка. Тарифів на ній немає навмисно — їх ще
+  не&nbsp;узгоджено. Три фотографії згенеровані для показу макета
+  й&nbsp;перед запуском мають бути замінені справжніми знімками станції.
+</p>
+
+<main id="top">
+
+<!-- ── перший екран ──────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Ваш човен під&nbsp;наглядом — <em>і&nbsp;взимку, і&nbsp;в&nbsp;сезон</em></h1>
+        <p class="lead">
+          Критий сухий ангар, місця на&nbsp;пірсі та&nbsp;понтоні,
+          зберігання на&nbsp;суші під брезентом. Спуск на&nbsp;воду,
+          цілодобова охорона, зручний заїзд з&nbsp;причепом.
+          Поруч із базою відпочинку під Вишгородом.
+        </p>
+        <div class="hero-cta">
+          <a class="btn solid big" href="#book">Забронювати місце</a>
+          <a class="btn big" href="#places">Подивитись варіанти</a>
+        </div>
+      </div>
+
+      <div class="hero-photo">
+        <img src="img/hangar-real.webp" width="2000" height="1000"
+             alt="Критий ангар для зберігання човнів на березі">
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="ic-tile"><svg class="icon"><use href="#i-anchor"/></svg></span>
+        <b>До&nbsp;10 суден</b>
+        <span>в&nbsp;ангарі, плюс місця на&nbsp;воді та&nbsp;на&nbsp;суші</span>
+      </div>
+      <div class="fact">
+        <span class="ic-tile"><svg class="icon"><use href="#i-shield"/></svg></span>
+        <b>Територія під&nbsp;охороною</b>
+        <span>закритий периметр, сторонніх немає</span>
+      </div>
+      <div class="fact">
+        <span class="ic-tile"><svg class="icon"><use href="#i-boat"/></svg></span>
+        <b>Спуск на&nbsp;воду</b>
+        <span>піднімемо й&nbsp;спустимо, коли скажете</span>
+      </div>
+      <div class="fact">
+        <span class="ic-tile"><svg class="icon"><use href="#i-pin"/></svg></span>
+        <b>Зручний заїзд</b>
+        <span>під'їзд із причепом просто до&nbsp;місця</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── три види стоянки ──────────────────────────────────────────────── -->
+<section id="places">
+  <div class="wrap">
+    <p class="eyebrow">Де стоятиме човен</p>
+    <h2>Три варіанти — від&nbsp;води до&nbsp;сухого ангара</h2>
+    <p class="lead">
+      Що обрати, залежить від розміру човна й&nbsp;від того, як часто ви
+      виходите на&nbsp;воду. Підкажемо на&nbsp;місці — приїздіть подивитись.
+    </p>
+
+    <div class="places">
+
+      <article class="place">
+        <div class="place-img">
+          <img src="img/pier.webp" width="1600" height="900"
+               alt="Пірс і понтон із пришвартованими човнами">
+        </div>
+        <div class="place-body">
+          <h3>На&nbsp;воді: пірс і&nbsp;понтон</h3>
+          <p>
+            Човен стоїть на&nbsp;воді й&nbsp;завжди готовий до&nbsp;виходу —
+            нічого спускати не&nbsp;треба.
+          </p>
+          <ul>
+            <li>Два причали на&nbsp;вибір: стаціонарний пірс і&nbsp;плавучий понтон</li>
+            <li>Підхід до&nbsp;судна з&nbsp;обох боків</li>
+            <li>Для тих, хто виходить на&nbsp;воду щотижня</li>
+          </ul>
+          <div class="price-row">
+            <span class="pl">Вартість</span>
+            <span class="pv">за&nbsp;розміром судна</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="place">
+        <div class="place-img">
+          <img src="img/land.webp" width="1600" height="1200"
+               alt="Човни на суші під брезентовими чохлами">
+        </div>
+        <div class="place-body">
+          <h3>На&nbsp;суші під&nbsp;брезентом</h3>
+          <p>
+            Човен на&nbsp;кільблоці або причепі, вкритий щільним чохлом.
+            Найпростіший варіант міжсезоння.
+          </p>
+          <ul>
+            <li>Захист від сонця, дощу й&nbsp;снігу</li>
+            <li>Місце для причепа поруч</li>
+            <li>Спустимо на&nbsp;воду на&nbsp;ваше прохання</li>
+          </ul>
+          <div class="price-row">
+            <span class="pl">Вартість</span>
+            <span class="pv">за&nbsp;розміром судна</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="place">
+        <div class="place-img">
+          <img src="img/hangar.webp" width="1600" height="1200"
+               alt="Човни всередині критого ангара">
+        </div>
+        <div class="place-body">
+          <h3>Критий сухий ангар</h3>
+          <p>
+            Закрите приміщення без вологи й&nbsp;ультрафіолету.
+            Найкраще для зимівлі та&nbsp;дорогих суден.
+          </p>
+          <ul>
+            <li>До&nbsp;10&nbsp;суден, сухо цілий рік</li>
+            <li>Корпус і&nbsp;оббивка не&nbsp;вигорають</li>
+            <li>Місць небагато — бронюйте заздалегідь</li>
+          </ul>
+          <div class="price-row">
+            <span class="pl">Вартість</span>
+            <span class="pv">за&nbsp;розміром судна</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── як це працює ──────────────────────────────────────────────────── -->
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">Як це працює</p>
+    <h2>Чотири кроки — і&nbsp;човен на&nbsp;місці</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="no">1</div>
+        <b>Заявка</b>
+        <p>Лишаєте розмір човна й&nbsp;бажаний тип місця. Передзвонюємо того&nbsp;ж дня.</p>
+      </div>
+      <div class="step">
+        <div class="no">2</div>
+        <b>Оглядаємо місце</b>
+        <p>Приїздите, дивитесь причал і&nbsp;ангар, обираєте, де стоятиме судно.</p>
+      </div>
+      <div class="step">
+        <div class="no">3</div>
+        <b>Ставимо човен</b>
+        <p>Допомагаємо завести й&nbsp;закріпити. Записуємо човен і&nbsp;ваші контакти.</p>
+      </div>
+      <div class="step">
+        <div class="no">4</div>
+        <b>Рахунок у&nbsp;Telegram</b>
+        <p>Раз на&nbsp;місяць приходить рахунок із QR&nbsp;— оплата з&nbsp;банку в&nbsp;два дотики.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── бронювання ────────────────────────────────────────────────────── -->
+<section id="book">
+  <div class="wrap">
+    <div class="book">
+      <div>
+        <p class="eyebrow">Бронювання</p>
+        <h2>Оберіть дату — і&nbsp;ми тримаємо місце</h2>
+        <p class="lead" style="font-size:15.5px">
+          Підсвічені дні — ті, коли є&nbsp;вільні місця обраного типу.
+          Натисніть день, і&nbsp;заповніть коротку форму поруч.
+        </p>
+
+        <div class="cal">
+          <div class="cal-head">
+            <div class="m" id="calMonth">Жовтень 2026</div>
+            <div class="cal-nav">
+              <button type="button" id="prevM" aria-label="Попередній місяць">‹</button>
+              <button type="button" id="nextM" aria-label="Наступний місяць">›</button>
+            </div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-legend">
+            <span><i class="a"></i>є&nbsp;вільні місця</span>
+            <span><i class="b"></i>немає вільних</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="form" id="bookForm" novalidate>
+        <div>
+          <div class="lbl">Де поставити човен</div>
+          <div class="choice" id="kind">
+            <button type="button" class="on" data-k="water">На&nbsp;воді<br>пірс&nbsp;/&nbsp;понтон</button>
+            <button type="button" data-k="land">На&nbsp;суші<br>під&nbsp;брезентом</button>
+            <button type="button" data-k="hangar">Критий<br>ангар</button>
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <div class="lbl">З якої дати</div>
+            <input class="field" id="fDate" placeholder="оберіть у календарі" readonly>
+          </div>
+          <div>
+            <div class="lbl">Довжина човна</div>
+            <input class="field" id="fLen" inputmode="decimal" placeholder="напр. 6,5 м">
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <div class="lbl">Ваше ім'я</div>
+            <input class="field" id="fName" placeholder="Як до вас звертатись">
+          </div>
+          <div>
+            <div class="lbl">Телефон</div>
+            <input class="field" id="fTel" inputmode="tel" placeholder="+380 __ ___ __ __">
+          </div>
+        </div>
+
+        <div>
+          <div class="lbl">Коментар</div>
+          <textarea class="field" id="fNote" rows="3"
+                    placeholder="Модель човна, причеп, побажання…"></textarea>
+        </div>
+
+        <button class="btn solid big" type="submit">
+          <svg class="icon" style="font-size:18px"><use href="#i-send"/></svg>
+          Надіслати заявку
+        </button>
+
+        <p class="form-note" id="formNote">
+          Заявка — це не&nbsp;оплата й&nbsp;не&nbsp;підтверджене місце.
+          Ми передзвонимо, уточнимо розмір судна й&nbsp;підтвердимо вручну.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── питання ───────────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow">Питання</p>
+    <h2>Що зазвичай питають</h2>
+
+    <div class="faq">
+      <details class="qa">
+        <summary>Скільки коштує стоянка?</summary>
+        <div class="ans">
+          Вартість залежить від розміру судна й&nbsp;типу місця: на&nbsp;воді,
+          на&nbsp;суші чи в&nbsp;ангарі. Зателефонуйте або лишіть заявку —
+          назвемо точну суму під ваш човен.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Чи можна залишити човен на&nbsp;зиму?</summary>
+        <div class="ans">
+          Так. Для зимівлі найкраще підходить критий ангар: там сухо
+          й&nbsp;немає ультрафіолету, тож корпус і&nbsp;оббивка
+          не&nbsp;вигорають. Місць в&nbsp;ангарі небагато, тому
+          на&nbsp;зиму бронюють заздалегідь.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Як спустити човен на&nbsp;воду?</summary>
+        <div class="ans">
+          Попередьте нас — піднімемо й&nbsp;спустимо. Якщо човен стоїть
+          на&nbsp;пірсі або понтоні, спускати нічого не&nbsp;треба:
+          він уже на&nbsp;воді.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Чи можна приїхати з&nbsp;причепом?</summary>
+        <div class="ans">
+          Так, заїзд зручний — під'їхати можна просто до&nbsp;місця.
+          Причіп теж можна лишити на&nbsp;території.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Як відбувається оплата?</summary>
+        <div class="ans">
+          Раз на&nbsp;місяць вам приходить рахунок у&nbsp;Telegram — із&nbsp;QR-кодом,
+          у&nbsp;якому сума вже вписана. Натискаєте код, відкривається ваш банк,
+          підтверджуєте переказ. Нічого вводити руками не&nbsp;треба.
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Чи безпечно там лишати судно?</summary>
+        <div class="ans">
+          Територія закрита й&nbsp;під&nbsp;охороною, сторонніх немає.
+          Приїздіть подивитись — покажемо все на&nbsp;місці.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── контакти ──────────────────────────────────────────────────────── -->
+<section id="contacts">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <p class="eyebrow">Контакти</p>
+        <h2>Приїздіть подивитись</h2>
+        <p class="lead" style="font-size:15.5px">
+          Найкраще один раз побачити причал і&nbsp;ангар на&nbsp;власні очі.
+          Зателефонуйте — домовимось про час.
+        </p>
+
+        <div class="rows">
+          <div class="crow">
+            <span class="ic-tile"><svg class="icon"><use href="#i-phone"/></svg></span>
+            <div>
+              <b><a href="tel:+380977550959" style="text-decoration:none">+380&nbsp;97&nbsp;755&nbsp;09&nbsp;59</a></b>
+              <span>вхідні дзвінки згідно з&nbsp;тарифом вашого оператора</span>
+            </div>
+          </div>
+          <div class="crow">
+            <span class="ic-tile"><svg class="icon"><use href="#i-pin"/></svg></span>
+            <div>
+              <b>Поруч із базою відпочинку, Вишгородський район</b>
+              <span>точну адресу й&nbsp;орієнтири надішлемо перед візитом</span>
+            </div>
+          </div>
+          <div class="crow">
+            <span class="ic-tile"><svg class="icon"><use href="#i-clock"/></svg></span>
+            <div>
+              <b>Години роботи</b>
+              <span>уточнюються</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-cta" style="margin-top:26px">
+          <a class="btn solid" href="tel:+380977550959">Зателефонувати</a>
+          <a class="btn" href="#book">Лишити заявку</a>
+        </div>
+      </div>
+
+      <div class="contact-photo">
+        <img src="img/aerial.webp" width="1600" height="900"
+             alt="Човнова станція з висоти: ангар, двір і причал">
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>Skipper — зберігання й&nbsp;обслуговування човнів</span>
+    <span>Демонстраційна сторінка, не&nbsp;комерційна пропозиція</span>
+  </div>
+</footer>
+
+<script>
+/* ── календар вільних місць ──────────────────────────────────────────────
+   Дані вигадані для показу: скільки місць кожного типу вільно в який день.
+   Справжні числа візьмуться з бази, коли станція почне вестись у Skipper. */
+
+const MONTHS = ['Січень','Лютий','Березень','Квітень','Травень','Червень',
+                'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+/* Окремий список у родовому відмінку: «1 жовтня», а не «1 жовтень». */
+const MONTHS_OF = ['січня','лютого','березня','квітня','травня','червня',
+                   'липня','серпня','вересня','жовтня','листопада','грудня'];
+const DOW = ['пн','вт','ср','чт','пт','сб','нд'];
+
+let view = new Date(2026, 9, 1);   // жовтень 2026
+let kind = 'water';
+let picked = null;
+
+/* Скільки місць вільно. Псевдовипадково, але стабільно: той самий день
+   завжди дає те саме число, інакше сітка «стрибала» б при кожному кліку. */
+function freeOn(y, m, d, k) {
+  const seed = (y * 372 + m * 31 + d) * (k === 'water' ? 7 : k === 'land' ? 13 : 23);
+  const n = Math.abs(Math.sin(seed)) * 100 | 0;
+  if (k === 'hangar') return n % 100 < 55 ? 0 : (n % 3) + 1;
+  if (k === 'land')   return n % 100 < 22 ? 0 : (n % 5) + 1;
+  return n % 100 < 18 ? 0 : (n % 4) + 1;
+}
+
+/* «1 місце», «2 місця», «5 місць» — українська має три форми,
+   і «1 місць» на сторінці одразу видно як недбалість. */
+function places(n) {
+  const t = n % 10, h = n % 100;
+  if (t === 1 && h !== 11) return 'місце';
+  if (t >= 2 && t <= 4 && (h < 12 || h > 14)) return 'місця';
+  return 'місць';
+}
+
+const grid = document.getElementById('calGrid');
+const label = document.getElementById('calMonth');
+const fDate = document.getElementById('fDate');
+
+function drawCal() {
+  const y = view.getFullYear(), m = view.getMonth();
+  label.textContent = MONTHS[m] + ' ' + y;
+
+  grid.innerHTML = DOW.map(d => '<div class="cal-dow">' + d + '</div>').join('');
+
+  // Тиждень починається з понеділка: у JS неділя це 0, тому зсуваємо.
+  const first = (new Date(y, m, 1).getDay() + 6) % 7;
+  const days = new Date(y, m + 1, 0).getDate();
+
+  for (let i = 0; i < first; i++) {
+    grid.insertAdjacentHTML('beforeend', '<div class="day empty"></div>');
+  }
+
+  for (let d = 1; d <= days; d++) {
+    const free = freeOn(y, m, d, kind);
+    const key = y + '-' + m + '-' + d;
+    const cls = 'day' + (free ? '' : ' none') + (picked === key ? ' on' : '');
+    grid.insertAdjacentHTML('beforeend',
+      '<button type="button" class="' + cls + '" data-key="' + key + '" data-d="' + d + '"' +
+      (free ? '' : ' disabled') + '>' + d +
+      '<span class="free">' + (free ? free + ' ' + places(free) : 'немає') + '</span></button>');
+  }
+
+  [...grid.querySelectorAll('.day[data-key]')].forEach(b => {
+    b.onclick = () => {
+      picked = b.dataset.key;
+      fDate.value = b.dataset.d + ' ' + MONTHS_OF[view.getMonth()] +
+                    ' ' + view.getFullYear();
+      drawCal();
+    };
+  });
+}
+
+document.getElementById('prevM').onclick = () => {
+  view = new Date(view.getFullYear(), view.getMonth() - 1, 1); drawCal();
+};
+document.getElementById('nextM').onclick = () => {
+  view = new Date(view.getFullYear(), view.getMonth() + 1, 1); drawCal();
+};
+
+document.getElementById('kind').onclick = e => {
+  const b = e.target.closest('button'); if (!b) return;
+  [...e.currentTarget.children].forEach(x => x.classList.toggle('on', x === b));
+  kind = b.dataset.k;
+  picked = null; fDate.value = '';
+  drawCal();
+};
+
+drawCal();
+
+/* Форма нічого нікуди не надсилає — це макет. Казати «заявку надіслано»
+   було б враньом: людина чекала б дзвінка, якого не буде. */
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const note = document.getElementById('formNote');
+  note.innerHTML = '<b>Це демонстраційна сторінка</b> — заявка нікуди ' +
+    'не пішла. На робочому сайті вона впаде в Telegram господарям, ' +
+    'і вам передзвонять.';
+  note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+</body>
+</html>

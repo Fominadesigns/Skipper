@@ -1,0 +1,378 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Сайт човнової станції Skipper.
+   Та сама система, що в додатку: світла поверхня, різкі ЧОРНІ тіні,
+   приглушений темний синій із градієнтом на кнопках.
+
+   Шрифти — з Google Fonts, обидва вільні для комерційного використання:
+   Unbounded (заголовки, український дизайнер, є кирилиця) і
+   Manrope (текст). Підключені посиланням, нічого не треба качати.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --bg:#e6e9ee;
+  --card:#eaedf2;
+  --sunk:#dfe3ea;
+  --lift:#ffffff;
+  --drop:rgba(0,0,0,.24);
+  --drop-soft:rgba(0,0,0,.17);
+
+  --blue:#1e3a63;
+  --blue-lo:#16294a;
+  --blue-hi:#35699f;
+  --grad:linear-gradient(145deg,#35699f 0%,#1a3153 100%);
+
+  --ink:#141a26;
+  --muted:#5d6675;
+  --ok:#186b4c;
+  --warn:#9e3412;
+
+  --r-lg:22px;
+  --r-md:15px;
+  --r-sm:10px;
+
+  --out:7px 7px 12px var(--drop), -6px -6px 11px var(--lift);
+  --out-sm:4px 4px 8px var(--drop-soft), -4px -4px 8px var(--lift);
+  --out-lg:12px 12px 24px var(--drop), -9px -9px 18px var(--lift);
+  --in:inset 5px 5px 9px var(--drop-soft), inset -4px -4px 8px var(--lift);
+  --cast:0 7px 15px rgba(0,0,0,.30);
+  --cast-sm:0 4px 10px rgba(0,0,0,.26);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);
+  font:400 16px/1.6 Manrope,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+
+/* Колонки сітки за замовчуванням не стискаються вужче за свій вміст
+   (min-width:auto), і на телефоні широкий календар усередині розпирав
+   блок, а сторінка їхала вбік. Дозволяємо колонкам стискатись. */
+.hero-grid > *, .book > *, .contact > *, .facts > *,
+.places > *, .steps > *, .two > *, .choice > *{min-width:0}
+
+h1,h2,h3,.display{font-family:Unbounded,Manrope,sans-serif;letter-spacing:-.02em}
+
+/* ── шапка ───────────────────────────────────────────────────────────── */
+.top{
+  position:sticky;top:0;z-index:30;
+  background:rgba(230,233,238,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+.top-in{display:flex;align-items:center;gap:18px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none}
+.brand .mk{
+  width:42px;height:42px;border-radius:13px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.brand b{font-family:Unbounded,sans-serif;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.brand span{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-top:-2px}
+
+.menu{display:flex;gap:6px;margin-left:auto}
+.menu a{
+  padding:9px 14px;border-radius:var(--r-sm);text-decoration:none;
+  font-size:14px;font-weight:600;color:var(--muted);
+}
+.menu a:hover{color:var(--ink);background:var(--card);box-shadow:var(--out-sm)}
+
+.tel{
+  display:inline-flex;align-items:center;gap:9px;flex:none;
+  padding:11px 17px;border-radius:var(--r-md);
+  background:var(--grad);color:#fff;text-decoration:none;
+  font-weight:700;font-size:15px;white-space:nowrap;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.tel:active{box-shadow:inset 3px 3px 9px rgba(0,0,0,.4)}
+
+/* ── кнопки ──────────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:0;cursor:pointer;font:inherit;text-decoration:none;
+  padding:15px 26px;border-radius:var(--r-md);
+  background:var(--card);box-shadow:var(--out);
+  color:var(--ink);font-weight:700;font-size:15.5px;
+  transition:box-shadow .15s,transform .15s;
+}
+.btn:active{box-shadow:var(--in);transform:translateY(1px)}
+.btn.solid{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.22);
+  text-shadow:0 1px 2px rgba(0,0,0,.28);
+}
+.btn.solid:active{box-shadow:inset 3px 3px 10px rgba(0,0,0,.42);transform:translateY(1px)}
+.btn.big{padding:17px 32px;font-size:16.5px}
+
+/* ── секції ──────────────────────────────────────────────────────────── */
+section{padding:74px 0}
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;
+}
+h2{font-size:34px;font-weight:600;line-height:1.18}
+.lead{color:var(--muted);font-size:17px;margin-top:14px;max-width:620px}
+
+/* ── перший екран ────────────────────────────────────────────────────── */
+.hero{padding:56px 0 66px}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:46px;align-items:center}
+.hero h1{font-size:50px;font-weight:600;line-height:1.08}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero .lead{font-size:18px;max-width:520px}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+
+.hero-photo{
+  border-radius:26px;overflow:hidden;
+  box-shadow:var(--out-lg);
+  aspect-ratio:4/3;
+}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:46px}
+.fact{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:20px 21px;
+}
+.fact .ic-tile{width:40px;height:40px;border-radius:12px;font-size:21px;margin-bottom:13px}
+.fact b{display:block;font-size:15.5px;font-weight:700;line-height:1.35}
+.fact span{display:block;color:var(--muted);font-size:13.5px;margin-top:5px;line-height:1.5}
+
+/* ── три види стоянки ────────────────────────────────────────────────── */
+.places{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:38px}
+.place{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.place-img{aspect-ratio:4/3;overflow:hidden;background:var(--sunk)}
+.place-img img{width:100%;height:100%;object-fit:cover}
+.place-body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.place h3{font-size:20px;font-weight:600}
+.place p{color:var(--muted);font-size:14.5px;margin-top:9px;line-height:1.6}
+.place ul{list-style:none;margin:15px 0 0;display:flex;flex-direction:column;gap:9px}
+.place li{
+  font-size:14px;display:flex;gap:9px;align-items:flex-start;line-height:1.5;
+}
+.place li::before{
+  content:"";flex:none;width:7px;height:7px;border-radius:50%;
+  background:var(--blue-hi);margin-top:8px;
+}
+.price-row{
+  margin-top:18px;padding-top:16px;border-top:1px solid rgba(20,26,38,.1);
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+}
+.price-row .pl{font-size:12.5px;color:var(--muted);font-weight:600}
+.price-row .pv{font-family:Unbounded,sans-serif;font-size:15px;font-weight:500;color:var(--blue)}
+
+/* ── як це працює ────────────────────────────────────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
+.step{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:22px 21px;
+}
+.step .no{
+  width:38px;height:38px;border-radius:12px;background:var(--grad);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Unbounded,sans-serif;font-size:15px;font-weight:600;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);margin-bottom:14px;
+}
+.step b{display:block;font-size:16px;font-weight:700}
+.step p{color:var(--muted);font-size:14px;margin-top:7px;line-height:1.55}
+
+/* ── бронювання ──────────────────────────────────────────────────────── */
+.book{
+  background:var(--card);border-radius:26px;box-shadow:var(--out-lg);
+  padding:36px 36px 34px;display:grid;grid-template-columns:1fr 1fr;gap:34px;
+}
+.book h2{font-size:28px}
+.form{display:flex;flex-direction:column;gap:15px}
+.lbl{font-size:11.5px;font-weight:700;letter-spacing:.1em;
+     text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field{
+  width:100%;background:var(--sunk);border:0;border-radius:var(--r-md);
+  box-shadow:var(--in);padding:14px 16px;
+  font:inherit;font-size:15px;color:var(--ink);
+}
+.field::placeholder{color:#93a0b4}
+.field:focus{outline:2px solid var(--blue-hi);outline-offset:2px}
+select.field{appearance:none;background-image:none}
+
+.choice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.choice button{
+  border:0;cursor:pointer;font:inherit;
+  padding:13px 8px;border-radius:var(--r-md);
+  background:var(--card);box-shadow:var(--out-sm);
+  font-size:13.5px;font-weight:700;color:var(--muted);line-height:1.3;
+}
+.choice button:active{box-shadow:var(--in)}
+.choice button.on{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+
+.form-note{
+  font-size:13px;color:var(--muted);line-height:1.55;
+  padding:13px 16px;border-radius:var(--r-md);
+  background:var(--sunk);box-shadow:var(--in);
+}
+
+/* ── календар вільних місць ──────────────────────────────────────────── */
+.cal{margin-top:6px}
+.cal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:14px;
+}
+.cal-head .m{font-family:Unbounded,sans-serif;font-size:16px;font-weight:500}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{
+  width:38px;height:38px;border:0;cursor:pointer;border-radius:11px;
+  background:var(--card);box-shadow:var(--out-sm);
+  font-size:15px;font-weight:800;color:var(--muted);
+}
+.cal-nav button:active{box-shadow:var(--in)}
+
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.cal-dow{
+  text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);padding-bottom:3px;
+}
+.day{
+  aspect-ratio:1;border:0;cursor:pointer;border-radius:11px;
+  background:var(--card);box-shadow:var(--out-sm);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  font:inherit;font-size:14px;font-weight:700;color:var(--ink);
+}
+.day .free{font-size:9.5px;font-weight:700;color:var(--ok)}
+.day.none{background:var(--sunk);box-shadow:var(--in);color:#9aa4b4;cursor:not-allowed}
+.day.none .free{color:#a9b2c0}
+.day.empty{background:none;box-shadow:none;cursor:default}
+.day.on{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+.day.on .free{color:rgba(255,255,255,.88)}
+
+.cal-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;
+            font-size:12.5px;color:var(--muted);font-weight:600}
+.cal-legend i{display:inline-block;width:14px;height:14px;border-radius:5px;
+              margin-right:7px;vertical-align:-2px}
+.cal-legend i.a{background:var(--card);box-shadow:var(--out-sm)}
+.cal-legend i.b{background:var(--sunk);box-shadow:var(--in)}
+
+/* ── питання ─────────────────────────────────────────────────────────── */
+.faq{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+.qa{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:0;overflow:hidden;
+}
+.qa summary{
+  cursor:pointer;list-style:none;padding:20px 24px;
+  font-size:16.5px;font-weight:700;display:flex;gap:16px;align-items:center;
+}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::after{
+  content:"+";margin-left:auto;flex:none;
+  width:30px;height:30px;border-radius:9px;
+  background:var(--sunk);box-shadow:var(--in);
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;font-weight:700;color:var(--muted);
+}
+.qa[open] summary::after{content:"−"}
+.qa .ans{padding:0 24px 22px;color:var(--muted);font-size:15px;line-height:1.65}
+
+/* ── контакти ────────────────────────────────────────────────────────── */
+.contact{
+  background:var(--card);border-radius:26px;box-shadow:var(--out-lg);
+  padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;
+}
+.contact h2{font-size:30px}
+.contact .rows{margin-top:22px;display:flex;flex-direction:column;gap:15px}
+.crow{display:flex;gap:14px;align-items:flex-start}
+.crow .ic-tile{width:40px;height:40px;border-radius:12px;font-size:20px;flex:none}
+.crow b{display:block;font-size:15.5px;font-weight:700}
+.crow span{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+.contact-photo{border-radius:20px;overflow:hidden;box-shadow:var(--out);aspect-ratio:16/10}
+.contact-photo img{width:100%;height:100%;object-fit:cover}
+
+/* ── підвал ──────────────────────────────────────────────────────────── */
+footer{padding:36px 0 46px;color:var(--muted);font-size:13.5px;line-height:1.6}
+.foot-in{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+
+/* ── позначка прототипу ──────────────────────────────────────────────── */
+.proto{
+  background:var(--card);box-shadow:var(--out-sm);
+  border-radius:var(--r-md);padding:13px 20px;
+  color:var(--warn);font-size:13.5px;font-weight:600;line-height:1.5;
+  margin:18px auto 0;max-width:1096px;
+}
+
+/* ── іконки ──────────────────────────────────────────────────────────── */
+.icon{width:1em;height:1em;display:block;fill:none;stroke:#fff;
+      stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.sprite{display:none}
+.ic-tile{
+  border-radius:13px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);flex:none;
+}
+
+/* ══ ТЕЛЕФОН ════════════════════════════════════════════════════════════ */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:30px}
+  .hero h1{font-size:38px}
+  .facts{grid-template-columns:1fr 1fr}
+  .places{grid-template-columns:1fr;gap:18px}
+  .steps{grid-template-columns:1fr 1fr}
+  .book{grid-template-columns:1fr;gap:28px;padding:28px 24px}
+  .contact{grid-template-columns:1fr;gap:26px;padding:28px 24px}
+  .menu{display:none}
+}
+
+@media (max-width:620px){
+  .wrap{padding:0 15px}
+  section{padding:52px 0}
+  h2{font-size:26px}
+  .lead{font-size:15.5px}
+
+  .top-in{padding:10px 0;gap:10px}
+  .brand .mk{width:38px;height:38px;font-size:17px;border-radius:11px}
+  .brand b{font-size:15px}
+  .tel{padding:10px 14px;font-size:14px;margin-left:auto}
+
+  .hero{padding:34px 0 44px}
+  .hero h1{font-size:30px;line-height:1.14}
+  .hero .lead{font-size:15.5px}
+  .hero-cta{gap:10px;margin-top:22px}
+  .hero-cta .btn{flex:1 1 100%}
+  .hero-photo{border-radius:20px;aspect-ratio:3/2}
+
+  .facts{grid-template-columns:1fr;gap:11px;margin-top:30px}
+  .fact{padding:17px 18px}
+
+  .steps{grid-template-columns:1fr;gap:12px}
+  .step{padding:18px 18px}
+
+  .two{grid-template-columns:1fr}
+  .choice{grid-template-columns:1fr}
+  .choice button{padding:14px 10px}
+
+  .cal-grid{gap:5px}
+  .day{font-size:12.5px;border-radius:9px}
+  .day .free{font-size:8.5px}
+
+  .qa summary{padding:17px 18px;font-size:15px;gap:12px}
+  .qa .ans{padding:0 18px 19px;font-size:14px}
+
+  .contact-photo{aspect-ratio:3/2}
+  .proto{margin:14px 15px 0;font-size:12.5px;padding:12px 15px}
+}
