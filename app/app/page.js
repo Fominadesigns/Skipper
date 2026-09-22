@@ -54,7 +54,7 @@ function Setup({ st }) {
   const Item = ({ ok, name, what }) => (
     <div className="row-card" style={{ cursor: 'default' }}>
       <div className="bchip" style={ok ? { background: 'linear-gradient(145deg,#2f9d72,#12674a)' }
-                                       : { background: 'linear-gradient(145deg,#c06a42,#8a3a15)' }}>
+                                       : { background: 'linear-gradient(145deg,#ffe24a,#f8d613)', color: '#111835', textShadow: 'none' }}>
         {ok ? '✓' : '—'}
       </div>
       <div className="body">
@@ -656,7 +656,7 @@ function Kassa({ kassa, nowKey, busy, act, onIncome, onExpense }) {
       {shown.map((e) => (
         <div className="row-card" key={e.kind + e.id} onClick={() => remove(e)}
              title="Натисніть, щоб видалити помилковий запис">
-          <div className={'bchip' + (e.kind === 'out' ? ' debt' : '')}>
+          <div className={'bchip' + (e.kind === 'out' ? ' out' : '')}>
             {e.kind === 'in' ? e.slot_name : '−'}
           </div>
           <div className="body">

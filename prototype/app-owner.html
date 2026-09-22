@@ -84,7 +84,7 @@ body{padding:30px 16px 64px}
   cursor:pointer;border-radius:7px;background:var(--grad);
   box-shadow:0 3px 7px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.18);
 }
-.cell.on.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.cell.on.debt{background:var(--yellow-grad)}
 .cell.on:active{filter:brightness(1.15)}
 .cell.now{outline:2px solid var(--blue-hi);outline-offset:1px}
 
@@ -93,7 +93,7 @@ body{padding:30px 16px 64px}
 .legend i{display:inline-block;width:13px;height:11px;border-radius:4px;
           margin-right:6px;vertical-align:-1px}
 .legend i.p{background:var(--grad)}
-.legend i.d{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.legend i.d{background:var(--yellow-grad)}
 .legend i.f{background:var(--sunk);box-shadow:var(--in)}
 
 /* ── рядки списків ───────────────────────────────────────────────────── */
@@ -117,7 +117,7 @@ body{padding:30px 16px 64px}
   box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
-.bchip.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.bchip.debt{background:var(--yellow-grad);color:var(--navy);text-shadow:none}
 
 /* ── дашборд ─────────────────────────────────────────────────────────── */
 .kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -134,7 +134,8 @@ body{padding:30px 16px 64px}
   background:var(--grad);border-radius:var(--r-lg);padding:15px 17px;color:#fff;
   box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
 }
-.sum-box.debt{background:linear-gradient(145deg,#c06a42,#8a3a15)}
+.sum-box.debt{background:var(--yellow-grad);color:var(--navy)}
+.sum-box.debt .v{text-shadow:none}
 .sum-box .l{font-size:11px;font-weight:600;opacity:.85;letter-spacing:.04em}
 .sum-box .v{font-size:25px;font-weight:800;letter-spacing:-.025em;margin-top:2px;
             text-shadow:0 1px 3px rgba(0,0,0,.3)}
@@ -214,7 +215,7 @@ body{padding:30px 16px 64px}
 
 .toast{
   position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
-  background:#131314;color:#fff;
+  background:var(--navy);color:#fff;
   padding:13px 20px;border-radius:14px;font-size:13.5px;font-weight:700;
   box-shadow:0 12px 28px rgba(0,0,0,.4);
   opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;
