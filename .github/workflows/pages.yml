@@ -1,0 +1,49 @@
+# Публікація сторінок Skipper на GitHub Pages.
+#
+# Щоб це запрацювало, у Settings → Pages в полі Source має стояти
+# «GitHub Actions». Тоді після кожної заливки в main сайт збирається
+# сам, і нічого клацати не треба.
+#
+# Сайт — це просто набір готових HTML-файлів, нічого збирати не треба:
+# беремо теку як є й віддаємо.
+
+name: Публікація сторінок
+
+on:
+  push:
+    branches: [main]
+  # Дозволяє запустити вручну кнопкою у вкладці Actions.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Одна публікація за раз. Якщо заливок кілька поспіль — доїде остання,
+# але вже розпочату не обриваємо, щоб не лишити сайт у півстані.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Забрати файли з репозиторію
+        uses: actions/checkout@v4
+
+      - name: Підготувати Pages
+        uses: actions/configure-pages@v5
+
+      - name: Упакувати теку цілком
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Опублікувати
+        id: deployment
+        uses: actions/deploy-pages@v4
