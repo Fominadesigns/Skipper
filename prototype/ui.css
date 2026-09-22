@@ -10,27 +10,29 @@
    ══════════════════════════════════════════════════════════════════════ */
 
 :root{
-  /* поверхні */
-  --bg:#e6e9ee;
-  --card:#eaedf2;
-  --sunk:#dfe3ea;
+  /* поверхні — палітра «Ocean Breeze» (вибір Каті 22.09.2026):
+     042E7B · 004EE0 · 1883FF · 99CAFF · E3F2FF.
+     Фон не білий, а ніжно-блакитний E3F2FF. */
+  --bg:#e3f2ff;
+  --card:#e8f4ff;
+  --sunk:#d4e8fb;
 
   /* тіні — лише чорні, короткий радіус для різкості */
   --lift:#ffffff;
-  --drop:rgba(0,0,0,.24);
-  --drop-soft:rgba(0,0,0,.17);
+  --drop:rgba(0,0,0,.20);
+  --drop-soft:rgba(0,0,0,.14);
 
-  /* приглушений темний синій */
-  --blue:#1e3a63;
-  --blue-lo:#16294a;
-  --blue-hi:#35699f;
-  --blue-pale:#dde4ee;
-  --grad:linear-gradient(145deg,#35699f 0%,#1a3153 100%);
-  --grad-soft:linear-gradient(145deg,#4a7cb0 0%,#24406a 100%);
+  /* синій із палітри */
+  --blue:#004ee0;
+  --blue-lo:#042e7b;
+  --blue-hi:#1883ff;
+  --blue-pale:#99caff;
+  --grad:linear-gradient(145deg,#1883ff 0%,#004ee0 55%,#042e7b 100%);
+  --grad-soft:linear-gradient(145deg,#4a9dff 0%,#1883ff 100%);
 
-  /* текст */
-  --ink:#141a26;
-  --muted:#5d6675;
+  /* текст — темний, щоб не сповзав у блакитне на блакитному */
+  --ink:#0a1a3a;
+  --muted:#4a5d7c;
   --ok:#186b4c;
   --warn:#9e3412;
 
