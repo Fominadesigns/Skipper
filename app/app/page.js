@@ -572,15 +572,15 @@ function EditModal({ b, slots, bookings, onClose, onSave, onDelete, busy }) {
 }
 
 /* ── нова бронь ───────────────────────────────────────────────────────── */
-function NewModal({ slot, monthKey, onClose, onSave, busy }) {
+function NewModal({ slot, monthKey, prefill, onClose, onSave, busy }) {
   const [f, setF] = useState(null);
 
   useEffect(() => {
     if (slot) {
-      setF({ clientName: '', phone: '', boatName: '', reg: '', lengthM: '',
-             fromKey: monthKey, months: '3' });
+      setF({ clientName: '', phone: prefill?.phone || '', boatName: '', reg: '',
+             lengthM: prefill?.lengthM || '', fromKey: monthKey, months: '3' });
     }
-  }, [slot, monthKey]);
+  }, [slot, monthKey, prefill]);
 
   if (!slot || !f) return null;
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
@@ -662,6 +662,7 @@ function NewModal({ slot, monthKey, onClose, onSave, busy }) {
                   lengthCm: f.lengthM ? Math.round(parseFloat(f.lengthM.replace(',', '.')) * 100) : null,
                   startsOn,
                   endsOn,
+                  requestId: prefill?.requestId || null,
                 })}>
           Зберегти стоянку
         </button>
@@ -764,23 +765,6 @@ function Kassa({ kassa, nowKey, busy, act, onIncome, onExpense }) {
         </div>
       ))}
 
-      <div className="sect">Бот для витрат</div>
-      <div className="card">
-        <div style={{ fontSize: 14, lineHeight: 1.6 }}>
-          Влад пише боту одним рядком: <b>450 пальне</b> або <b>1200 фарба картка</b> —
-          і витрата одразу з&apos;являється тут. «скасувати» прибирає останню.
-        </div>
-        <div className="note">
-          Щоб запрацювало: 1)&nbsp;натисніть кнопку нижче; 2)&nbsp;напишіть боту
-          <b>/id</b> — він скаже ваш номер у&nbsp;Telegram; 3)&nbsp;у&nbsp;Vercel додайте
-          змінну <b>SKIPPER_STAFF_IDS</b> — номери тих, хто вносить витрати, через кому;
-          4)&nbsp;задеплойте ще раз.
-        </div>
-        <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={busy}
-                onClick={() => act('tg-setup', {})}>
-          Під&apos;єднати бота
-        </button>
-      </div>
     </div>
   );
 }
@@ -875,6 +859,65 @@ function ExpenseModal({ open, onClose, onSave, busy }) {
   );
 }
 
+/* ── дашборд: заявки з сайту, «я оплатив», бот ───────────────────────────
+   Заявку сервіс не підтверджує сам: «Оформити» відкриває звичайну
+   форму нової стоянки з уже вписаними телефоном, довжиною й першим
+   вільним місцем потрібного типу. Зберегти — рішення людини. */
+function Inbox({ data, busy, act, onRequest, onPay }) {
+  const { requests = [], claims = [], bookings, bot } = data;
+  const byId = Object.fromEntries(bookings.map((b) => [b.id, b]));
+  return (
+    <>
+      {requests.length > 0 && <div className="sect">Заявки з сайту · {requests.length}</div>}
+      {requests.map((r) => (
+        <div className="card" key={'r' + r.id} style={{ marginBottom: 12 }}>
+          <div className="rows">
+            <div className="row"><span className="k">Телефон</span><span className="v">{r.phone}</span></div>
+            <div className="row"><span className="k">Де</span><span className="v">{KIND[r.kind] || r.kind}</span></div>
+            <div className="row"><span className="k">З дати</span>
+              <span className="v">{new Date(r.starts_on).getUTCDate()} {MONTHS_GEN[new Date(r.starts_on).getUTCMonth()]}</span></div>
+            <div className="row"><span className="k">Довжина</span>
+              <span className="v">{r.length_cm ? (r.length_cm / 100).toFixed(1).replace('.', ',') + ' м' : '—'}</span></div>
+          </div>
+          <div className="two" style={{ marginTop: 12 }}>
+            <button className="btn solid" disabled={busy} onClick={() => onRequest(r)}>Оформити</button>
+            <button className="btn" disabled={busy}
+                    onClick={() => { if (confirm('Відхилити заявку?')) act('requests', { id: r.id, status: 'rejected' }, 'PATCH'); }}>
+              Відхилити
+            </button>
+          </div>
+          {bot && <div className="note">Посилання на бота для клієнта: <b>t.me/{bot}</b></div>}
+        </div>
+      ))}
+
+      {claims.length > 0 && <div className="sect">Кажуть, що оплатили · {claims.length}</div>}
+      {claims.map((c) => {
+        const b = byId[c.booking_id];
+        if (!b) return null;
+        return (
+          <div className="row-card" key={'c' + c.id} style={{ cursor: 'default' }}>
+            <div className="bchip debt">{b.slot_name}</div>
+            <div className="body">
+              <div className="n">{b.client_name}</div>
+              <div className="m">звірте з банком · {b.debt_kop ? 'борг ' + money(b.debt_kop) : 'боргу немає'}</div>
+            </div>
+            <button className="btn sm solid" disabled={busy} onClick={() => onPay(b)}>Внести</button>
+            <button className="btn sm" disabled={busy} aria-label="Прибрати"
+                    onClick={() => act('claims', { id: c.id }, 'PATCH')}>×</button>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/* Перше місце потрібного типу, вільне в цьому місяці. */
+function freeSlotFor(slots, bookings, kind, monthKey) {
+  return slots.find((s) => s.kind === kind && !bookings.some((b) =>
+    b.slot_id === s.id && mKey(b.starts_on) <= monthKey
+    && (!b.ends_on || mKey(b.ends_on) >= monthKey)));
+}
+
 /* ── головний екран ───────────────────────────────────────────────────── */
 export default function Page() {
   const [st, setSt] = useState(null);      // що налаштовано
@@ -934,7 +977,9 @@ export default function Page() {
     if (what === 'booking') say('Стоянку додано');
     if (what === 'expense') say(`Витрату ${money(j.amountKop)} записано`);
     if (method === 'DELETE' && (what.startsWith('payment') || what.startsWith('expense'))) say('Запис видалено');
-    if (what === 'tg-setup') say('Бота під\'єднано' + (j.bot ? ': @' + j.bot : '') + (j.staff ? '' : '. Для витрат додайте SKIPPER_STAFF_IDS'));
+    if (what === 'requests') say('Заявку відхилено');
+    if (what === 'claims') say('Прибрано');
+    if (what === 'tg-setup') say('Бота під\'єднано' + (j.bot ? ': @' + j.bot : ''));
     if (what.startsWith("seed")) {
       say(method === "DELETE"
         ? `Прибрано тестових клієнтів: ${j.removed}`
@@ -1035,7 +1080,16 @@ export default function Page() {
 
       {tab === 'dash' && (
         <div>
-          <div className="kpi">
+          <Inbox data={data} busy={busy} act={act} onPay={setPayFor}
+                 onRequest={(r) => {
+                   const mk = mKey(r.starts_on);
+                   const slot = freeSlotFor(slots, bookings, r.kind, mk);
+                   if (!slot) { say('Вільних місць «' + (KIND[r.kind] || r.kind) + '» на цей місяць немає'); return; }
+                   setNewAt({ slot, monthKey: mk, prefill: {
+                     phone: r.phone, requestId: r.id,
+                     lengthM: r.length_cm ? String(r.length_cm / 100).replace('.', ',') : '' } });
+                 }} />
+          <div className="kpi" style={{ marginTop: 16 }}>
             <div className="k"><div className="l">Не оплатили</div><div className="v debt">{debtors.length}</div></div>
             <div className="k"><div className="l">Оплатили</div><div className="v ok">{paid.length}</div></div>
             <div className="k"><div className="l">Борг усього</div><div className="v debt">{money(debtSum)}</div></div>
@@ -1061,6 +1115,19 @@ export default function Page() {
             Суми рахуються з тарифів і місяців, а не вписані руками — тому
             дашборд не може розійтися з календарем.
           </div>
+
+          <div className="sect">Бот для клієнтів</div>
+          <div className="card">
+            <div style={{ fontSize: 14, lineHeight: 1.6 }}>
+              {data.bot ? <>Бот <b>@{data.bot}</b> · t.me/{data.bot}. </> : null}
+              Клієнт відкриває бота, натискає «Старт» і&nbsp;«Поділитися номером» —
+              і&nbsp;рахунки з&nbsp;CRM приходять йому в&nbsp;Telegram.
+            </div>
+            <button className="btn" style={{ width: '100%', marginTop: 12 }} disabled={busy}
+                    onClick={() => act('tg-setup', {})}>
+              Під&apos;єднати бота (один раз після оновлення)
+            </button>
+          </div>
         </div>
       )}
 
@@ -1073,7 +1140,7 @@ export default function Page() {
                  onDelete={(id) => act("booking?id=" + id, {}, "DELETE")} />
       <PayModal b={payFor} onClose={() => setPayFor(null)} busy={busy}
                 onSave={(body) => act("payment", body)} />
-      <NewModal slot={newAt?.slot} monthKey={newAt?.monthKey}
+      <NewModal slot={newAt?.slot} monthKey={newAt?.monthKey} prefill={newAt?.prefill}
                 onClose={() => setNewAt(null)} busy={busy}
                 onSave={(body) => act('booking', body)} />
 

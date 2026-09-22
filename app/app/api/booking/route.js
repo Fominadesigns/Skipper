@@ -22,8 +22,13 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Не вистачає даних' }, { status: 400 });
   }
 
+  /* Місце зайняте, лише якщо інша стоянка перетинається за датами.
+     Раніше будь-яка бронь на місці блокувала його назавжди — навіть
+     коли човен уже забрали. */
   const busy = (await sql`SELECT id FROM bookings
-                           WHERE slot_id = ${slotId} AND status <> 'cancelled'`).rows[0];
+                           WHERE slot_id = ${slotId} AND status <> 'cancelled'
+                             AND starts_on <= coalesce(${d.endsOn || null}::date, 'infinity'::date)
+                             AND coalesce(ends_on, 'infinity'::date) >= ${d.startsOn}::date`).rows[0];
   if (busy) return NextResponse.json({ error: 'Місце вже зайняте' }, { status: 409 });
 
   /* Якщо людина з цим телефоном уже підключила бота — нова бронь
@@ -44,6 +49,11 @@ export async function POST(req) {
                         VALUES (${slotId}, ${b.id}, ${d.startsOn}, ${d.endsOn || null},
                                 ${feeForLength(lengthCm)})
                         RETURNING id`).rows[0];
+
+  // Бронь оформлена із заявки сайту — заявка закрита.
+  if (Number(d.requestId)) {
+    await sql`UPDATE requests SET status = 'accepted' WHERE id = ${Number(d.requestId)}`;
+  }
 
   return NextResponse.json({ ok: true, bookingId: bk.id });
 }

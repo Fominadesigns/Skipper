@@ -303,8 +303,8 @@
       <div>
         <p class="eyebrow">Бронювання</p>
         <h2>Оберіть дату</h2>
-        <p class="lead" style="font-size:15.5px">
-          Підсвічені дні — ті, коли є&nbsp;вільні місця.
+        <p class="lead" style="font-size:15.5px" id="calHint">
+          Завантажуємо вільні місця…
         </p>
 
         <div class="cal">
@@ -344,6 +344,9 @@
           <div class="lbl">Телефон</div>
           <input class="field" id="fTel" inputmode="tel" placeholder="+380 __ ___ __ __">
         </div>
+        <!-- пастка для спам-ботів: людина цього поля не бачить -->
+        <input id="fWeb" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
         <button class="btn sand big" type="submit">
           <svg class="icon" viewBox="0 0 24 24" style="font-size:18px;stroke:#2a1a02"><use href="#i-send"/></svg>
@@ -579,19 +582,29 @@ const MONTHS_OF = ['січня','лютого','березня','квітня','
                    'липня','серпня','вересня','жовтня','листопада','грудня'];
 const DOW = ['пн','вт','ср','чт','пт','сб','нд'];
 
-let view = new Date(2026, 9, 1);
+let view = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let kind = 'water';
 let picked = null;
 
-/* Стабільно псевдовипадково: той самий день завжди дає те саме число,
-   інакше сітка «стрибала» б при кожному кліку.
-   В ангарі місць лише 10, тому вільних днів там менше. */
+/* Вільні місця — справжні, з CRM станції (skipper-crm.vercel.app).
+   Стоянка помісячна, тож і вільність помісячна: у всі дні місяця
+   показуємо те саме число. Минулі дні недоступні.
+   Немає звʼязку з CRM — не вигадуємо цифри, а просимо зателефонувати. */
+const CRM = 'https://skipper-crm.vercel.app';
+let FREE = null;          // { '2026-10': { water:{total,free}, … } }
+let BOT = null;
+let freeError = false;
+fetch(CRM + '/api/public/free')
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(j => { FREE = j.months; BOT = j.bot; drawCal(); })
+  .catch(() => { freeError = true; drawCal(); });
+
 function freeOn(y, m, d, k) {
-  const seed = (y * 372 + m * 31 + d) * (k === 'water' ? 7 : k === 'land' ? 13 : 23);
-  const n = Math.abs(Math.sin(seed)) * 100 | 0;
-  if (k === 'hangar') return n % 100 < 62 ? 0 : (n % 2) + 1;
-  if (k === 'land')   return n % 100 < 15 ? 0 : (n % 8) + 1;
-  return n % 100 < 18 ? 0 : (n % 6) + 1;
+  if (!FREE) return 0;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  if (new Date(y, m, d) < today) return 0;
+  const key = y + '-' + String(m + 1).padStart(2, '0');
+  return FREE[key] && FREE[key][k] ? FREE[key][k].free : 0;
 }
 
 /* «1 місце», «2 місця», «5 місць» — українська має три форми. */
@@ -609,6 +622,10 @@ const fDate = document.getElementById('fDate');
 function drawCal() {
   const y = view.getFullYear(), m = view.getMonth();
   label.textContent = MONTHS[m] + ' ' + y;
+  const hint = document.getElementById('calHint');
+  if (hint) hint.textContent = freeError
+    ? 'Не вдалося завантажити вільні місця. Зателефонуйте нам — підкажемо.'
+    : !FREE ? 'Завантажуємо вільні місця…' : 'Підсвічені дні — ті, коли є вільні місця.';
   grid.innerHTML = DOW.map(d => '<div class="cal-dow">' + d + '</div>').join('');
 
   // Тиждень починається з понеділка: у JS неділя це 0, тому зсуваємо.
@@ -632,6 +649,8 @@ function drawCal() {
     b.onclick = () => {
       picked = b.dataset.key;
       fDate.value = b.dataset.d + ' ' + MONTHS_OF[view.getMonth()] + ' ' + view.getFullYear();
+      fDate.dataset.iso = view.getFullYear() + '-' + String(view.getMonth() + 1).padStart(2, '0') +
+                          '-' + String(b.dataset.d).padStart(2, '0');
       drawCal();
     };
   });
@@ -647,20 +666,49 @@ document.getElementById('kind').onclick = e => {
   const b = e.target.closest('button'); if (!b) return;
   [...e.currentTarget.children].forEach(x => x.classList.toggle('on', x === b));
   kind = b.dataset.k;
-  picked = null; fDate.value = '';
+  picked = null; fDate.value = ''; delete fDate.dataset.iso;
   drawCal();
 };
 drawCal();
 
-/* Форма нічого нікуди не надсилає — це макет. Казати «заявку надіслано»
-   було б враньом: людина чекала б дзвінка, якого не буде. */
-document.getElementById('bookForm').addEventListener('submit', e => {
+/* Заявка йде в CRM станції. Сервіс її НЕ підтверджує — Влад
+   бачить заявку, передзвонює й оформлює бронь сам. Після надсилання
+   показуємо посилання на бота: бот не може написати людині першим,
+   тож людина має відкрити його сама — тоді рахунки приходитимуть туди. */
+const note = document.getElementById('formNote');
+document.getElementById('bookForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const note = document.getElementById('formNote');
-  note.innerHTML = '<b>Це демонстраційна сторінка</b> — заявка нікуди ' +
-    'не пішла. На робочому сайті вона впаде в Telegram господарям, ' +
-    'і вам передзвонять.';
-  note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const btn = e.target.querySelector('button[type=submit]');
+  const body = {
+    kind, date: fDate.dataset.iso || '',
+    length: document.getElementById('fLen').value,
+    phone: document.getElementById('fTel').value,
+    website: document.getElementById('fWeb').value,
+  };
+  if (!body.date) { note.textContent = 'Оберіть дату в календарі.'; return; }
+  btn.disabled = true;
+  try {
+    const r = await fetch(CRM + '/api/public/request', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'Не вдалося надіслати');
+    const bot = j.bot || BOT;
+    note.innerHTML = '<b>Заявку отримали.</b> Ми передзвонимо, уточнимо розмір судна ' +
+      'й&nbsp;підтвердимо місце.' + (bot
+        ? '<br><br>Щоб рахунки приходили в&nbsp;Telegram, відкрийте нашого бота ' +
+          'й&nbsp;натисніть «Поділитися номером»:<br>' +
+          '<a class="btn solid" style="margin-top:10px;display:inline-flex" target="_blank" rel="noopener" ' +
+          'href="https://t.me/' + bot + '">Відкрити бота @' + bot + '</a>'
+        : '');
+    e.target.reset(); picked = null; delete fDate.dataset.iso; drawCal();
+  } catch (err) {
+    note.textContent = err.message + '. Або зателефонуйте нам.';
+  } finally {
+    btn.disabled = false;
+    note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 });
 </script>
 </body>

@@ -68,7 +68,14 @@ export async function GET() {
     };
   });
 
+  const requests = (await sql`
+    SELECT id, kind, starts_on, length_cm, phone, created_at
+      FROM requests WHERE status = 'new' ORDER BY created_at DESC`).rows;
+  const claims = (await sql`
+    SELECT id, booking_id, created_at FROM payment_claims
+     WHERE seen = false ORDER BY created_at DESC`).rows;
+
   // Імʼя бота — щоб CRM могла показати клієнту посилання t.me/…
   const bot = await botUsername().catch(() => null);
-  return NextResponse.json({ slots, bookings: withDebt, invoices, bot });
+  return NextResponse.json({ slots, bookings: withDebt, invoices, bot, requests, claims });
 }

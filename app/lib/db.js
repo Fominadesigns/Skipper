@@ -133,6 +133,27 @@ export async function ensureSchema() {
       seen_at  TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
 
+    /* Заявки з сайту. Сервіс їх НЕ підтверджує — лише зберігає;
+       оформлює бронь людина в CRM. status: new | accepted | rejected */
+    await sql`CREATE TABLE IF NOT EXISTS requests (
+      id         SERIAL PRIMARY KEY,
+      kind       TEXT NOT NULL,
+      starts_on  DATE NOT NULL,
+      length_cm  INT,
+      phone      TEXT NOT NULL,
+      status     TEXT NOT NULL DEFAULT 'new',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+
+    /* Клієнт натиснув «Я оплатив». Це лише сигнал: оплату в касу
+       вносить людина, звіривши з банком. seen — прибрано з дашборда. */
+    await sql`CREATE TABLE IF NOT EXISTS payment_claims (
+      id         SERIAL PRIMARY KEY,
+      booking_id INT NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+      seen       BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )`;
+
     /* Журнал розсилок — проти дублів. Ключ у БАЗІ, а не в памʼяті процесу:
        на Vercel кожен запит може виконуватись іншим екземпляром. */
     await sql`CREATE TABLE IF NOT EXISTS message_log (
