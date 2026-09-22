@@ -9,14 +9,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ui.css">
 <style>
-body{padding:34px 20px 80px}
+body{padding:34px 20px 130px}
 .wrap{max-width:720px;margin:0 auto}
 
-.hero{margin-bottom:30px}
+.hero{margin-bottom:26px}
 .hero h1{font-size:30px;font-weight:800;letter-spacing:-.024em}
 .hero p{color:var(--muted);font-size:15px;margin-top:12px;line-height:1.65}
 
-.block{margin-top:30px}
+.block{margin-top:28px}
 .block > h2{
   font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);margin:0 0 12px 4px;
@@ -24,9 +24,10 @@ body{padding:34px 20px 80px}
 
 .qa{
   background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
-  padding:20px 22px;display:flex;gap:16px;align-items:flex-start;
+  padding:20px 22px;
 }
 .qa + .qa{margin-top:13px}
+.qa-top{display:flex;gap:16px;align-items:flex-start}
 .num{
   width:36px;height:36px;flex:none;border-radius:11px;background:var(--grad);
   color:#fff;display:flex;align-items:center;justify-content:center;
@@ -34,6 +35,7 @@ body{padding:34px 20px 80px}
   box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
+.num.done{background:linear-gradient(145deg,#2f9d72,#12674a)}
 .qt{font-size:16px;font-weight:700;line-height:1.45}
 .qd{color:var(--muted);font-size:14px;margin-top:7px;line-height:1.58}
 
@@ -43,11 +45,45 @@ body{padding:34px 20px 80px}
   font-size:13.5px;line-height:1.55;color:var(--warn);font-weight:600;
 }
 
-.settled{margin-top:40px}
+/* поле для ответа — втиснутое, как все поля ввода в проекте */
+.ans{
+  margin-top:14px;width:100%;min-height:78px;resize:vertical;
+  background:var(--sunk);border:0;border-radius:var(--r-md);box-shadow:var(--in);
+  padding:13px 15px;font:inherit;font-size:14.5px;line-height:1.55;color:var(--ink);
+}
+.ans::placeholder{color:#93a0b4}
+.ans:focus{outline:2px solid var(--blue-hi);outline-offset:2px}
+
+.saved{
+  font-size:12px;font-weight:700;color:var(--ok);
+  margin-top:8px;height:15px;opacity:0;transition:opacity .2s;
+}
+.saved.on{opacity:1}
+
+.settled{margin-top:38px}
 .settled h2{font-size:17px;font-weight:800;margin-bottom:12px}
 .settled .card p{font-size:14.5px;line-height:1.65;color:var(--muted)}
 .settled .card p + p{margin-top:11px}
 .settled b{color:var(--ink)}
+
+/* нижняя панель — всегда на виду */
+.dock{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:var(--bg);box-shadow:0 -8px 22px rgba(0,0,0,.20);
+  padding:13px 20px calc(13px + env(safe-area-inset-bottom));
+}
+.dock-in{
+  max-width:720px;margin:0 auto;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.progress{font-size:13.5px;font-weight:700;color:var(--muted);flex:1;min-width:150px}
+.progress b{color:var(--ink)}
+.dock .btn{width:auto;flex:none;padding:12px 20px;font-size:14px}
+
+.hint{
+  font-size:12.5px;color:var(--muted);line-height:1.5;
+  max-width:720px;margin:10px auto 0;
+}
 </style>
 </head>
 <body>
@@ -63,23 +99,31 @@ body{padding:34px 20px 80px}
   </p>
   <p>
     Вопросов немного — только те, без которых нельзя начать. Всё остальное
-    достроим по ходу, когда будет что показать. Отвечать можно как удобно —
-    голосовыми, списком, как угодно. «У нас такого нет» — тоже хороший ответ:
-    значит, этого не делаем.
+    достроим по ходу. Можно писать коротко, можно подробно.
+    «У нас такого нет» — тоже хороший ответ: значит, этого не делаем.
+  </p>
+  <p>
+    Ответы сохраняются прямо в этой странице — можно закрыть и вернуться позже,
+    ничего не пропадёт. Когда закончите, нажмите <b>«Скопировать ответы»</b>
+    внизу и пришлите их одним сообщением.
   </p>
 </div>
 
 <div class="block">
   <h2>Места</h2>
   <div class="qa">
-    <div class="num">1</div>
-    <div>
-      <div class="qt">Сколько всего мест и как они называются?</div>
-      <div class="qd">
-        Номера, буквы, «понтон&nbsp;2 — место&nbsp;7»? Есть ли разные типы:
-        на воде, на суше, в эллинге?
+    <div class="qa-top">
+      <div class="num" data-num>1</div>
+      <div>
+        <div class="qt">Сколько всего мест и как они называются?</div>
+        <div class="qd">
+          Номера, буквы, «понтон&nbsp;2 — место&nbsp;7»? Есть ли разные типы:
+          на воде, на суше, в эллинге?
+        </div>
       </div>
     </div>
+    <textarea class="ans" id="q1" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
   </div>
 </div>
 
@@ -87,54 +131,74 @@ body{padding:34px 20px 80px}
   <h2>Деньги</h2>
 
   <div class="qa">
-    <div class="num">2</div>
-    <div>
-      <div class="qt">Сколько стоит стоянка в месяц?</div>
-      <div class="qd">Одна сумма для всех — или зависит от размера лодки и типа места?</div>
-    </div>
-  </div>
-
-  <div class="qa">
-    <div class="num">3</div>
-    <div>
-      <div class="qt">Платят помесячно или за сезон вперёд?</div>
-      <div class="qd">Если за сезон — с какого по какое число он идёт.</div>
-    </div>
-  </div>
-
-  <div class="qa">
-    <div class="num">4</div>
-    <div>
-      <div class="qt">Какого числа выставлять счёт и до какого числа его оплатить?</div>
-    </div>
-  </div>
-
-  <div class="qa">
-    <div class="num">5</div>
-    <div>
-      <div class="qt">Что ещё платное, кроме самой стоянки?</div>
-      <div class="qd">
-        Электричество, спуск на воду, мойка, консервация на зиму, хранение мотора.
+    <div class="qa-top">
+      <div class="num" data-num>2</div>
+      <div>
+        <div class="qt">Сколько стоит стоянка в месяц?</div>
+        <div class="qd">Одна сумма для всех — или зависит от размера лодки и типа места?</div>
       </div>
     </div>
+    <textarea class="ans" id="q2" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-top">
+      <div class="num" data-num>3</div>
+      <div>
+        <div class="qt">Платят помесячно или за сезон вперёд?</div>
+        <div class="qd">Если за сезон — с какого по какое число он идёт.</div>
+      </div>
+    </div>
+    <textarea class="ans" id="q3" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-top">
+      <div class="num" data-num>4</div>
+      <div>
+        <div class="qt">Какого числа выставлять счёт и до какого числа его оплатить?</div>
+      </div>
+    </div>
+    <textarea class="ans" id="q4" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
+  </div>
+
+  <div class="qa">
+    <div class="qa-top">
+      <div class="num" data-num>5</div>
+      <div>
+        <div class="qt">Что ещё платное, кроме самой стоянки?</div>
+        <div class="qd">
+          Электричество, спуск на воду, мойка, консервация на зиму, хранение мотора.
+        </div>
+      </div>
+    </div>
+    <textarea class="ans" id="q5" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
   </div>
 </div>
 
 <div class="block">
   <h2>Спуск на воду</h2>
   <div class="qa">
-    <div class="num">6</div>
-    <div>
-      <div class="qt">«Дата спуска» — это что?</div>
-      <div class="qd">
-        Дата, когда лодку поставили на воду на весь сезон и с неё пошла оплата, —
-        или <b>каждый отдельный</b> спуск, когда клиент едет кататься?
-      </div>
-      <div class="flag">
-        Самый важный вопрос из всех. Если каждый — приложению нужно расписание
-        со свободными окошками, как запись к&nbsp;врачу, и работы заметно больше.
+    <div class="qa-top">
+      <div class="num" data-num>6</div>
+      <div>
+        <div class="qt">«Дата спуска» — это что?</div>
+        <div class="qd">
+          Дата, когда лодку поставили на воду на весь сезон и с неё пошла оплата, —
+          или <b>каждый отдельный</b> спуск, когда клиент едет кататься?
+        </div>
+        <div class="flag">
+          Самый важный вопрос из всех. Если каждый — приложению нужно расписание
+          со свободными окошками, как запись к&nbsp;врачу, и работы заметно больше.
+        </div>
       </div>
     </div>
+    <textarea class="ans" id="q6" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
   </div>
 </div>
 
@@ -142,40 +206,34 @@ body{padding:34px 20px 80px}
   <h2>Клиенты</h2>
 
   <div class="qa">
-    <div class="num">7</div>
-    <div>
-      <div class="qt">Сколько сейчас клиентов и что вы о них записываете?</div>
-      <div class="qd">
-        Покажите, как ведёте учёт сейчас — тетрадь, Excel, в голове.
-        Этого достаточно.
+    <div class="qa-top">
+      <div class="num" data-num>7</div>
+      <div>
+        <div class="qt">Сколько сейчас клиентов и что вы о них записываете?</div>
+        <div class="qd">
+          Покажите, как ведёте учёт сейчас — тетрадь, Excel, в голове.
+          Этого достаточно.
+        </div>
       </div>
     </div>
+    <textarea class="ans" id="q7" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
   </div>
 
   <div class="qa">
-    <div class="num">8</div>
-    <div>
-      <div class="qt">Все ли клиенты есть в Telegram? Примерно сколько — нет?</div>
-      <div class="qd">
-        Бот не может написать первым тому, кто ни разу не нажал «Старт».
-        Таким клиентам счёт просто не дойдёт, и для них нужна будет
-        отдельная схема — ссылка от вас или QR-наклейка на причале.
+    <div class="qa-top">
+      <div class="num" data-num>8</div>
+      <div>
+        <div class="qt">Все ли клиенты есть в Telegram? Примерно сколько — нет?</div>
+        <div class="qd">
+          Бот не может написать первым тому, кто ни разу не нажал «Старт».
+          Таким клиентам счёт просто не дойдёт, и для них нужна будет
+          отдельная схема — ссылка от вас или QR-наклейка на причале.
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="block">
-  <h2>Напоследок</h2>
-
-  <div class="qa">
-    <div class="num">9</div>
-    <div><div class="qt">Что в учёте сейчас забирает больше всего времени?</div></div>
-  </div>
-
-  <div class="qa">
-    <div class="num">10</div>
-    <div><div class="qt">Если бы система делала за вас одну вещь — что бы это было?</div></div>
+    <textarea class="ans" id="q8" placeholder="Ответ…"></textarea>
+    <div class="saved">Сохранено</div>
   </div>
 </div>
 
@@ -198,5 +256,113 @@ body{padding:34px 20px 80px}
 </div>
 
 </div>
+
+<div class="dock">
+  <div class="dock-in">
+    <div class="progress" id="progress">Отвечено <b>0</b> из 8</div>
+    <button class="btn" id="clear">Очистить</button>
+    <button class="btn solid" id="copy">Скопировать ответы</button>
+  </div>
+  <p class="hint">
+    Ответы хранятся только в этом браузере. Чтобы они дошли до нас —
+    нажмите «Скопировать ответы» и вставьте в сообщение.
+  </p>
+</div>
+
+<script>
+/* Ответы сохраняются в браузере отвечающего. Страница статическая —
+   отправить их сама она не может, поэтому главное действие внизу это
+   «Скопировать», а не «Отправить». Обещать отправку было бы враньём. */
+
+const KEY = 'skipper-brief-v1';
+const fields = [...document.querySelectorAll('.ans')];
+const nums = [...document.querySelectorAll('[data-num]')];
+const progress = document.getElementById('progress');
+
+/* Любая работа с localStorage обёрнута: в приватном окне и при
+   запрещённых данных сайта обращение бросает исключение, и страница
+   не должна из-за этого перестать работать. */
+function load() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '{}'); }
+  catch { return {}; }
+}
+function save(data) {
+  try { localStorage.setItem(KEY, JSON.stringify(data)); return true; }
+  catch { return false; }
+}
+
+const saved = load();
+fields.forEach(f => { if (saved[f.id]) f.value = saved[f.id]; });
+
+function refresh() {
+  let done = 0;
+  fields.forEach((f, i) => {
+    const filled = f.value.trim().length > 0;
+    if (filled) done++;
+    nums[i].classList.toggle('done', filled);
+  });
+  progress.innerHTML = 'Отвечено <b>' + done + '</b> из ' + fields.length;
+}
+refresh();
+
+let timer = null;
+fields.forEach(f => {
+  f.addEventListener('input', () => {
+    refresh();
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const data = {};
+      fields.forEach(x => { if (x.value.trim()) data[x.id] = x.value; });
+      if (!save(data)) return;          // не сохранилось — не врём, что сохранили
+      const mark = f.parentElement.querySelector('.saved');
+      mark.classList.add('on');
+      setTimeout(() => mark.classList.remove('on'), 1400);
+    }, 500);
+  });
+});
+
+/* Текст для отправки: вопрос + ответ, без разметки — чтобы его было
+   удобно читать прямо в переписке. */
+function asText() {
+  const lines = ['Ответы по лодочной станции', ''];
+  fields.forEach((f, i) => {
+    const q = f.closest('.qa').querySelector('.qt').textContent.trim();
+    lines.push((i + 1) + '. ' + q);
+    lines.push(f.value.trim() ? f.value.trim() : '— не ответил');
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+document.getElementById('copy').onclick = async (e) => {
+  const btn = e.currentTarget;
+  const text = asText();
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch {
+    // Запасной путь: старые браузеры и страницы без защищённого соединения.
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { ok = document.execCommand('copy'); } catch {}
+    ta.remove();
+  }
+  const was = btn.textContent;
+  btn.textContent = ok ? 'Скопировано ✓' : 'Не вышло — выделите вручную';
+  setTimeout(() => { btn.textContent = was; }, 2200);
+};
+
+document.getElementById('clear').onclick = () => {
+  if (!confirm('Стереть все ответы? Это нельзя отменить.')) return;
+  fields.forEach(f => { f.value = ''; });
+  try { localStorage.removeItem(KEY); } catch {}
+  refresh();
+};
+</script>
 </body>
 </html>

@@ -88,6 +88,53 @@ body{padding:30px 16px 64px}
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
+/* ── каса ────────────────────────────────────────────────────────────────
+   За зразком наявної каси «Тераса / База»: приходи й витрати поруч,
+   згруповані по днях, кожен запис розкривається. Різниця одна, але
+   важлива: приходи сюди НЕ вписують руками — вони зʼявляються самі,
+   коли власниця підтвердила оплату. Руками вносять лише витрати.       */
+.sum2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.sum{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:13px 14px;
+}
+.sum .sl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.sum .sv{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.02em}
+.sum .sv.in{color:var(--ok)}
+.sum .sv.out{color:var(--warn)}
+
+.daylab{
+  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin:16px 0 8px 4px;
+}
+.ent{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:11px 13px;display:flex;align-items:center;gap:11px;
+}
+.ent + .ent{margin-top:9px}
+.ent .ic-tile{width:36px;height:36px;border-radius:11px;font-size:19px}
+.ent .body{flex:1;min-width:0}
+.ent .n{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ent .m{color:var(--muted);font-size:12px;margin-top:2px}
+.ent .v{font-weight:800;font-size:14px;white-space:nowrap}
+.ent .v.in{color:var(--ok)}
+.ent .v.out{color:var(--warn)}
+
+.seg{display:flex;gap:7px;margin-top:9px}
+.seg div{
+  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
+  font-size:12.5px;font-weight:700;color:var(--muted);
+  background:var(--card);box-shadow:var(--out-sm);
+}
+.seg div.on{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+.lbl{font-size:11.5px;font-weight:700;color:var(--muted);margin:14px 0 6px 4px}
+.lbl:first-child{margin-top:0}
+
 /* набір елементів */
 .kit{max-width:1240px;margin:52px auto 0}
 .kit h2{font-size:19px;font-weight:800;margin-bottom:6px}
@@ -146,6 +193,14 @@ body{padding:30px 16px 64px}
   </symbol>
   <symbol id="i-chat" viewBox="0 0 24 24">
     <path d="M20.4 12.3c0 3.8-3.75 6.9-8.4 6.9-1.16 0-2.27-.2-3.28-.55L4.2 20.2l1.36-3.55C4.42 15.5 3.6 14 3.6 12.3c0-3.8 3.76-6.9 8.4-6.9s8.4 3.1 8.4 6.9z"/>
+  </symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24">
+    <path d="M3.6 8.4a2.4 2.4 0 0 1 2.4-2.4h12a2.4 2.4 0 0 1 2.4 2.4v9.2a2.4 2.4 0 0 1-2.4 2.4H6a2.4 2.4 0 0 1-2.4-2.4z"/>
+    <path d="M3.6 10.6h4.2a2 2 0 0 1 0 4H3.6"/>
+    <path d="M6.4 6V4.6a1.6 1.6 0 0 1 2.06-1.53l8.1 2.4"/>
+  </symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24">
+    <path d="M12 5.4v13.2M5.4 12h13.2"/>
   </symbol>
   <symbol id="i-boat" viewBox="0 0 24 24">
     <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
@@ -397,6 +452,193 @@ body{padding:30px 16px 64px}
       <div class="tabs">
         <div class="tab on">Човни</div>
         <div class="tab">Каса</div>
+        <div class="tab">Місця</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Каса -->
+  <div class="phone">
+    <div class="phone-cap">Адмін · Каса</div>
+    <div class="screen">
+      <div class="top" style="margin-bottom:13px">
+        <div>
+          <div class="h">Каса</div>
+          <div class="sub">Вересень 2026</div>
+        </div>
+        <div class="pill blue">Місяць</div>
+      </div>
+
+      <div class="sum2">
+        <div class="sum">
+          <div class="sl">ПРИЙШЛО</div>
+          <div class="sv in">0&nbsp;000&nbsp;₴</div>
+        </div>
+        <div class="sum">
+          <div class="sl">ВИТРАТИ</div>
+          <div class="sv out">0&nbsp;000&nbsp;₴</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="on">Усе</div>
+        <div>Приходи</div>
+        <div>Витрати</div>
+      </div>
+
+      <div class="daylab">22 вересня</div>
+      <div class="ent">
+        <span class="ic-tile"><svg class="icon"><use href="#i-receipt"/></svg></span>
+        <div class="body">
+          <div class="n">Петро Коваль</div>
+          <div class="m">A-12 · рахунок №0000-00</div>
+        </div>
+        <div class="v in">+0&nbsp;000&nbsp;₴</div>
+      </div>
+      <div class="ent">
+        <span class="ic-tile"><svg class="icon"><use href="#i-wallet"/></svg></span>
+        <div class="body">
+          <div class="n">Пальне для катера</div>
+          <div class="m">Влад · готівка</div>
+        </div>
+        <div class="v out">−000&nbsp;₴</div>
+      </div>
+
+      <div class="daylab">19 вересня</div>
+      <div class="ent">
+        <span class="ic-tile"><svg class="icon"><use href="#i-receipt"/></svg></span>
+        <div class="body">
+          <div class="n">Марина Гриценко</div>
+          <div class="m">A-05 · рахунок №0000-00</div>
+        </div>
+        <div class="v in">+0&nbsp;000&nbsp;₴</div>
+      </div>
+      <div class="ent">
+        <span class="ic-tile"><svg class="icon"><use href="#i-receipt"/></svg></span>
+        <div class="body">
+          <div class="n">Дмитро Савчук</div>
+          <div class="m">C-01 · рахунок №0000-00</div>
+        </div>
+        <div class="v in">+0&nbsp;000&nbsp;₴</div>
+      </div>
+
+      <div style="margin-top:15px">
+        <button class="btn solid">Додати витрату</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Човни</div>
+        <div class="tab on">Каса</div>
+        <div class="tab">Місця</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Запис у касі -->
+  <div class="phone">
+    <div class="phone-cap">Адмін · Запис у касі</div>
+    <div class="screen">
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="h">Петро Коваль</div>
+            <div class="sub">22 вересня, 14:30</div>
+          </div>
+          <div class="berth">A-12</div>
+        </div>
+        <div style="margin-top:15px">
+          <div class="due">
+            <span>
+              <span class="due-l">ПРИЙШЛО</span>
+              <span class="due-v">0&nbsp;000&nbsp;₴</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect">За що</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Рахунок</span><span class="v">№0000-00</span></div>
+          <div class="row"><span class="k">Період</span><span class="v">вересень</span></div>
+          <div class="row"><span class="k">Човен</span><span class="v">«Чайка»</span></div>
+          <div class="row"><span class="k">Місце</span><span class="v">A-12</span></div>
+        </div>
+      </div>
+
+      <div class="sect">Як надійшло</div>
+      <div class="card">
+        <div class="rows">
+          <div class="row"><span class="k">Спосіб</span><span class="v">переказ на&nbsp;рахунок</span></div>
+          <div class="row"><span class="k">Клієнт заявив</span><span class="v">22.09, 14:02</span></div>
+          <div class="row"><span class="k">Підтвердила</span><span class="v">Катя, 14:30</span></div>
+        </div>
+        <p class="qr-cap" style="margin-top:12px;text-align:left">
+          Запис зʼявився сам, коли оплату підтвердили.
+          Руками в&nbsp;касу вносять лише витрати.
+        </p>
+      </div>
+
+      <div style="margin-top:15px">
+        <button class="btn">Відкрити картку човна</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Човни</div>
+        <div class="tab on">Каса</div>
+        <div class="tab">Місця</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Нова витрата -->
+  <div class="phone">
+    <div class="phone-cap">Адмін · Нова витрата</div>
+    <div class="screen">
+      <div class="top" style="margin-bottom:16px">
+        <div>
+          <div class="h">Нова витрата</div>
+          <div class="sub">22 вересня</div>
+        </div>
+      </div>
+
+      <div class="lbl">СУМА</div>
+      <div class="field" style="font-size:19px;font-weight:800;color:var(--ink)">
+        0&nbsp;000&nbsp;₴
+      </div>
+
+      <div class="lbl">НА ЩО</div>
+      <div class="field">Пальне, фарба, ремонт помосту…</div>
+
+      <div class="lbl">ХТО ПЛАТИВ</div>
+      <div class="seg" style="margin-top:0">
+        <div class="on">Влад</div>
+        <div>Катя</div>
+      </div>
+
+      <div class="lbl">ЧИЇ ГРОШІ</div>
+      <div class="seg" style="margin-top:0">
+        <div class="on">Бізнесу</div>
+        <div>Свої</div>
+      </div>
+      <p class="qr-cap" style="margin-top:9px;text-align:left">
+        «Свої» — витрачено з&nbsp;власної кишені, підлягає компенсації.
+        Так само, як у&nbsp;касі «Тераса&nbsp;/&nbsp;База».
+      </p>
+
+      <div class="lbl">СПОСІБ</div>
+      <div class="seg" style="margin-top:0">
+        <div class="on">Готівка</div>
+        <div>Картка</div>
+      </div>
+
+      <div style="margin-top:18px">
+        <button class="btn solid">Зберегти</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Човни</div>
+        <div class="tab on">Каса</div>
         <div class="tab">Місця</div>
       </div>
     </div>
