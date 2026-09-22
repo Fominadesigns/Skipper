@@ -27,7 +27,7 @@ body{padding:30px 16px 64px}
   min-height:608px;display:flex;flex-direction:column;
 }
 
-/* сума до оплати — найконтрастніший елемент екрана */
+/* сумма к оплате — самый контрастный элемент экрана */
 .due{
   background:var(--grad);border-radius:var(--r-lg);padding:17px 18px;
   box-shadow:var(--cast), inset 0 1px 0 rgba(255,255,255,.2);
@@ -43,10 +43,7 @@ body{padding:30px 16px 64px}
   background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
   padding:14px 12px;text-align:center;font-size:13px;font-weight:700;line-height:1.35;
 }
-.q .ic-tile{
-  width:38px;height:38px;margin:0 auto 9px;
-  border-radius:12px;font-size:20px;
-}
+.q .ic-tile{width:38px;height:38px;margin:0 auto 9px;border-radius:12px;font-size:20px}
 
 .bill{display:flex;flex-direction:column;gap:12px}
 .bill-row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
@@ -65,22 +62,55 @@ body{padding:30px 16px 64px}
 .qr-cap{font-size:12px;color:var(--muted);text-align:center;line-height:1.45}
 .qr-cap b{color:var(--ink)}
 
-.boat{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:12px 13px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+/* карта проезда — схематичная, показывает принцип */
+.map-card{
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--out);
+  background:#dfe6ee;aspect-ratio:4/3;position:relative;
 }
-.boat + .boat{margin-top:10px}
-.boat .n{font-weight:700;font-size:14.5px}
-.boat .m{color:var(--muted);font-size:12.5px;margin-top:2px}
-.amt{font-weight:800;font-size:14px;white-space:nowrap}
-.amt.debt{color:var(--warn)}
-.amt.paid{color:var(--ok)}
+.map-card svg{width:100%;height:100%;display:block}
+
+.step-list{display:flex;flex-direction:column;gap:11px;margin-top:4px}
+.stp{
+  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
+  padding:13px 14px;display:flex;gap:12px;align-items:flex-start;
+}
+.stp .n{
+  width:26px;height:26px;flex:none;border-radius:9px;background:var(--grad);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:12.5px;font-weight:800;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.stp p{font-size:13.5px;line-height:1.45}
+.stp b{display:block;font-size:13.5px;font-weight:700;margin-bottom:2px}
+
+/* переписка с администрацией */
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{
+  max-width:86%;padding:11px 14px;border-radius:16px;
+  font-size:13.5px;line-height:1.45;
+}
+.msg.them{
+  background:var(--card);box-shadow:var(--out-sm);
+  border-bottom-left-radius:6px;align-self:flex-start;
+}
+.msg.me{
+  background:var(--grad);color:#fff;
+  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
+  border-bottom-right-radius:6px;align-self:flex-end;
+}
+.msg .t{display:block;font-size:10.5px;opacity:.7;margin-top:5px}
+
+.ask{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:4px}
+.ask div{
+  background:var(--card);border-radius:var(--r-sm);box-shadow:var(--out-sm);
+  padding:10px 11px;font-size:12.5px;font-weight:700;line-height:1.3;color:var(--muted);
+}
 
 .tabs{margin-top:auto;padding-top:16px;display:flex;gap:7px}
 .tab{
-  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
-  font-size:11.5px;font-weight:700;color:var(--muted);
-  background:var(--card);box-shadow:var(--out-sm);
+  flex:1;text-align:center;padding:10px 3px;border-radius:var(--r-sm);
+  font-size:10.5px;font-weight:700;color:var(--muted);
+  background:var(--card);box-shadow:var(--out-sm);line-height:1.2;
 }
 .tab.on{
   background:var(--grad);color:#fff;
@@ -88,110 +118,22 @@ body{padding:30px 16px 64px}
   text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 
-/* ── каса ────────────────────────────────────────────────────────────────
-   За зразком наявної каси «Тераса / База»: приходи й витрати поруч,
-   згруповані по днях, кожен запис розкривається. Різниця одна, але
-   важлива: приходи сюди НЕ вписують руками — вони зʼявляються самі,
-   коли власниця підтвердила оплату. Руками вносять лише витрати.       */
-.sum2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.sum{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:13px 14px;
-}
-.sum .sl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em}
-.sum .sv{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.02em}
-.sum .sv.in{color:var(--ok)}
-.sum .sv.out{color:var(--warn)}
-
-.daylab{
-  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--muted);margin:16px 0 8px 4px;
-}
-.ent{
-  background:var(--card);border-radius:var(--r-md);box-shadow:var(--out-sm);
-  padding:11px 13px;display:flex;align-items:center;gap:11px;
-}
-.ent + .ent{margin-top:9px}
-.ent .ic-tile{width:36px;height:36px;border-radius:11px;font-size:19px}
-.ent .body{flex:1;min-width:0}
-.ent .n{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ent .m{color:var(--muted);font-size:12px;margin-top:2px}
-.ent .v{font-weight:800;font-size:14px;white-space:nowrap}
-.ent .v.in{color:var(--ok)}
-.ent .v.out{color:var(--warn)}
-
-.seg{display:flex;gap:7px;margin-top:9px}
-.seg div{
-  flex:1;text-align:center;padding:10px 4px;border-radius:var(--r-sm);
-  font-size:12.5px;font-weight:700;color:var(--muted);
-  background:var(--card);box-shadow:var(--out-sm);
-}
-.seg div.on{
-  background:var(--grad);color:#fff;
-  box-shadow:var(--cast-sm), inset 0 1px 0 rgba(255,255,255,.2);
-  text-shadow:0 1px 2px rgba(0,0,0,.3);
-}
-
-.lbl{font-size:11.5px;font-weight:700;color:var(--muted);margin:14px 0 6px 4px}
-.lbl:first-child{margin-top:0}
-
-/* набір елементів */
-.kit{max-width:1240px;margin:52px auto 0}
-.kit h2{font-size:19px;font-weight:800;margin-bottom:6px}
-.kit .note{color:var(--muted);font-size:14px;margin-bottom:18px;max-width:700px}
-.kit-grid{display:flex;gap:16px;flex-wrap:wrap}
-.kit-box{
-  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
-  padding:20px;min-width:212px;flex:1;
-}
-.kit-box h3{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
-            color:var(--muted);margin-bottom:14px}
-.sw{display:flex;gap:10px;flex-wrap:wrap}
-.chip{width:46px;height:46px;border-radius:13px;box-shadow:var(--out-sm)}
-.toggle{
-  width:66px;height:34px;border-radius:999px;background:var(--grad);
-  box-shadow:var(--cast-sm);position:relative;
-}
-.toggle::after{
-  content:"";position:absolute;top:4px;right:4px;width:26px;height:26px;
-  border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
-}
-.toggle.off{background:var(--sunk);box-shadow:var(--in)}
-.toggle.off::after{right:auto;left:4px;background:var(--bg);box-shadow:var(--out-sm)}
-
 @media (max-width:760px){
   body{padding:20px 14px 44px}
   .rail{gap:20px}
   .phone{width:100%;max-width:330px}
   .page-head h1{font-size:24px}
-  .kit{margin-top:36px}
-  .kit-grid{gap:12px}
-  .kit-box{min-width:0;flex:1 1 100%}
 }
 </style>
 </head>
 <body>
 
-<!-- Набір іконок. Вставляється копією в кожну сторінку, а не окремим файлом:
-     зовнішній <use href="file.svg#id"> не працює, коли сторінку відкривають
-     подвійним кліком із диска, а саме так її відкриватиме Влад. -->
+<!-- Набор иконок. Вставляется копией в каждую страницу: внешний
+     <use href="file.svg#id"> не работает при открытии файла с диска. -->
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-anchor" viewBox="0 0 24 24">
     <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
     <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
-  </symbol>
-  <symbol id="i-list" viewBox="0 0 24 24">
-    <rect x="5" y="5" width="14" height="16" rx="2.5"/>
-    <path d="M9.2 5V4.2A2.2 2.2 0 0 1 11.4 2h1.2A2.2 2.2 0 0 1 14.8 4.2V5"/>
-    <path d="M9 11h6M9 15h4"/>
-  </symbol>
-  <symbol id="i-phone" viewBox="0 0 24 24">
-    <rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/>
-    <path d="M10.6 5.6h2.8"/><path d="M11.2 18.4h1.6"/>
-  </symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24">
-    <rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/>
-    <path d="M3.5 10.2h17"/><path d="M8 3.2v4M16 3.2v4"/>
   </symbol>
   <symbol id="i-receipt" viewBox="0 0 24 24">
     <path d="M6.2 3h11.6v18l-1.94-1.4-1.93 1.4-1.93-1.4-1.94 1.4-1.93-1.4L6.2 21z"/>
@@ -204,20 +146,15 @@ body{padding:30px 16px 64px}
   <symbol id="i-chat" viewBox="0 0 24 24">
     <path d="M20.4 12.3c0 3.8-3.75 6.9-8.4 6.9-1.16 0-2.27-.2-3.28-.55L4.2 20.2l1.36-3.55C4.42 15.5 3.6 14 3.6 12.3c0-3.8 3.76-6.9 8.4-6.9s8.4 3.1 8.4 6.9z"/>
   </symbol>
-  <symbol id="i-wallet" viewBox="0 0 24 24">
-    <path d="M3.6 8.4a2.4 2.4 0 0 1 2.4-2.4h12a2.4 2.4 0 0 1 2.4 2.4v9.2a2.4 2.4 0 0 1-2.4 2.4H6a2.4 2.4 0 0 1-2.4-2.4z"/>
-    <path d="M3.6 10.6h4.2a2 2 0 0 1 0 4H3.6"/>
-    <path d="M6.4 6V4.6a1.6 1.6 0 0 1 2.06-1.53l8.1 2.4"/>
-  </symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24">
-    <path d="M12 5.4v13.2M5.4 12h13.2"/>
-  </symbol>
   <symbol id="i-boat" viewBox="0 0 24 24">
     <path d="M3.4 14.6h17.2l-2.1 4.3a2.4 2.4 0 0 1-2.16 1.35H7.66A2.4 2.4 0 0 1 5.5 18.9z"/>
     <path d="M6.6 14.6V8.4h10.8l-2.6 6.2"/><path d="M12 8.4V4.2"/>
   </symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.2s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/>
+    <circle cx="12" cy="10.1" r="2.6"/>
+  </symbol>
 </svg>
-
 
 <div style="max-width:1240px;margin:0 auto"><a class="back" href="index.html">← Все материалы</a></div>
 
@@ -225,36 +162,37 @@ body{padding:30px 16px 64px}
   <h1>Приложение клиента</h1>
   <p>Что видит владелец лодки в Telegram</p>
   <div class="disclaimer">
-    Имена клиентов и номера лодок вымышленные. Суммы показаны для примера.
+    Четыре экрана — всё, что нужно клиенту. Имена и номера лодок вымышленные,
+    суммы показаны для примера.
   </div>
 </div>
 
 <div class="rail">
 
-  <!-- 1. Мій човен -->
+  <!-- 1. Моя лодка -->
   <div class="phone">
     <div class="phone-cap">Клиент · Моя лодка</div>
     <div class="screen">
       <div class="card">
         <div class="top">
           <div>
-            <div class="h">Ваш човен</div>
-            <div class="sub">«Чайка» · UA-0000-KV</div>
+            <div class="h">«Чайка»</div>
+            <div class="sub">UA-0000-KV · 6,4&nbsp;м</div>
           </div>
           <div class="berth">A-12</div>
         </div>
         <div class="rows" style="margin-top:16px">
           <div class="row"><span class="k">Місце</span><span class="v">A-12, на&nbsp;воді</span></div>
           <div class="row"><span class="k">Стоїть із</span><span class="v">14 квітня</span></div>
-          <div class="row"><span class="k">Тариф</span><span class="v">0&nbsp;000&nbsp;₴ / місяць</span></div>
+          <div class="row"><span class="k">Тариф</span><span class="v">3000&nbsp;₴ / місяць</span></div>
         </div>
       </div>
 
       <div style="margin-top:14px">
         <div class="due">
           <span>
-            <span class="due-l">До&nbsp;оплати за вересень</span>
-            <span class="due-v">0&nbsp;000&nbsp;₴</span>
+            <span class="due-l">До&nbsp;оплати за жовтень</span>
+            <span class="due-v">3000&nbsp;₴</span>
           </span>
           <span class="due-go">Оплатити&nbsp;→</span>
         </div>
@@ -262,40 +200,50 @@ body{padding:30px 16px 64px}
 
       <div class="sect">Що зробити</div>
       <div class="quick">
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-boat"/></svg></span>Спустити<br>на&nbsp;воду</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>Мій<br>рахунок</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-key"/></svg></span>Як&nbsp;потрапити<br>на&nbsp;причал</div>
-        <div class="q"><span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chat"/></svg></span>Написати<br>Владу</div>
+        <div class="q">
+          <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-boat"/></svg></span>
+          Забронювати<br>місце
+        </div>
+        <div class="q">
+          <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-receipt"/></svg></span>
+          Мій<br>рахунок
+        </div>
+        <div class="q">
+          <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-key"/></svg></span>
+          Як&nbsp;потрапити<br>на&nbsp;причал
+        </div>
+        <div class="q">
+          <span class="ic-tile"><svg class="icon" viewBox="0 0 24 24"><use href="#i-chat"/></svg></span>
+          Написати<br>адміністрації
+        </div>
       </div>
 
       <div class="tabs">
-        <div class="tab on">Човен</div>
+        <div class="tab on">Бронювання</div>
         <div class="tab">Рахунок</div>
-        <div class="tab">Заявки</div>
         <div class="tab">Причал</div>
+        <div class="tab">Чат</div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Рахунок -->
+  <!-- 2. Счёт -->
   <div class="phone">
     <div class="phone-cap">Клиент · Счёт</div>
     <div class="screen">
-      <div class="sect">Рахунок №0000-00</div>
+      <div class="sect">Рахунок за жовтень</div>
       <div class="card">
         <div class="bill">
-          <div class="bill-row"><span class="t">Стоянка, вересень</span><span class="a">0&nbsp;000&nbsp;₴</span></div>
-          <div class="bill-row"><span class="t">Спуск на&nbsp;воду, 2&nbsp;шт</span><span class="a">000&nbsp;₴</span></div>
-          <div class="bill-row"><span class="t">Електрика</span><span class="a">000&nbsp;₴</span></div>
+          <div class="bill-row"><span class="t">Стоянка, жовтень</span><span class="a">3000&nbsp;₴</span></div>
         </div>
-        <div class="bill-sum"><span>До&nbsp;оплати</span><span>0&nbsp;000&nbsp;₴</span></div>
+        <div class="bill-sum"><span>До&nbsp;оплати</span><span>3000&nbsp;₴</span></div>
       </div>
 
       <div class="sect">Як оплатити</div>
       <div class="card">
         <div class="qr-wrap">
           <div class="qr">
-            <svg viewBox="0 0 29 29" width="100%" height="100%" shape-rendering="crispEdges" aria-label="Приклад QR-коду">
+            <svg viewBox="0 0 29 29" width="100%" height="100%" shape-rendering="crispEdges" aria-label="Пример QR-кода">
               <rect width="29" height="29" fill="#fff"/>
               <g fill="#141a26">
                 <path d="M0 0h7v7H0zM22 0h7v7h-7zM0 22h7v7H0z"/>
@@ -311,20 +259,10 @@ body{padding:30px 16px 64px}
           </div>
           <p class="qr-cap">
             Натисніть код — відкриється ваш банк.<br>
-            З&nbsp;іншого телефона його можна відсканувати камерою.<br>
             <b>Сума вже вписана всередині</b>
           </p>
         </div>
-        <button class="btn solid" style="margin-top:15px">Оплатити в&nbsp;застосунку банку</button>
-      </div>
-
-      <div class="sect">Або переказом</div>
-      <div class="card">
-        <div class="rows">
-          <div class="row"><span class="k">Отримувач</span><span class="v">ФОП&nbsp;•••••</span></div>
-          <div class="row"><span class="k">IBAN</span><span class="v mono">UA00 0000 0000 0000</span></div>
-        </div>
-        <button class="btn" style="margin-top:14px">Скопіювати IBAN</button>
+        <button class="btn solid" style="margin-top:15px">Оплатити в&nbsp;банку</button>
       </div>
 
       <div style="margin-top:14px">
@@ -336,10 +274,123 @@ body{padding:30px 16px 64px}
       </div>
 
       <div class="tabs">
-        <div class="tab">Човен</div>
+        <div class="tab">Бронювання</div>
         <div class="tab on">Рахунок</div>
-        <div class="tab">Заявки</div>
         <div class="tab">Причал</div>
+        <div class="tab">Чат</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Как попасть на причал -->
+  <div class="phone">
+    <div class="phone-cap">Клиент · Как попасть на причал</div>
+    <div class="screen">
+      <div class="sect">Як доїхати</div>
+      <div class="map-card">
+        <!-- Схематична карта: у робочому додатку тут буде звичайна
+             карта з міткою. Для показу достатньо схеми. -->
+        <svg viewBox="0 0 400 300" aria-label="Схема проїзду до причалу">
+          <rect width="400" height="300" fill="#dfe6ee"/>
+          <path d="M0 208 C 90 196, 150 232, 240 220 S 360 196, 400 206
+                   L400 300 L0 300 Z" fill="#b9cfe0"/>
+          <path d="M0 240 C 110 228, 170 262, 260 250 S 370 230, 400 238"
+                fill="none" stroke="#a6c1d6" stroke-width="3"/>
+          <path d="M58 300 L92 150 L128 62" fill="none" stroke="#fff"
+                stroke-width="13" stroke-linecap="round"/>
+          <path d="M58 300 L92 150 L128 62" fill="none" stroke="#c8d3df"
+                stroke-width="2" stroke-dasharray="7 9"/>
+          <path d="M128 62 L318 96" fill="none" stroke="#fff"
+                stroke-width="10" stroke-linecap="round"/>
+          <path d="M120 150 L300 178" fill="none" stroke="#e9a63b"
+                stroke-width="3.4" stroke-dasharray="9 9" stroke-linecap="round"/>
+          <g transform="translate(300,178)">
+            <circle r="17" fill="#1e3a63"/>
+            <circle r="17" fill="none" stroke="#fff" stroke-width="2.5"/>
+            <path d="M-6 3 h12 l-1.4 3 h-9.2z M-4 3 V-3 h7.6 l-1.8 4"
+                  fill="none" stroke="#fff" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <text x="312" y="214" font-family="Manrope,sans-serif" font-size="13"
+                font-weight="700" fill="#141a26" text-anchor="middle">Причал</text>
+          <text x="150" y="52" font-family="Manrope,sans-serif" font-size="11"
+                font-weight="700" fill="#5d6675">із Києва</text>
+        </svg>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="rows">
+          <div class="row"><span class="k">Адреса</span><span class="v">уточнюється</span></div>
+          <div class="row"><span class="k">Від Києва</span><span class="v">≈10 хвилин</span></div>
+          <div class="row"><span class="k">Шлагбаум</span><span class="v">код у&nbsp;чаті</span></div>
+        </div>
+        <button class="btn" style="margin-top:14px">Прокласти маршрут</button>
+      </div>
+
+      <div class="sect">На місці</div>
+      <div class="step-list">
+        <div class="stp">
+          <span class="n">1</span>
+          <p><b>В'їзд</b>Шлагбаум відкривається кодом із&nbsp;чату.</p>
+        </div>
+        <div class="stp">
+          <span class="n">2</span>
+          <p><b>Ваше місце</b>A-12, ліворуч уздовж понтона.</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Бронювання</div>
+        <div class="tab">Рахунок</div>
+        <div class="tab on">Причал</div>
+        <div class="tab">Чат</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Написать администрации -->
+  <div class="phone">
+    <div class="phone-cap">Клиент · Написать администрации</div>
+    <div class="screen">
+      <div class="top" style="margin-bottom:14px">
+        <div>
+          <div class="h">Адміністрація</div>
+          <div class="sub">зазвичай відповідають за&nbsp;15&nbsp;хвилин</div>
+        </div>
+      </div>
+
+      <div class="chat">
+        <div class="msg them">
+          Доброго дня! Ваш човен на&nbsp;місці, усе гаразд.
+          <span class="t">учора, 18:40</span>
+        </div>
+        <div class="msg me">
+          Вітаю. Хочу спустити на&nbsp;воду в&nbsp;суботу зранку, чи&nbsp;можливо?
+          <span class="t">сьогодні, 09:12</span>
+        </div>
+        <div class="msg them">
+          Так, о&nbsp;9:00 підійде. Підготуємо.
+          <span class="t">сьогодні, 09:20</span>
+        </div>
+      </div>
+
+      <div class="sect">Часті питання</div>
+      <div class="ask">
+        <div>Спустити на&nbsp;воду</div>
+        <div>Підняти човен</div>
+        <div>Продовжити стоянку</div>
+        <div>Код шлагбаума</div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="field">Написати повідомлення…</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Бронювання</div>
+        <div class="tab">Рахунок</div>
+        <div class="tab">Причал</div>
+        <div class="tab on">Чат</div>
       </div>
     </div>
   </div>

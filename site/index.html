@@ -27,7 +27,10 @@
 <link rel="stylesheet" href="site.css">
 <link rel="preload" href="fonts/FixelDisplay-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/FixelText-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="img/hangar-real.webp" as="image" fetchpriority="high">
+<link rel="preload" href="img/hangar-real.webp" as="image" fetchpriority="high"
+      media="(min-width:761px)">
+<link rel="preload" href="img/hero-mobile.webp" as="image" fetchpriority="high"
+      media="(max-width:760px)">
 </head>
 <body>
 
@@ -103,7 +106,10 @@
 
 <!-- ── перший екран ──────────────────────────────────────────────────── -->
 <section class="bleed bleed-hero">
-  <img src="img/hangar-real.webp" alt="" aria-hidden="true" fetchpriority="high">
+  <picture aria-hidden="true">
+    <source media="(max-width:760px)" srcset="img/hero-mobile.webp">
+    <img src="img/hangar-real.webp" alt="" fetchpriority="high">
+  </picture>
   <div class="wrap">
     <h1 class="rise">Стоянка човнів <span class="hl">під Вишгородом</span></h1>
     <p class="lead rise d1">
