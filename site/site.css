@@ -1067,3 +1067,54 @@ footer{background:var(--deep)}
    темно-синім кнопкам. Жовтій кнопці він дістається помилково — білий
    напис на жовтому майже не читається. Називаємо колір прямо. */
 #book .btn.sand, #prices .btn.sand, #calc .btn.sand{color:#141d42}
+
+/* ── контакти з мапою ────────────────────────────────────────────────────
+   Два стовпці порівну. Мапа розтягується на всю висоту лівого стовпця,
+   тож її верх сам стає врівень із заголовком, а низ — із останнім
+   рядком. Задавати висоту числом не можна: вона залежить від довжини
+   тексту, а текст ще змінюватимуть. */
+.contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:stretch}
+.contacts-left{min-width:0;display:flex;flex-direction:column}
+.contacts-left h2{font-size:clamp(26px,3.4vw,44px);line-height:1.05;letter-spacing:-.03em}
+.contacts-left .lead{margin-top:12px;font-size:clamp(15px,1.5vw,18px);
+                     color:rgba(255,255,255,.9);text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.contacts-left .rows{margin-top:22px;display:flex;flex-direction:column;gap:16px}
+.contacts-left .crow b{color:#fff}
+.contacts-left .crow b a{text-decoration:none}
+.contacts-left .crow span{color:rgba(255,255,255,.8)}
+.contacts-left .hero-cta{margin-top:auto;padding-top:24px}
+
+.map{min-width:0;border-radius:22px;overflow:hidden;min-height:300px;
+     box-shadow:0 18px 40px rgba(0,0,0,.45);
+     border:1px solid rgba(255,255,255,.14)}
+.map iframe{width:100%;height:100%;min-height:300px;border:0;display:block;
+            filter:saturate(.9)}
+
+@media (max-width:860px){
+  .contacts-grid{grid-template-columns:1fr;gap:22px}
+  .contacts-left .hero-cta{margin-top:0}
+  .map{min-height:260px;order:2}
+}
+
+/* ── підвал ──────────────────────────────────────────────────────────── */
+.foot-in{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;
+         justify-content:space-between;font-size:13.5px}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-in a{color:inherit;opacity:.75;text-decoration:none;
+           border-bottom:1px solid transparent;transition:.2s}
+.foot-in a:hover{opacity:1;border-bottom-color:currentColor}
+.foot-by{opacity:.75}
+.foot-by a{font-weight:600;opacity:1}
+
+/* ── сторінки документів ─────────────────────────────────────────────── */
+.doc{max-width:760px;margin:0 auto;padding:104px 0 72px}
+.doc h1{font-family:'Fixel Display',Fixel,sans-serif;font-weight:700;
+        font-size:clamp(28px,4.4vw,46px);letter-spacing:-.03em;line-height:1.08}
+.doc .upd{margin-top:10px;font-size:13.5px;color:var(--muted)}
+.doc h2{font-family:'Fixel Display',Fixel,sans-serif;font-weight:700;
+        font-size:clamp(19px,2.4vw,25px);letter-spacing:-.02em;margin:34px 0 10px}
+.doc p,.doc li{font-size:15.5px;line-height:1.65;color:var(--ink);opacity:.9}
+.doc p{margin-top:10px}
+.doc ul,.doc ol{margin:10px 0 0 20px;display:flex;flex-direction:column;gap:7px}
+.doc .back{display:inline-block;margin-top:40px;font-size:14px;font-weight:600}
+@media (max-width:700px){ .doc{padding:84px 0 56px} }
