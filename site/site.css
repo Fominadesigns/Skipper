@@ -784,7 +784,7 @@ footer{background:var(--deep)}
 /* ── світлі блоки: бронювання й ціни ─────────────────────────────────────
    Бронювання — бо там вибирають дату й вписують телефон. Ціни — для ритму:
    одразу після темного головного екрана, щоб сторінка чергувалась. */
-#book,#prices{
+#book,#prices,#calc{
   --bg:#eceef3; --card:#f2f3f7; --sunk:#e2e5ed;
   --lift:#ffffff; --drop:rgba(120,128,150,.45); --drop-soft:rgba(120,128,150,.32);
   --grad:linear-gradient(145deg,#26357a 0%,#141d42 100%);   /* вибране — темно-синє */
@@ -920,3 +920,131 @@ footer{background:var(--deep)}
   }
   .bleed-hero .lead{text-shadow:0 1px 10px rgba(0,0,0,.8)}
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Додано 06.10.2026: живі вільні місця, калькулятор, стрічка фотографій
+   і кроки «як це влаштовано».
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── скільки вільно просто зараз ────────────────────────────────────── */
+.live-head{display:flex;align-items:center;gap:10px}
+.live-dot{width:9px;height:9px;border-radius:50%;background:#1d6150;
+          box-shadow:0 0 0 0 rgba(29,97,80,.55);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(29,97,80,.55)}
+  70%{box-shadow:0 0 0 11px rgba(29,97,80,0)}
+  100%{box-shadow:0 0 0 0 rgba(29,97,80,0)}
+}
+.live-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.live{min-width:0;background:rgba(255,255,255,.52);border-radius:var(--r-lg,20px);
+      padding:18px 20px;box-shadow:0 10px 22px rgba(120,70,10,.14),
+      inset 0 1px 0 rgba(255,255,255,.7)}
+.live b{display:block;font-family:'Fixel Display',Fixel,sans-serif;
+        font-weight:700;font-size:clamp(34px,6vw,54px);line-height:1;
+        letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.live span{display:block;margin-top:6px;font-size:14px;font-weight:600}
+.live i{display:block;margin-top:2px;font-size:12.5px;font-style:normal;opacity:.65}
+.live-foot{margin-top:14px;font-size:14px;max-width:52ch;opacity:.8}
+@media (max-width:700px){
+  .live-row{grid-template-columns:1fr;gap:10px}
+  .live{display:flex;align-items:baseline;gap:12px;padding:14px 16px}
+  .live b{font-size:34px}
+  .live span{margin-top:0}
+  .live i{margin-left:auto;margin-top:0}
+}
+
+/* ── калькулятор ────────────────────────────────────────────────────── */
+.calc{background:var(--card);border-radius:28px;padding:28px 30px 24px;
+      box-shadow:var(--out,10px 10px 20px rgba(0,0,0,.2), -8px -8px 16px #fff)}
+.calc-top{margin-bottom:18px}
+.calc-h{font-family:'Fixel Display',Fixel,sans-serif;font-weight:700;
+        font-size:clamp(22px,3.2vw,32px);letter-spacing:-.025em;margin-top:4px}
+.calc-lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.09em;
+          text-transform:uppercase;opacity:.6}
+.calc-len{display:block;font-family:'Fixel Display',Fixel,sans-serif;font-weight:700;
+          font-size:clamp(28px,4.6vw,40px);letter-spacing:-.03em;margin:2px 0 12px;
+          font-variant-numeric:tabular-nums}
+
+.calc-range{-webkit-appearance:none;appearance:none;width:100%;height:16px;
+            background:transparent;cursor:pointer}
+.calc-range::-webkit-slider-runnable-track{height:16px;border-radius:9px;
+  background:var(--sunk);box-shadow:inset 4px 4px 8px rgba(0,0,0,.17), inset -3px -3px 7px #fff}
+.calc-range::-moz-range-track{height:16px;border-radius:9px;
+  background:var(--sunk);box-shadow:inset 4px 4px 8px rgba(0,0,0,.17), inset -3px -3px 7px #fff}
+.calc-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:30px;height:30px;border-radius:50%;margin-top:-7px;border:0;
+  background:var(--sand-grad,linear-gradient(145deg,#f3bb58,#c6801c));
+  box-shadow:0 5px 12px rgba(198,128,28,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+.calc-range::-moz-range-thumb{width:30px;height:30px;border-radius:50%;border:0;
+  background:var(--sand-grad,linear-gradient(145deg,#f3bb58,#c6801c));
+  box-shadow:0 5px 12px rgba(198,128,28,.5), inset 0 1px 0 rgba(255,255,255,.5)}
+.calc-range:focus-visible{outline:2px solid var(--sand);outline-offset:6px}
+
+.calc-scale{display:flex;justify-content:space-between;margin-top:7px;
+            font-size:12px;opacity:.55;font-variant-numeric:tabular-nums}
+
+.calc-seg{display:flex;gap:7px;margin-top:20px;background:var(--sunk);
+          padding:6px;border-radius:16px;
+          box-shadow:inset 4px 4px 8px rgba(0,0,0,.14), inset -3px -3px 7px #fff}
+.calc-seg button{flex:1;border:0;cursor:pointer;background:none;padding:11px 8px;
+                 border-radius:11px;font:inherit;font-size:14px;font-weight:700;
+                 color:var(--muted);transition:.18s}
+.calc-seg button.on{background:var(--grad);color:#fff;
+                    box-shadow:0 5px 12px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.2);
+                    text-shadow:0 1px 2px rgba(0,0,0,.3)}
+
+.calc-out{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;
+          flex-wrap:wrap;margin-top:22px}
+.calc-cap{font-size:13px;font-weight:600;opacity:.65}
+.calc-sum{font-family:'Fixel Display',Fixel,sans-serif;font-weight:700;
+          font-size:clamp(36px,6.6vw,58px);line-height:1.05;letter-spacing:-.035em;
+          margin:3px 0 2px;font-variant-numeric:tabular-nums}
+.calc-per{font-size:14px;opacity:.7}
+.calc-note{margin-top:18px;font-size:13.5px;line-height:1.5;opacity:.75;max-width:56ch}
+@media (max-width:700px){
+  .calc{padding:22px 18px 18px;border-radius:22px}
+  .calc-out .btn{width:100%}
+}
+
+/* ── стрічка фотографій на всю ширину ───────────────────────────────── */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:0}
+.shot{position:relative;margin:0;overflow:hidden;aspect-ratio:4/3}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;
+          transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.shot:hover img{transform:scale(1.045)}
+.shot figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 18px 14px;
+                 color:#fff;font-size:14px;font-weight:600;
+                 background:linear-gradient(to top,rgba(8,14,32,.78),transparent)}
+@media (max-width:860px){
+  .strip{grid-template-columns:1fr}
+  .shot{aspect-ratio:16/10}
+}
+
+/* ── кроки ──────────────────────────────────────────────────────────── */
+.steps{list-style:none;margin:28px 0 0;padding:0;
+       display:grid;grid-template-columns:repeat(5,1fr);gap:12px;counter-reset:s}
+.step{min-width:0;position:relative;padding:20px 18px;border-radius:18px;
+      background:rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.14);
+      box-shadow:0 14px 28px rgba(0,0,0,.3)}
+.step-n{display:inline-flex;align-items:center;justify-content:center;
+        width:30px;height:30px;border-radius:10px;margin-bottom:11px;
+        background:var(--sand-grad,linear-gradient(145deg,#f3bb58,#c6801c));
+        color:#2a1a02;font-weight:800;font-size:14px;
+        box-shadow:0 5px 12px rgba(198,128,28,.42)}
+.step b{display:block;color:#fff;font-size:15.5px;letter-spacing:-.01em}
+.step span:not(.step-n){display:block;margin-top:5px;font-size:13.5px;line-height:1.45;
+                        color:rgba(255,255,255,.72)}
+.sys-foot{margin-top:22px;font-size:14px;line-height:1.55;max-width:60ch;
+          color:rgba(255,255,255,.7)}
+@media (max-width:980px){ .steps{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:520px){ .steps{grid-template-columns:1fr} }
+
+/* ── «просто зараз» на піщаній смузі ────────────────────────────────────
+   Смуга світла, а сторінка темна, тож колір тексту доводиться назвати
+   тут окремо: інакше білий текст сторінки розчинився б у піску. */
+#live{color:#2a1f08}
+#live .eyebrow{color:#6b5316}
+#live .live b{color:#141d42}
+#live .live-foot{color:#4a3a14}
+#live .live{background:rgba(255,255,255,.62);
+            box-shadow:0 10px 22px rgba(120,80,10,.16), inset 0 1px 0 rgba(255,255,255,.8)}

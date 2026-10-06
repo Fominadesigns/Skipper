@@ -99,6 +99,7 @@
     <nav class="menu" aria-label="Розділи сторінки">
       <a href="#prices">Ціни</a>
       <a href="#places">Де стоятиме</a>
+      <a href="#system">Як це працює</a>
       <a href="#book">Бронювання</a>
       <a href="#faq">Питання</a>
     </nav>
@@ -159,6 +160,40 @@
   </div>
 </section>
 
+<!-- ── скільки вільно просто зараз ───────────────────────────────────────
+     Числа беруться з CRM станції тим самим запитом, що й календар нижче.
+     Якщо звʼязку немає — блок ховається, а не показує нулі: «0 вільних»
+     і «ми не знаємо» — різні речі, і плутати їх не можна. -->
+<section id="live" class="band sand" style="padding-top:38px;padding-bottom:38px" hidden>
+  <div class="wrap">
+    <div class="live-head">
+      <p class="eyebrow rise" style="margin:0">Просто зараз</p>
+      <span class="live-dot" aria-hidden="true"></span>
+    </div>
+    <div class="live-row">
+      <div class="live rise">
+        <b data-live="water">—</b>
+        <span>вільно на&nbsp;воді</span>
+        <i data-total="water"></i>
+      </div>
+      <div class="live rise d1">
+        <b data-live="land">—</b>
+        <span>вільно на&nbsp;суші</span>
+        <i data-total="land"></i>
+      </div>
+      <div class="live rise d2">
+        <b data-live="hangar">—</b>
+        <span>вільно в&nbsp;ангарі</span>
+        <i data-total="hangar"></i>
+      </div>
+    </div>
+    <p class="live-foot rise d3">
+      Дані з&nbsp;нашого обліку, оновлюються самі. Місце закріплюється
+      за&nbsp;вами після дзвінка.
+    </p>
+  </div>
+</section>
+
 <!-- ── ціни ──────────────────────────────────────────────────────────── -->
 <section id="prices" style="padding-top:44px">
   <div class="wrap">
@@ -212,6 +247,53 @@
       <b>Гідроцикли та&nbsp;судна довші за&nbsp;10&nbsp;метрів</b> —
       за&nbsp;домовленістю, зателефонуйте.
     </p>
+  </div>
+</section>
+
+<!-- ── порахувати вартість ───────────────────────────────────────────────
+     Жодних власних цифр: таблиця тарифів та сама, що вище. Повзунок
+     лише підставляє довжину й множить на місяці — рахувати в голові
+     за три рядки таблиці нудно, а помилятись неприємно.
+
+     Для човнів поза таблицею (коротших за 4 м і довших за 10) показуємо
+     «за домовленістю», а не вигадану суму. -->
+<section id="calc" style="padding-top:10px;padding-bottom:10px">
+  <div class="wrap">
+    <div class="calc rise">
+      <div class="calc-top">
+        <p class="eyebrow" style="margin:0">Порахувати</p>
+        <h3 class="calc-h">Скільки вийде саме у&nbsp;вас</h3>
+      </div>
+
+      <label class="calc-lbl" for="cLen">Довжина човна</label>
+      <output class="calc-len" id="cLenOut">6,0 м</output>
+      <input class="calc-range" id="cLen" type="range"
+             min="30" max="120" step="1" value="60"
+             aria-label="Довжина човна в метрах">
+      <div class="calc-scale" aria-hidden="true">
+        <span>3 м</span><span>6 м</span><span>9 м</span><span>12 м</span>
+      </div>
+
+      <div class="calc-seg" id="cPeriod" role="group" aria-label="На скільки місяців">
+        <button type="button" class="on" data-m="1">1&nbsp;місяць</button>
+        <button type="button" data-m="3">3&nbsp;місяці</button>
+        <button type="button" data-m="6">6&nbsp;місяців</button>
+      </div>
+
+      <div class="calc-out">
+        <div>
+          <span class="calc-cap" id="cCap">Тариф 6–8&nbsp;метрів</span>
+          <div class="calc-sum" id="cSum">3000&nbsp;₴</div>
+          <span class="calc-per" id="cPer">за&nbsp;1&nbsp;місяць</span>
+        </div>
+        <a class="btn sand" href="#book">Лишити заявку</a>
+      </div>
+
+      <p class="calc-note" id="cNote">
+        Ціна залежить тільки від&nbsp;довжини — місце на&nbsp;воді,
+        на&nbsp;суші чи в&nbsp;ангарі коштує однаково.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -284,6 +366,76 @@
     <p class="big rise">Приїхали й&nbsp;подивились.<br>Залишили човен.</p>
     <p class="big-note rise d1">Решту беремо на&nbsp;себе: допоможемо завести човен<br>
       і&nbsp;надійно його закріпити.</p>
+  </div>
+</section>
+
+<!-- ── повна ширина: як виглядає станція ─────────────────────────────────
+     Три кадри підряд на всю ширину екрана. Підписи короткі: фотографія
+     розповідає краще за абзац. -->
+<section class="strip" aria-label="Станція">
+  <figure class="shot rise">
+    <img src="img/aerial.webp" alt="Станція з висоти: понтон, причал і територія біля Дніпра" loading="lazy">
+    <figcaption>Берег Дніпра, Вишгород</figcaption>
+  </figure>
+  <figure class="shot rise d1">
+    <img src="img/pier.webp" alt="Човни біля понтона на воді" loading="lazy">
+    <figcaption>Місця на&nbsp;воді, біля понтона</figcaption>
+  </figure>
+  <figure class="shot rise d2">
+    <img src="img/hangar-real.webp" alt="Критий ангар із човнами на кільблоках" loading="lazy">
+    <figcaption>Критий ангар — сухо, без&nbsp;сонця</figcaption>
+  </figure>
+</section>
+
+<!-- ── як це влаштовано ──────────────────────────────────────────────────
+     Те, що відрізняє станцію від зошита: клієнт бачить свій рахунок
+     у Telegram і платить за QR, не чекаючи, поки хтось передзвонить
+     із реквізитами.
+
+     Жодне з рішень сервіс не ухвалює сам: бронь підтверджує людина,
+     оплату зараховує людина, звіривши з банком. Про це сказано
+     прямо — це не дрібний шрифт, а суть домовленості. -->
+<section id="system" class="band deep">
+  <div class="wrap">
+    <p class="eyebrow rise">Як це влаштовано</p>
+    <h2 class="rise">Рахунок приходить у&nbsp;Telegram</h2>
+    <p class="lead rise d1" style="max-width:48ch">
+      Не&nbsp;треба нікому дзвонити, щоб дізнатись суму, і&nbsp;не&nbsp;треба
+      переписувати реквізити з&nbsp;повідомлення.
+    </p>
+
+    <ol class="steps">
+      <li class="step rise">
+        <span class="step-n">1</span>
+        <b>Лишаєте заявку</b>
+        <span>тут на&nbsp;сайті або телефоном</span>
+      </li>
+      <li class="step rise d1">
+        <span class="step-n">2</span>
+        <b>Передзвонюємо</b>
+        <span>уточнюємо довжину й&nbsp;підбираємо місце</span>
+      </li>
+      <li class="step rise d2">
+        <span class="step-n">3</span>
+        <b>Ставите човен</b>
+        <span>допомагаємо завести й&nbsp;закріпити</span>
+      </li>
+      <li class="step rise d3">
+        <span class="step-n">4</span>
+        <b>Рахунок у&nbsp;Telegram</b>
+        <span>з&nbsp;1&nbsp;по&nbsp;7&nbsp;число, сума вже вписана</span>
+      </li>
+      <li class="step rise d3">
+        <span class="step-n">5</span>
+        <b>Платите за&nbsp;QR</b>
+        <span>банк відкриється з&nbsp;готовою сумою</span>
+      </li>
+    </ol>
+
+    <p class="sys-foot rise d3">
+      Оплату позначає отриманою людина, звіривши з&nbsp;банком, —
+      не&nbsp;програма. Місце теж закріплює людина, а&nbsp;не&nbsp;автомат.
+    </p>
   </div>
 </section>
 
@@ -598,7 +750,7 @@ let BOT = null;
 let freeError = false;
 fetch(CRM + '/api/public/free')
   .then(r => r.ok ? r.json() : Promise.reject())
-  .then(j => { FREE = j.months; BOT = j.bot; drawCal(); })
+  .then(j => { FREE = j.months; BOT = j.bot; drawCal(); showLive(j.months); })
   .catch(() => { freeError = true; drawCal(); });
 
 function freeOn(y, m, d, k) {
@@ -806,6 +958,113 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
     lastW = window.innerWidth; all();
   });
 })();
+
+/* ── скільки вільно просто зараз ─────────────────────────────────────────
+   Числа ті самі, що в календарі нижче, — беруться з того самого запиту
+   до CRM. Поки відповіді немає, блок лишається схованим: «0 вільних»
+   і «ми не знаємо» — різні речі, і показувати друге як перше не можна. */
+function showLive(months) {
+  const sec = document.getElementById('live');
+  if (!sec || !months) return;
+  const key = Object.keys(months).sort()[0];
+  const m = months[key];
+  if (!m) return;
+
+  sec.hidden = false;
+  for (const kind of ['water', 'land', 'hangar']) {
+    const b = sec.querySelector(`[data-live="${kind}"]`);
+    const t = sec.querySelector(`[data-total="${kind}"]`);
+    if (!b || !m[kind]) continue;
+    t.textContent = 'з ' + m[kind].total;
+    countTo(b, m[kind].free);
+  }
+}
+
+/* Число добігає до свого значення замість того, щоб просто зʼявитись.
+
+   Спершу ставимо правильне значення, і лише потім прикрашаємо. Інакше
+   виходить пастка: у фоновій вкладці requestAnimationFrame не викликають
+   зовсім, і людина, яка відкрила сторінку в сусідній вкладці, побачила б
+   прочерк замість числа. Оздоба ніколи не має вирішувати, чи буде
+   показано дані. */
+function countTo(el, value) {
+  el.textContent = value;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (document.visibilityState !== 'visible') return;
+
+  const from = 0, dur = 900, t0 = performance.now();
+  const tick = (now) => {
+    const p = Math.min(1, (now - t0) / dur);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (value - from) * eased);
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+/* ── калькулятор ─────────────────────────────────────────────────────────
+   Таблиця тут та сама, що в розділі «Ціни», і це єдине місце, де вона
+   повторюється в коді. Якщо Влад змінить ціни — правити обидва місця;
+   розходження помітно одразу, бо вони стоять поруч на сторінці. */
+const CALC_TARIFFS = [
+  { maxCm: 600,  uah: 2500, label: '4–6 метрів' },
+  { maxCm: 800,  uah: 3000, label: '6–8 метрів' },
+  { maxCm: 1000, uah: 4000, label: '8–10 метрів' },
+];
+
+(function calculator() {
+  const len = document.getElementById('cLen');
+  if (!len) return;
+  const lenOut = document.getElementById('cLenOut');
+  const seg = document.getElementById('cPeriod');
+  const cap = document.getElementById('cCap');
+  const sum = document.getElementById('cSum');
+  const per = document.getElementById('cPer');
+  const note = document.getElementById('cNote');
+  let months = 1;
+
+  const nbsp = (s) => String(s).replace(/ /g, ' ');
+  const uah = (n) => nbsp(n.toLocaleString('uk-UA') + ' ₴');
+  const word = (n) => (n === 1 ? 'місяць' : n < 5 ? 'місяці' : 'місяців');
+
+  function draw() {
+    const cm = Number(len.value) * 10;          // повзунок рахує дециметри
+    lenOut.textContent = nbsp((cm / 100).toFixed(1).replace('.', ',') + ' м');
+
+    /* Поза таблицею ціни немає — і вигадувати її не можна.
+       Це те саме правило, що й у самій CRM: «ціну уточнити», не нуль. */
+    const t = cm >= 400 ? CALC_TARIFFS.find((x) => cm <= x.maxCm) : null;
+    if (!t) {
+      cap.textContent = cm < 400 ? 'Човен коротший за 4 метри' : 'Човен довший за 10 метрів';
+      sum.textContent = 'за домовленістю';
+      sum.style.fontSize = 'clamp(26px,4.4vw,38px)';
+      per.textContent = 'зателефонуйте — назвемо суму';
+      note.textContent = 'Такі судна беремо, але ціна окрема: таблиця тарифів ' +
+                         'закінчується на десяти метрах.';
+      return;
+    }
+    sum.style.fontSize = '';
+    cap.textContent = nbsp('Тариф ' + t.label);
+    sum.textContent = uah(t.uah * months);
+    per.textContent = nbsp('за ' + months + ' ' + word(months));
+    note.textContent = months === 1
+      ? 'Ціна залежить від довжини човна. Остаточну суму назвемо після дзвінка, ' +
+        'коли підберемо місце.'
+      : nbsp('По ' + uah(t.uah) + ' на місяць. Платити можна за місяць, за три або за шість — ' +
+             'як вам зручніше.');
+  }
+
+  len.addEventListener('input', draw);
+  seg.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    [...seg.children].forEach((x) => x.classList.toggle('on', x === b));
+    months = Number(b.dataset.m);
+    draw();
+  });
+  draw();
+})();
+
 </script>
 </body>
 </html>

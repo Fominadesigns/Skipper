@@ -6,3 +6,7 @@ node_modules/
 .DS_Store
 .next/
 .vercel/
+
+# Vercel
+site/.vercel
+site/.env.local
