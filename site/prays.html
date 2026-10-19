@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Прайс стоянки човнів — Skipper, Вишгород</title>
+<meta name="description" content="Вартість зберігання човна на станції Skipper під Вишгородом: на воді, на суші та в критому ангарі. Ціни за місяць, станом на жовтень 2026.">
+<link rel="canonical" href="https://skipper-site-three.vercel.app/prays.html">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="Skipper">
+<meta property="og:title" content="Прайс стоянки човнів — Skipper, Вишгород">
+<meta property="og:description" content="На воді, на суші та в критому ангарі. Ціни за місяць зберігання.">
+<meta property="og:image" content="https://skipper-site-three.vercel.app/img/og-hangar.jpg?v=2">
+<meta property="og:url" content="https://skipper-site-three.vercel.app/prays.html">
+<meta name="theme-color" content="#0f1c33">
+
+<link rel="stylesheet" href="site.css">
+<link rel="preload" href="fonts/FixelDisplay-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/FixelText-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+/* ── аркуш прайса ──────────────────────────────────────────────────────
+   Окрема сторінка, щоб її можна було просто надіслати посиланням
+   або зберегти як PDF. Ширина підібрана так, щоб знімок екрана
+   з телефона виходив рівним, без обрізаних країв. */
+.sheet{max-width:860px;margin:0 auto;padding:clamp(18px,4vw,46px) clamp(14px,3vw,28px)}
+
+.sheet-top{display:flex;align-items:flex-start;justify-content:space-between;
+           gap:18px;flex-wrap:wrap}
+.sheet-mark{display:flex;align-items:center;gap:12px}
+.sheet-mark .ic-tile{width:46px;height:46px;display:grid;place-items:center;flex:none}
+.sheet-mark b{font-family:"Fixel Display",sans-serif;font-size:21px;letter-spacing:-.02em;
+              display:block;line-height:1.1}
+.sheet-mark span{font-size:12.5px;color:var(--muted);font-weight:600}
+.sheet-when{font-size:12.5px;color:var(--muted);font-weight:600;
+            padding-top:6px;text-align:right}
+
+.sheet h1{font-family:"Fixel Display",sans-serif;
+          font-size:clamp(30px,6vw,52px);line-height:1.02;letter-spacing:-.035em;
+          margin:clamp(22px,3.4vw,38px) 0 10px}
+.sheet .sub{font-size:clamp(14.5px,1.7vw,17px);color:var(--muted);
+            line-height:1.55;max-width:46ch;margin:0}
+
+/* Три блоки — по одному на вид місця. */
+.sheet-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.6vw,18px);
+             margin-top:clamp(22px,3.4vw,36px)}
+.pcard{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+       padding:clamp(16px,2vw,24px);display:flex;flex-direction:column}
+.pcard h2{font-family:"Fixel Display",sans-serif;font-size:clamp(17px,2vw,21px);
+          letter-spacing:-.02em;margin:0 0 3px}
+.pcard .where{font-size:12.5px;color:var(--muted);font-weight:600;
+              line-height:1.4;margin:0 0 14px;min-height:2.8em}
+.pcard dl{margin:0;display:grid;grid-template-columns:1fr auto;
+          gap:0;align-items:stretch}
+.pcard dt{font-size:13.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;
+          padding:8px 0;border-top:1px solid rgba(255,255,255,.12)}
+.pcard dd{margin:0;display:flex;align-items:center;justify-content:flex-end;padding:8px 0 8px 12px;
+          border-top:1px solid rgba(255,255,255,.12);
+          font-family:"Fixel Display",sans-serif;font-weight:700;
+          font-size:clamp(15px,1.8vw,19px);letter-spacing:-.02em;
+          font-variant-numeric:tabular-nums;white-space:nowrap}
+.pcard dt:first-of-type,.pcard dd:first-of-type{border-top:0}
+.pcard .jet{border-top:2px solid rgba(255,255,255,.22)}
+.pcard .none{color:var(--muted);font-family:inherit;font-weight:600;font-size:13.5px}
+
+/* Умови й контакти — те, що люди питають одразу після ціни. */
+.sheet-terms{background:var(--sunk);box-shadow:var(--in);border-radius:var(--r-lg);
+             padding:clamp(16px,2.2vw,26px);margin-top:clamp(14px,2vw,20px)}
+.sheet-terms ul{margin:0;padding:0;list-style:none;display:grid;
+                grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px}
+.sheet-terms li{position:relative;padding-left:18px;font-size:13.5px;line-height:1.5}
+.sheet-terms li::before{content:"";position:absolute;left:0;top:8px;
+                        width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.sheet-foot{display:flex;align-items:center;justify-content:space-between;
+            gap:14px;flex-wrap:wrap;margin-top:clamp(16px,2.2vw,24px)}
+.sheet-tel{display:inline-block;font-family:"Fixel Display",sans-serif;
+           font-size:clamp(20px,2.6vw,27px);letter-spacing:-.02em;
+           text-decoration:none;color:var(--ink)}
+.sheet-tel:hover{color:var(--sand)}
+.sheet-foot .addr{font-size:13px;color:var(--muted);font-weight:600}
+.sheet-act{display:flex;gap:10px;flex-wrap:wrap}
+
+@media (max-width:760px){
+  .sheet-cards{grid-template-columns:1fr}
+  .pcard .where{min-height:0}
+  .sheet-terms ul{grid-template-columns:1fr}
+}
+
+/* Друк: аркуш має лягати на одну сторінку A4 без тіней і кнопок. */
+@media print{
+  body{background:#fff}
+  .sheet{max-width:none;padding:0}
+  .pcard,.sheet-terms{box-shadow:none;border:1px solid #c9d2df;background:#fff}
+  .sheet-act,.topbar,.dock{display:none !important}
+  .sheet-cards{gap:8px}
+}
+</style>
+</head>
+<body>
+
+<main class="sheet">
+
+  <div class="sheet-top">
+    <div class="sheet-mark">
+      <span class="ic-tile sand">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="5" r="2.2"/><path d="M12 7.2V21"/><path d="M7.5 10.5h9"/>
+          <path d="M3.8 14.3A8.4 8.4 0 0 0 12 21a8.4 8.4 0 0 0 8.2-6.7"/>
+        </svg>
+      </span>
+      <span>
+        <b>Skipper</b>
+        <span>човнова станція · Вишгород</span>
+      </span>
+    </div>
+    <div class="sheet-when">Прайс оновлено<br>19&nbsp;жовтня 2026</div>
+  </div>
+
+  <h1>Скільки коштує<br>стоянка човна</h1>
+  <p class="sub">
+    Суми — за&nbsp;один місяць зберігання. Ціна залежить від&nbsp;того,
+    де стоїть судно, і&nbsp;від&nbsp;його довжини.
+  </p>
+
+  <div class="sheet-cards">
+
+    <article class="pcard">
+      <h2>На&nbsp;воді</h2>
+      <p class="where">Біля понтона. Човен завжди готовий&nbsp;— приїхали й&nbsp;пішли.</p>
+      <dl>
+        <dt>4–6&nbsp;м</dt><dd>3 500&nbsp;₴</dd>
+        <dt>6–8&nbsp;м</dt><dd>4 500&nbsp;₴</dd>
+        <dt>8–10&nbsp;м</dt><dd>6 000&nbsp;₴</dd>
+        <dt class="jet">гідроцикл</dt><dd class="jet none">не&nbsp;ставимо</dd>
+      </dl>
+    </article>
+
+    <article class="pcard">
+      <h2>На&nbsp;суші</h2>
+      <p class="where">Під брезентом, на&nbsp;кільблоці або причепі. Місце для причепа поруч.</p>
+      <dl>
+        <dt>до&nbsp;4&nbsp;м</dt><dd>1 500&nbsp;₴</dd>
+        <dt>4–6&nbsp;м</dt><dd>2 000&nbsp;₴</dd>
+        <dt>6–8&nbsp;м</dt><dd>3 000&nbsp;₴</dd>
+        <dt>8–10&nbsp;м</dt><dd>4 500&nbsp;₴</dd>
+        <dt class="jet">гідроцикл</dt><dd class="jet">1 500&nbsp;₴</dd>
+      </dl>
+    </article>
+
+    <article class="pcard">
+      <h2>У&nbsp;критому ангарі</h2>
+      <p class="where">Сухо цілий рік, без ультрафіолету. Місць лічені одиниці.</p>
+      <dl>
+        <dt>до&nbsp;4&nbsp;м</dt><dd>2 500&nbsp;₴</dd>
+        <dt>4–6&nbsp;м</dt><dd>4 000&nbsp;₴</dd>
+        <dt>6–8&nbsp;м</dt><dd>5 000&nbsp;₴</dd>
+        <dt>8–10&nbsp;м</dt><dd>6 500&nbsp;₴</dd>
+        <dt class="jet">гідроцикл</dt><dd class="jet">2 500&nbsp;₴</dd>
+      </dl>
+    </article>
+
+  </div>
+
+  <section class="sheet-terms">
+    <ul>
+      <li>Судна довші за&nbsp;10&nbsp;метрів&nbsp;— ціна за&nbsp;домовленістю.</li>
+      <li>Довжину міряємо самі, за&nbsp;фактом: із&nbsp;платформою й&nbsp;усім,
+        що&nbsp;виступає за&nbsp;корпус.</li>
+      <li>Платити можна за&nbsp;місяць, за&nbsp;три або за&nbsp;шість.</li>
+      <li>Рахунок приходить у&nbsp;Telegram з&nbsp;1&nbsp;по&nbsp;7&nbsp;число.</li>
+      <li>Заявка не&nbsp;бронює місце: ми&nbsp;передзвонюємо, уточнюємо судно
+        й&nbsp;закріплюємо місце вручну.</li>
+      <li>Гідроцикли зберігаємо на&nbsp;суші або в&nbsp;ангарі, на&nbsp;воді&nbsp;— ні.</li>
+    </ul>
+  </section>
+
+  <div class="sheet-foot">
+    <div>
+      <a class="sheet-tel" href="tel:+380977550959">+380&nbsp;97&nbsp;755&nbsp;09&nbsp;59</a>
+      <div class="addr">Вишгород, Київська область · 10&nbsp;хвилин від&nbsp;Києва</div>
+    </div>
+    <div class="sheet-act">
+      <a class="btn sand" href="/#book">Лишити заявку</a>
+      <a class="btn ghost" href="/">Про станцію</a>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

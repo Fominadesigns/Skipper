@@ -1118,3 +1118,63 @@ footer{background:var(--deep)}
 .doc ul,.doc ol{margin:10px 0 0 20px;display:flex;flex-direction:column;gap:7px}
 .doc .back{display:inline-block;margin-top:40px;font-size:14px;font-weight:600}
 @media (max-width:700px){ .doc{padding:84px 0 56px} }
+
+/* ── прайс однією таблицею ──────────────────────────────────────────────
+   Три місця й п'ять довжин: окремими картками це розпадалось на три
+   списки, які доводилось порівнювати очима. */
+.price-table{
+  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+  padding:clamp(14px,2.2vw,28px);margin-top:32px;
+}
+.price-table table{width:100%;border-collapse:collapse}
+.price-table caption.vh{
+  position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;
+}
+.price-table thead th{
+  font-size:clamp(11px,1.1vw,12.5px);font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);
+  padding:0 clamp(4px,.8vw,12px) 14px;text-align:right;
+}
+.price-table thead th:first-child{text-align:left}
+.price-table tbody th{
+  text-align:left;font-weight:700;color:var(--blue);
+  font-size:clamp(13px,1.3vw,15px);
+  padding:clamp(10px,1.3vw,15px) clamp(4px,.8vw,12px);
+  border-top:1px solid var(--line, rgba(30,58,99,.12));
+}
+.price-table tbody td{
+  text-align:right;font-family:"Fixel Display",sans-serif;font-weight:700;
+  font-size:clamp(14px,1.7vw,20px);letter-spacing:-.02em;
+  padding:clamp(10px,1.3vw,15px) clamp(4px,.8vw,12px);
+  border-top:1px solid var(--line, rgba(30,58,99,.12));
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.price-table tbody td.no{color:var(--muted);font-weight:600}
+.price-table tbody td.deal{
+  font-family:inherit;font-weight:600;color:var(--muted);
+  font-size:clamp(11px,1.15vw,13px);letter-spacing:0;
+}
+/* Гідроцикл — окремий рядок прайса, не продовження довжин. */
+.price-table tbody tr.jet th,
+.price-table tbody tr.jet td{border-top:2px solid var(--line, rgba(30,58,99,.2))}
+.price-foot{
+  margin:clamp(12px,1.6vw,18px) 0 0;font-size:13.5px;line-height:1.55;
+  color:var(--muted);max-width:62ch;
+}
+@media (max-width:560px){
+  .price-table{padding:12px 10px}
+  .price-table thead th,
+  .price-table tbody th,
+  .price-table tbody td{padding:9px 3px}
+  .price-table tbody td{font-size:13.5px}
+  .price-table tbody th{font-size:12.5px}
+  .price-table tbody td.deal{font-size:10.5px;white-space:normal}
+}
+
+/* Посилання на окремий аркуш прайса — щоб було що надіслати клієнту. */
+.price-sheet-link{margin:clamp(12px,1.6vw,18px) 0 0}
+.price-sheet-link a{
+  font-weight:700;font-size:14px;color:var(--blue);text-decoration:none;
+  border-bottom:2px solid var(--sand);padding-bottom:2px;
+}
+.price-sheet-link a:hover{color:var(--sand-lo)}
