@@ -45,14 +45,14 @@
             line-height:1.55;max-width:46ch;margin:0}
 
 /* Три блоки — по одному на вид місця. */
-.sheet-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.6vw,18px);
+.sheet-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.6vw,18px);
              margin-top:clamp(22px,3.4vw,36px)}
 .pcard{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
        padding:clamp(16px,2vw,24px);display:flex;flex-direction:column}
 .pcard h2{font-family:"Fixel Display",sans-serif;font-size:clamp(17px,2vw,21px);
           letter-spacing:-.02em;margin:0 0 3px}
 .pcard .where{font-size:12.5px;color:var(--muted);font-weight:600;
-              line-height:1.4;margin:0 0 14px;min-height:2.8em}
+              line-height:1.4;margin:0 0 14px;min-height:4.2em}
 .pcard dl{margin:0;display:grid;grid-template-columns:1fr auto;
           gap:0;align-items:stretch}
 .pcard dt{font-size:13.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;
@@ -83,7 +83,8 @@
 .sheet-foot .addr{font-size:13px;color:var(--muted);font-weight:600}
 .sheet-act{display:flex;gap:10px;flex-wrap:wrap}
 
-@media (max-width:760px){
+@media (max-width:1000px){ .sheet-cards{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:620px){
   .sheet-cards{grid-template-columns:1fr}
   .pcard .where{min-height:0}
   .sheet-terms ul{grid-template-columns:1fr}
@@ -122,25 +123,14 @@
   <h1>Скільки коштує<br>стоянка човна</h1>
   <p class="sub">
     Суми — за&nbsp;один місяць зберігання. Ціна залежить від&nbsp;того,
-    де стоїть судно, і&nbsp;від&nbsp;його довжини.
+    де стоїть судно, яке воно завдовжки й&nbsp;чи&nbsp;є в&nbsp;нього каюта.
   </p>
 
   <div class="sheet-cards">
 
     <article class="pcard">
-      <h2>На&nbsp;воді</h2>
-      <p class="where">Біля понтона. Човен завжди готовий&nbsp;— приїхали й&nbsp;пішли.</p>
-      <dl>
-        <dt>4–6&nbsp;м</dt><dd>3 500&nbsp;₴</dd>
-        <dt>6–8&nbsp;м</dt><dd>4 500&nbsp;₴</dd>
-        <dt>8–10&nbsp;м</dt><dd>6 000&nbsp;₴</dd>
-        <dt class="jet">гідроцикл</dt><dd class="jet none">не&nbsp;ставимо</dd>
-      </dl>
-    </article>
-
-    <article class="pcard">
       <h2>На&nbsp;суші</h2>
-      <p class="where">Під брезентом, на&nbsp;кільблоці або причепі. Місце для причепа поруч.</p>
+      <p class="where">Звичайний човен, без&nbsp;каюти. Під&nbsp;брезентом або на&nbsp;причепі.</p>
       <dl>
         <dt>до&nbsp;4&nbsp;м</dt><dd>1 500&nbsp;₴</dd>
         <dt>4–6&nbsp;м</dt><dd>2 000&nbsp;₴</dd>
@@ -151,14 +141,35 @@
     </article>
 
     <article class="pcard">
+      <h2>На&nbsp;суші</h2>
+      <p class="where">Моторна яхта&nbsp;— судно з&nbsp;каютою. Свій тариф на&nbsp;суші.</p>
+      <dl>
+        <dt>4–6&nbsp;м</dt><dd>3 500&nbsp;₴</dd>
+        <dt>6–8&nbsp;м</dt><dd>4 500&nbsp;₴</dd>
+        <dt>8–10&nbsp;м</dt><dd>6 000&nbsp;₴</dd>
+      </dl>
+    </article>
+
+    <article class="pcard">
       <h2>У&nbsp;критому ангарі</h2>
-      <p class="where">Сухо цілий рік, без ультрафіолету. Місць лічені одиниці.</p>
+      <p class="where">Сухо цілий рік, без&nbsp;ультрафіолету. Місць лічені одиниці.</p>
       <dl>
         <dt>до&nbsp;4&nbsp;м</dt><dd>2 500&nbsp;₴</dd>
         <dt>4–6&nbsp;м</dt><dd>4 000&nbsp;₴</dd>
         <dt>6–8&nbsp;м</dt><dd>5 000&nbsp;₴</dd>
         <dt>8–10&nbsp;м</dt><dd>6 500&nbsp;₴</dd>
         <dt class="jet">гідроцикл</dt><dd class="jet">2 500&nbsp;₴</dd>
+      </dl>
+    </article>
+
+    <article class="pcard">
+      <h2>На&nbsp;воді</h2>
+      <p class="where">Біля понтона. Човен завжди готовий&nbsp;— приїхали й&nbsp;пішли.</p>
+      <dl>
+        <dt>4–6&nbsp;м</dt><dd>2 500&nbsp;₴</dd>
+        <dt>6–8&nbsp;м</dt><dd>3 000&nbsp;₴</dd>
+        <dt>8–10&nbsp;м</dt><dd>4 000&nbsp;₴</dd>
+        <dt class="jet">гідроцикл</dt><dd class="jet none">не&nbsp;ставимо</dd>
       </dl>
     </article>
 

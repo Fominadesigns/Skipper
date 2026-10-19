@@ -1119,58 +1119,6 @@ footer{background:var(--deep)}
 .doc .back{display:inline-block;margin-top:40px;font-size:14px;font-weight:600}
 @media (max-width:700px){ .doc{padding:84px 0 56px} }
 
-/* ── прайс однією таблицею ──────────────────────────────────────────────
-   Три місця й п'ять довжин: окремими картками це розпадалось на три
-   списки, які доводилось порівнювати очима. */
-.price-table{
-  background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
-  padding:clamp(14px,2.2vw,28px);margin-top:32px;
-}
-.price-table table{width:100%;border-collapse:collapse}
-.price-table caption.vh{
-  position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;
-}
-.price-table thead th{
-  font-size:clamp(11px,1.1vw,12.5px);font-weight:700;letter-spacing:.07em;
-  text-transform:uppercase;color:var(--muted);
-  padding:0 clamp(4px,.8vw,12px) 14px;text-align:right;
-}
-.price-table thead th:first-child{text-align:left}
-.price-table tbody th{
-  text-align:left;font-weight:700;color:var(--blue);
-  font-size:clamp(13px,1.3vw,15px);
-  padding:clamp(10px,1.3vw,15px) clamp(4px,.8vw,12px);
-  border-top:1px solid var(--line, rgba(30,58,99,.12));
-}
-.price-table tbody td{
-  text-align:right;font-family:"Fixel Display",sans-serif;font-weight:700;
-  font-size:clamp(14px,1.7vw,20px);letter-spacing:-.02em;
-  padding:clamp(10px,1.3vw,15px) clamp(4px,.8vw,12px);
-  border-top:1px solid var(--line, rgba(30,58,99,.12));
-  font-variant-numeric:tabular-nums;white-space:nowrap;
-}
-.price-table tbody td.no{color:var(--muted);font-weight:600}
-.price-table tbody td.deal{
-  font-family:inherit;font-weight:600;color:var(--muted);
-  font-size:clamp(11px,1.15vw,13px);letter-spacing:0;
-}
-/* Гідроцикл — окремий рядок прайса, не продовження довжин. */
-.price-table tbody tr.jet th,
-.price-table tbody tr.jet td{border-top:2px solid var(--line, rgba(30,58,99,.2))}
-.price-foot{
-  margin:clamp(12px,1.6vw,18px) 0 0;font-size:13.5px;line-height:1.55;
-  color:var(--muted);max-width:62ch;
-}
-@media (max-width:560px){
-  .price-table{padding:12px 10px}
-  .price-table thead th,
-  .price-table tbody th,
-  .price-table tbody td{padding:9px 3px}
-  .price-table tbody td{font-size:13.5px}
-  .price-table tbody th{font-size:12.5px}
-  .price-table tbody td.deal{font-size:10.5px;white-space:normal}
-}
-
 /* Посилання на окремий аркуш прайса — щоб було що надіслати клієнту. */
 .price-sheet-link{margin:clamp(12px,1.6vw,18px) 0 0}
 .price-sheet-link a{
@@ -1178,3 +1126,43 @@ footer{background:var(--deep)}
   border-bottom:2px solid var(--sand);padding-bottom:2px;
 }
 .price-sheet-link a:hover{color:var(--sand-lo)}
+
+/* ── прайс: чотири картки ───────────────────────────────────────────────
+   Категорій стало чотири — на суші в яхти з каютою свій тариф.
+   Таблицею на телефоні це вже не читалось. */
+.ptiles{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,16px);
+        margin-top:clamp(26px,3.4vw,40px)}
+.ptile{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--out);
+       padding:clamp(15px,1.8vw,22px);display:flex;flex-direction:column}
+.ptile h3{font-family:"Fixel Display",sans-serif;font-size:clamp(16px,1.8vw,20px);
+          letter-spacing:-.02em;margin:0}
+.pt-who{font-size:12.5px;color:var(--muted);font-weight:600;line-height:1.35;
+        margin:4px 0 14px;min-height:2.7em}
+.ptile dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:0;align-items:stretch}
+.ptile dt{display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--muted);
+          padding:9px 0;border-top:1px solid rgba(20,29,66,.14)}
+.ptile dd{display:flex;align-items:center;justify-content:flex-end;margin:0;
+          padding:9px 0 9px 10px;border-top:1px solid rgba(20,29,66,.14);
+          font-family:"Fixel Display",sans-serif;font-weight:700;
+          font-size:clamp(14px,1.6vw,18px);letter-spacing:-.02em;
+          font-variant-numeric:tabular-nums;white-space:nowrap}
+.ptile dt:first-of-type,.ptile dd:first-of-type{border-top:0}
+.ptile .pt-jet{border-top:2px solid rgba(20,29,66,.26)}
+.price-foot{margin:clamp(12px,1.6vw,18px) 0 0;font-size:13.5px;line-height:1.55;
+            color:var(--muted);max-width:68ch}
+@media (max-width:980px){ .ptiles{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:560px){
+  .ptiles{grid-template-columns:1fr;gap:10px}
+  .pt-who{min-height:0;margin-bottom:10px}
+}
+
+/* Галочка «моторна яхта» в калькуляторі. Поза сушею вона ні на що
+   не впливає, тож там просто гасне. */
+.calc-yacht{display:flex;gap:10px;align-items:flex-start;cursor:pointer;margin-top:18px;
+            background:var(--sunk);box-shadow:var(--in);border-radius:var(--r-md);
+            padding:12px 14px;transition:opacity .3s}
+.calc-yacht input{width:19px;height:19px;flex:none;accent-color:var(--blue);margin:1px 0 0}
+.calc-yacht span{font-size:13.5px;font-weight:600;line-height:1.35}
+.calc-yacht i{display:block;font-style:normal;font-size:12px;font-weight:500;
+              color:var(--muted);margin-top:3px}
+.calc-yacht.off{opacity:.42;pointer-events:none}
