@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://skipper-site-three.vercel.app/sitemap.xml
+Sitemap: https://sadydnipra.pp.ua/sitemap.xml
