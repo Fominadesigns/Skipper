@@ -60,6 +60,13 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1849800153002296');
 fbq('track', 'PageView');
+
+/* Кліки по номеру телефону — лише для статистики, це НЕ заявка.
+   Лідом вважаємо тільки успішно надіслану форму бронювання. */
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest && e.target.closest('a[href^="tel:"]');
+  if (a && window.fbq) fbq('trackCustom', 'PhoneClick');
+});
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1849800153002296&ev=PageView&noscript=1"
@@ -982,6 +989,14 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
     });
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(j.error || 'Не вдалося надіслати');
+
+    /* Заявка справді дійшла до CRM — тільки тоді це лід для реклами.
+       Якщо сервер відмовив, подія не йде: інакше Meta рахувала б
+       неіснуючі заявки й оптимізувала рекламу на порожнечу. */
+    if (window.fbq) fbq('track', 'Lead', {
+      content_name: 'Заявка на стоянку човна',
+      content_category: kind,
+    });
     const bot = j.bot || BOT;
     note.innerHTML = '<b>Заявку отримали.</b> Ми передзвонимо, уточнимо розмір судна ' +
       'й&nbsp;підтвердимо місце.' + (bot
